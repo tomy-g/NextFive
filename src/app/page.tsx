@@ -13,7 +13,7 @@ export default function Home () {
         <Button color="secondary">
           Secondary
         </Button>
-        <Button color="success">
+        <Button color="success" radius="sm">
           Success
         </Button>
         <Button color="warning">
