@@ -10,23 +10,47 @@ const config: Config = {
   ],
   theme: {
     colors: {
-      text: '#fdfffd',
-      background: '#020601',
-      primary: '#2cc30a',
-      secondary: '#132b13',
-      accent: '#03dd7a',
+      'c-text': '#ffffff',
+      'c-background': '#060606',
+      'c-primary': '#72cf24',
+      'c-secondary': '#274141',
+      'c-secondary-200': '#afcfcf',
+      'c-secondary-400': '#ffffff',
+      'c-secondary-900': '#132020',
+      'c-accent': '#06da41',
+      transparent: 'transparent',
+      current: 'currentColor'
     },
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
     },
   },
   rules: {
     indent: ['error', 4]
   },
-  plugins: [nextui()]
+  darkMode: 'class',
+  plugins: [nextui({
+    themes: {
+      light: {
+        layout: {},
+        colors: {}
+      },
+      dark: {
+        layout: {
+          radius: {
+            small: '4px', // default 8px
+            medium: '8px', // default 12px
+            large: '14px', // default 14px
+          },
+        },
+        // colors: {
+        //   foreground: '#ffffff',
+        //   primary: '#80d837',
+        //   background: '#060606',
+        //   secondary: '#2d4141',
+        //   success: '#24da57',
+        // }
+      },
+    }
+  })]
 }
 export default config
