@@ -1,16 +1,24 @@
-import Image from 'next/image'
+import SearchBar from '@/components/SearchBar'
+import ApiKey from '@/components/ApiKey'
+import { Textarea } from '@nextui-org/react'
 
 export default function Home () {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Image
-        src="/vercel.svg"
-        alt="Vercel Logo"
-        className="dark"
-        width={100}
-        height={24}
-        priority
-      />
-    </main>
+    <div className='w-32 lg:w-[60rem] '>
+      <main>
+        <ApiKey />
+        <SearchBar />
+
+        <Textarea
+          isReadOnly
+          label='Description'
+          variant='bordered'
+          labelPlacement='outside'
+          placeholder='Enter your description'
+          defaultValue='NextUI is a React UI library that provides a set of accessible, reusable, and beautiful components.'
+          className='max-w'
+        />
+      </main>
+    </div>
   )
 }
