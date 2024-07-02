@@ -1,6 +1,7 @@
 import SearchBar from '@/components/SearchBar'
 import ApiKey from '@/components/ApiKey'
-import { Textarea } from '@nextui-org/react'
+// import { Textarea } from '@nextui-org/react'
+import Recommendations from '@/components/Recomendations'
 
 export default function Home () {
   return (
@@ -8,8 +9,8 @@ export default function Home () {
       <main>
         <ApiKey />
         <SearchBar />
-
-        <Textarea
+        <Recommendations/>
+        {/* <Textarea
           isReadOnly
           label='Description'
           variant='bordered'
@@ -17,7 +18,7 @@ export default function Home () {
           placeholder='Enter your description'
           defaultValue='NextUI is a React UI library that provides a set of accessible, reusable, and beautiful components.'
           className='max-w'
-        />
+        /> */}
       </main>
     </div>
   )
