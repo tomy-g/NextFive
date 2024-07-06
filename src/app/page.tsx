@@ -1,7 +1,7 @@
 import SearchBar from '@/components/SearchBar'
 import ApiKey from '@/components/ApiKey'
 // import { Textarea } from '@nextui-org/react'
-import Recommendations from '@/components/Recomendations'
+import Recommendations from '@/components/Recommendations'
 
 export default function Home () {
   return (
