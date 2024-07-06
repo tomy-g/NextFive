@@ -1,20 +1,18 @@
 import { Card, Skeleton, Image } from '@nextui-org/react'
 import React from 'react'
-import { type CompleteMovie } from '@/app/schemas/completeMovie'
 
 interface Props {
-  movie: CompleteMovie
+  movie?: any
 }
 
 export default function Recommendation ({ movie }: Props) {
   // const [isLoaded, setIsLoaded] = React.useState(false)
-
   return (
-    <Skeleton isLoaded={true}>
+    <Skeleton isLoaded={movie.Poster}>
       <Card className='rounded-md'>
         <Image
           alt='NextUI hero Image'
-          src={movie.poster}
+          src={movie.Poster}
           className='rounded-md'
         />
       </Card>
