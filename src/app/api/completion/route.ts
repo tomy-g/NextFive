@@ -12,7 +12,8 @@ export async function POST (req: Request) {
     model: openai('gpt-3.5-turbo'),
     schema: moviesSchema,
     system: 'You are a movie recommendation system. You are an expert on movies and TV series.',
-    prompt: context
+    prompt: context,
+    temperature: 0
   })
 
   return result.toTextStreamResponse()

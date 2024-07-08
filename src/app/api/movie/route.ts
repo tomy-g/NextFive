@@ -4,16 +4,17 @@ import MovieSchema from '../../schemas/movie'
 export async function GET (req: Request) {
   const { searchParams } = new URL(req.url)
   const apiKey = process.env.MOVIES_API_KEY
-  const movieId = searchParams.get('i')
+  const movieTitle = searchParams.get('t')
+  const movieYear = searchParams.get('y')
 
-  if ((apiKey == null) || (movieId == null)) {
+  if ((apiKey == null) || (movieTitle == null) || (movieYear == null)) {
     return NextResponse.json(
       { error: 'Missing neccesary parameters' },
       { status: 400 }
     )
   }
 
-  const apiUrl = `${process.env.MOVIE_API_URL}?apikey=${apiKey}&i=${movieId}`
+  const apiUrl = `${process.env.MOVIE_API_URL}?apikey=${apiKey}&t=${movieTitle}&y=${movieYear}`
 
   try {
     const response = await fetch(apiUrl)

@@ -8,7 +8,7 @@ const moviesSchema = z.object({
       year: z.number().int().min(1888), // Year should be an integer and movies started appearing around 1888
       director: z.string().min(1) // Director should be a non-empty string})
     })
-  )
+  ).length(5)
 })
 
 export { moviesSchema }
