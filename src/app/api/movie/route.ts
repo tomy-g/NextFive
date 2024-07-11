@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import MovieSchema from '../../schemas/movie'
+import { movieSchema } from '@/app/schemas/movie'
 
 export async function GET (req: Request) {
   const { searchParams } = new URL(req.url)
@@ -23,7 +23,7 @@ export async function GET (req: Request) {
     }
 
     const data = await response.json()
-    MovieSchema.parse(data)
+    movieSchema.parse(data)
 
     return NextResponse.json(data, { status: 200 })
   } catch (error) {

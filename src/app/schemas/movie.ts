@@ -1,20 +1,21 @@
 import { z } from 'zod'
 
-const MovieSchema = z.object({
+const movieSchema = z.object({
+  imdbID: z.string(),
   Title: z.string(),
   Year: z.string(),
+  Director: z.string(),
+  Poster: z.string().optional(),
   Rated: z.string().optional(),
   Released: z.string().optional(),
   Runtime: z.string().optional(),
   Genre: z.string().optional(),
-  Director: z.string(),
   Writer: z.string().optional(),
   Actors: z.string().optional(),
   Plot: z.string().optional(),
   Language: z.string().optional(),
   Country: z.string().optional(),
   Awards: z.string().optional(),
-  Poster: z.string().optional(),
   Ratings: z.array(z.object({
     Source: z.string(),
     Value: z.string()
@@ -22,7 +23,6 @@ const MovieSchema = z.object({
   Metascore: z.string().optional(),
   imdbRating: z.string().optional(),
   imdbVotes: z.string().optional(),
-  imdbID: z.string(),
   Type: z.string().optional(),
   DVD: z.string().optional(),
   BoxOffice: z.string().optional(),
@@ -31,7 +31,11 @@ const MovieSchema = z.object({
   Response: z.string().optional()
 })
 
-type Movie = z.infer<typeof MovieSchema>
+const moviesSchema = z.object({
+  movies: z.array(movieSchema).min(5).max(5)
+})
 
-export default MovieSchema
+type Movie = z.infer<typeof movieSchema>
+
+export { movieSchema, moviesSchema }
 export type { Movie }

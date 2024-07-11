@@ -1,14 +1,14 @@
 'use client'
 
 import { experimental_useObject as useObject } from 'ai/react'
-import { PROMPT } from '../../constants/prompt'
+import { PROMPT } from '../app/constants/prompt'
 import Recommendation from './Recommendation'
-import { moviesSchema } from '@/app/schemas/movies'
+import { moviesSchema } from '@/app/schemas/movie'
 import { useEffect, useState } from 'react'
-import type { Movie } from '@/app/schemas/movie'
+import type { Movie } from '../app/schemas/movie'
 
 async function convertMovie (movie: any): Promise<any> {
-  const res = await fetch(`/api/movie?t=${movie.title}&y=${movie.year}`)
+  const res = await fetch(`/api/movie?t=${movie.Title}&y=${movie.Year}`)
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
     throw new Error('Failed to fetch data')
@@ -22,6 +22,13 @@ export default function Recommendations () {
     schema: moviesSchema
   })
   const [finalMovies, setFinalMovies] = useState<Movie[]>([])
+  const auxFinalMovies: Movie[] = [
+    { Title: '', Year: '', Director: '', imdbID: '', Poster: '' },
+    { Title: '', Year: '', Director: '', imdbID: '', Poster: '' },
+    { Title: '', Year: '', Director: '', imdbID: '', Poster: '' },
+    { Title: '', Year: '', Director: '', imdbID: '', Poster: '' },
+    { Title: '', Year: '', Director: '', imdbID: '', Poster: '' }
+  ]
   const [isReady, setIsReady] = useState(true)
 
   function resetFinalMovies () {
@@ -44,13 +51,10 @@ export default function Recommendations () {
     const pushLastModified = async (movie: any, index: number) => {
       if (index !== -1) {
         const completeMovie: any = await fetchData(movie)
-        console.log(completeMovie.Title)
-        console.log(index)
+        auxFinalMovies[index] = completeMovie
         setFinalMovies(prevMovies => {
           const updatedMovies = [...prevMovies]
-          console.log(updatedMovies)
           updatedMovies[index] = completeMovie
-          console.log(updatedMovies)
           return updatedMovies
         })
       }
@@ -58,23 +62,18 @@ export default function Recommendations () {
 
     const trackChanges = async () => {
       if (moviesSchema.safeParse(object).success) {
-        console.log(object)
         const allNew = object?.movies?.filter(
           movie =>
-            finalMovies.filter(
-              finalMovie => finalMovie.imdbID === movie?.imdb_id
-            ).length === 0 && (movie?.imdb_id?.length ?? 0) > 0
+            auxFinalMovies.filter(
+              finalMovie => finalMovie.imdbID === movie?.imdbID
+            ).length === 0 && (movie?.imdbID?.length ?? 0) > 0
         )
-        console.log(allNew)
         for (const movie of allNew ?? []) {
-          const index = finalMovies.findIndex(movie => movie.imdbID === '')
-          await pushLastModified(movie, index)
-            .catch(error => {
-              console.error(error)
-            })
-            .then(() => {})
+          const index = auxFinalMovies.findIndex(movie => movie.imdbID === '')
+          await pushLastModified(movie, index).catch(error => {
+            console.error(error)
+          })
         }
-        console.log(finalMovies)
       }
       setIsReady(true)
     }
@@ -83,14 +82,12 @@ export default function Recommendations () {
     })
   }, [object])
 
-  useEffect(() => {}, [finalMovies])
-
   return (
-    <div>
+    <section className='w-full '>
       <button
         onClick={() => {
-          submit(PROMPT)
           resetFinalMovies()
+          submit(PROMPT)
         }}
         disabled={isLoading}
       >
@@ -110,12 +107,11 @@ export default function Recommendations () {
           </button>
         </div>
       )}
-
       <div className='flex gap-2'>
-        {finalMovies.map((movie: any, index: number) => (
+        {finalMovies.map((movie: Movie, index: number) => (
           <Recommendation movie={movie} key={index} />
         ))}
       </div>
-    </div>
+    </section>
   )
 }
