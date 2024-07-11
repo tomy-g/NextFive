@@ -3,7 +3,7 @@
 import { experimental_useObject as useObject } from 'ai/react'
 import { PROMPT } from '../app/constants/prompt'
 import Recommendation from './Recommendation'
-import { moviesSchema } from '@/app/schemas/movie'
+import { moviesSchema, recommendedMoviesSchema } from '@/app/schemas/movie'
 import { useEffect, useState } from 'react'
 import type { Movie } from '../app/schemas/movie'
 
@@ -61,7 +61,7 @@ export default function Recommendations () {
     }
 
     const trackChanges = async () => {
-      if (moviesSchema.safeParse(object).success) {
+      if (recommendedMoviesSchema.safeParse(object).success) {
         const allNew = object?.movies?.filter(
           movie =>
             auxFinalMovies.filter(

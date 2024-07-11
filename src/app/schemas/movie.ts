@@ -32,10 +32,14 @@ const movieSchema = z.object({
 })
 
 const moviesSchema = z.object({
-  movies: z.array(movieSchema).min(5).max(5)
+  movies: z.array(movieSchema).length(5)
+})
+
+const recommendedMoviesSchema = z.object({
+  movies: z.array(movieSchema).max(5)
 })
 
 type Movie = z.infer<typeof movieSchema>
 
-export { movieSchema, moviesSchema }
+export { movieSchema, moviesSchema, recommendedMoviesSchema }
 export type { Movie }
