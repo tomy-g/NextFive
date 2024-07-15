@@ -1,22 +1,36 @@
 'use client'
-import React, { useState } from 'react'
+import React from 'react'
 import { Chip, Input, Listbox, ListboxItem } from '@nextui-org/react'
 import { ListboxWrapper } from './ListboxWrapper'
 import { Search } from 'lucide-react'
-import moviesInput from '../app/constants/moviesInput.json'
+import { useSearchMovies } from '@/app/hooks/useSearchMovies'
+import { useGetMovies } from '@/app/hooks/useGetMovies'
+import { useDebouncedCallback } from 'use-debounce'
 
 const SearchMovies = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const suggestedMovies = moviesInput.map(movie => ({
-    title: movie.Title,
-    key: movie.imdbID
-  }))
+  const { isOpen, setIsOpen, searchTerm, setSearchTerm, errorSearch } = useSearchMovies()
+  const { movies, getMovies, errorGet } = useGetMovies({ search: searchTerm })
+  const debounced = useDebouncedCallback(async (search) => {
+    try {
+      await getMovies({ search })
+    } catch (error) {
+      throw new Error((error as Error).message)
+    }
+  }, 300)
+
+  function handleChange (event: React.ChangeEvent<HTMLInputElement>) {
+    const newSearch = event.target.value
+    setSearchTerm(newSearch)
+    void debounced(newSearch)
+  }
 
   return (
     <section className='flex gap-5 items-center'>
       <Chip size='lg' >ADD A MOVIE</Chip>
       <div id='input-movies' className='relative w-full'>
         <Input
+          value={searchTerm}
+          onChange={handleChange}
           onFocus={() => {
             setIsOpen(true)
           }}
@@ -41,19 +55,20 @@ const SearchMovies = () => {
         ></Input>
         <ListboxWrapper isOpen={isOpen}>
           <Listbox
-            items={suggestedMovies}
-            aria-label='Dynamic Actions'
+            emptyContent={errorSearch ?? errorGet}
+            items={movies}
+            aria-label='Suggested movies'
             onAction={key => {
               alert(key)
             }}
           >
             {item => (
               <ListboxItem
-                key={item.key}
-                color={item.key === 'delete' ? 'danger' : 'default'}
-                className={item.key === 'delete' ? 'text-danger' : ''}
+                key={item.imdbID}
+                textValue='{item.Title}'
               >
-                {item.title}
+                <span>{item.Title}</span>
+                <span className='ml-1.5 opacity-70 text-tiny'>{'(' + item.Year + ')'}</span>
               </ListboxItem>
             )}
           </Listbox>

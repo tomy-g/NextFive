@@ -2,6 +2,7 @@
 
 import { experimental_useObject as useObject } from 'ai/react'
 import { PROMPT } from '../app/constants/prompt'
+import emptyMovies from '../app/constants/emptyMovies.json'
 import Recommendation from './Recommendation'
 import { moviesSchema, recommendedMoviesSchema } from '@/app/schemas/movie'
 import { useEffect, useState } from 'react'
@@ -21,24 +22,12 @@ export default function Recommendations () {
     api: '/api/completion',
     schema: moviesSchema
   })
-  const [finalMovies, setFinalMovies] = useState<Movie[]>([])
-  const auxFinalMovies: Movie[] = [
-    { Title: '', Year: '', Director: '', imdbID: '', Poster: '' },
-    { Title: '', Year: '', Director: '', imdbID: '', Poster: '' },
-    { Title: '', Year: '', Director: '', imdbID: '', Poster: '' },
-    { Title: '', Year: '', Director: '', imdbID: '', Poster: '' },
-    { Title: '', Year: '', Director: '', imdbID: '', Poster: '' }
-  ]
+  const [finalMovies, setFinalMovies] = useState<Movie[]>(emptyMovies)
+  const auxFinalMovies: Movie[] = emptyMovies
   const [isReady, setIsReady] = useState(true)
 
   function resetFinalMovies () {
-    setFinalMovies([
-      { Title: '', Year: '', Director: '', imdbID: '', Poster: '' },
-      { Title: '', Year: '', Director: '', imdbID: '', Poster: '' },
-      { Title: '', Year: '', Director: '', imdbID: '', Poster: '' },
-      { Title: '', Year: '', Director: '', imdbID: '', Poster: '' },
-      { Title: '', Year: '', Director: '', imdbID: '', Poster: '' }
-    ])
+    setFinalMovies(emptyMovies)
   }
 
   useEffect(() => {
