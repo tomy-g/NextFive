@@ -83,7 +83,7 @@ export default function Recommendations () {
   }, [object])
 
   return (
-    <section className='w-full '>
+    <section className='w-full mt-8 '>
       <button
         onClick={() => {
           resetFinalMovies()
@@ -107,7 +107,7 @@ export default function Recommendations () {
           </button>
         </div>
       )}
-      <div className='flex gap-2'>
+      <div className='flex gap-2 items-stretch'>
         {finalMovies.map((movie: Movie, index: number) => (
           <Recommendation movie={movie} key={index} />
         ))}
