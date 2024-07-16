@@ -1,76 +1,13 @@
 'use client'
 
-import { experimental_useObject as useObject } from 'ai/react'
+import { useGetRecommendations } from '@/app/hooks/useGetRecommendations'
 import { PROMPT } from '../app/constants/prompt'
-import emptyMovies from '../app/constants/emptyMovies.json'
 import Recommendation from './Recommendation'
-import { moviesSchema, recommendedMoviesSchema } from '@/app/schemas/movie'
-import { useEffect, useState } from 'react'
 import type { Movie } from '../app/schemas/movie'
 
-async function convertMovie (movie: any): Promise<any> {
-  const res = await fetch(`/api/movie?t=${movie.Title}&y=${movie.Year}`)
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch data')
-  }
-  return await res.json()
-}
-
 export default function Recommendations () {
-  const { object, submit, isLoading, stop } = useObject({
-    api: '/api/completion',
-    schema: moviesSchema
-  })
-  const [finalMovies, setFinalMovies] = useState<Movie[]>([...emptyMovies])
-  const auxFinalMovies: Movie[] = [...emptyMovies]
-  const [isReady, setIsReady] = useState(true)
-
-  function resetFinalMovies () {
-    setFinalMovies([...emptyMovies])
-  }
-
-  useEffect(() => {
-    if (!isReady) return
-    setIsReady(false)
-    const fetchData = async (movie: any) => {
-      return await convertMovie(movie)
-    }
-
-    const pushLastModified = async (movie: any, index: number) => {
-      if (index !== -1) {
-        const completeMovie: any = await fetchData(movie)
-        auxFinalMovies[index] = completeMovie
-        setFinalMovies(prevMovies => {
-          const updatedMovies = [...prevMovies]
-          updatedMovies[index] = completeMovie
-          return updatedMovies
-        })
-      }
-    }
-
-    const trackChanges = async () => {
-      if (recommendedMoviesSchema.safeParse(object).success) {
-        const allNew = object?.movies?.filter(
-          movie =>
-            auxFinalMovies.filter(
-              finalMovie => finalMovie.imdbID === movie?.imdbID
-            ).length === 0 && (movie?.imdbID?.length ?? 0) > 1
-        )
-        for (const movie of allNew ?? []) {
-          const index = auxFinalMovies.findIndex(movie => movie.imdbID.length === 1)
-          await pushLastModified(movie, index).catch(error => {
-            console.error(error)
-          })
-        }
-      }
-      setIsReady(true)
-    }
-    trackChanges().catch(error => {
-      console.error(error)
-    })
-  }, [object])
-
+  const { submit, isLoading, finalMovies, stop, resetFinalMovies } =
+    useGetRecommendations()
   return (
     <section className='w-full mt-8 '>
       <button

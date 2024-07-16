@@ -36,7 +36,7 @@ export function useGetMovies ({ search }: { search: string }) {
   }
 
   const selectMovie = async (movie: Movie) => {
-    const newMovie = await getCompleteMovie(movie.imdbID)
+    const newMovie = await getCompleteMovie({ id: movie.imdbID })
     const index = selectedMovies.findIndex(movie => movie.imdbID.length === 1)
     auxSelectedMovies[index] = newMovie
     setSelectedMovies(prevMovies => {
