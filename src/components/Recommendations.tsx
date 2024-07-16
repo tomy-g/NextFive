@@ -22,12 +22,12 @@ export default function Recommendations () {
     api: '/api/completion',
     schema: moviesSchema
   })
-  const [finalMovies, setFinalMovies] = useState<Movie[]>(emptyMovies)
-  const auxFinalMovies: Movie[] = emptyMovies
+  const [finalMovies, setFinalMovies] = useState<Movie[]>([...emptyMovies])
+  const auxFinalMovies: Movie[] = [...emptyMovies]
   const [isReady, setIsReady] = useState(true)
 
   function resetFinalMovies () {
-    setFinalMovies(emptyMovies)
+    setFinalMovies([...emptyMovies])
   }
 
   useEffect(() => {
@@ -55,10 +55,10 @@ export default function Recommendations () {
           movie =>
             auxFinalMovies.filter(
               finalMovie => finalMovie.imdbID === movie?.imdbID
-            ).length === 0 && (movie?.imdbID?.length ?? 0) > 0
+            ).length === 0 && (movie?.imdbID?.length ?? 0) > 1
         )
         for (const movie of allNew ?? []) {
-          const index = auxFinalMovies.findIndex(movie => movie.imdbID === '')
+          const index = auxFinalMovies.findIndex(movie => movie.imdbID.length === 1)
           await pushLastModified(movie, index).catch(error => {
             console.error(error)
           })

@@ -1,21 +1,28 @@
 import { NextResponse } from 'next/server'
 import { movieSchema } from '@/app/schemas/movie'
-
 export async function GET (req: Request) {
   const { searchParams } = new URL(req.url)
   const apiUrl = process.env.MOVIE_API_URL
   const apiKey = process.env.MOVIES_API_KEY
+  const movieId = searchParams.get('i')
   const movieTitle = searchParams.get('t')
   const movieYear = searchParams.get('y')
 
-  if ((apiKey == null) || (movieTitle == null) || (movieYear == null)) {
+  if (
+    apiKey == null ||
+    (movieId == null && (movieTitle == null || movieYear == null))
+  ) {
     return NextResponse.json(
       { error: 'Missing neccesary parameters' },
       { status: 400 }
     )
   }
 
-  const apiCall = `${apiUrl}?apikey=${apiKey}&t=${movieTitle}&y=${movieYear}`
+  let apiCall = `${apiUrl}?apikey=${apiKey}&t=${movieTitle}&y=${movieYear}`
+
+  if (movieId != null) {
+    apiCall = `${apiUrl}?apikey=${apiKey}&i=${movieId}`
+  }
 
   try {
     const response = await fetch(apiCall)
@@ -28,6 +35,9 @@ export async function GET (req: Request) {
 
     return NextResponse.json(data, { status: 200 })
   } catch (error) {
-    return NextResponse.json({ error: (error as Error).message }, { status: 500 })
+    return NextResponse.json(
+      { error: (error as Error).message },
+      { status: 500 }
+    )
   }
 }
