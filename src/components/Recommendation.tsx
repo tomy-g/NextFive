@@ -18,6 +18,7 @@ export default function Recommendation ({ movie }: Props) {
         <Image
           as={NextImage}
           alt='NextUI hero Image'
+          objectFit='cover'
           src={movie.Poster}
           className='rounded-md aspect-[0.675/1]'
           width={300}

@@ -4,8 +4,8 @@ import NextImage from 'next/image'
 
 export default function Header () {
   return (
-    <header className='mt-4'>
-        <Image src='nextFive.svg' className='w-40' radius='none' as={NextImage} width={568} height={174} />
+    <header className='pt-6'>
+        <Image src='nextFive.svg' className='w-32 ' radius='none' as={NextImage} width={568} height={174} />
     </header>
   )
 }
