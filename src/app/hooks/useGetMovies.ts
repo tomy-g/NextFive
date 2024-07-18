@@ -52,6 +52,7 @@ export function useGetMovies ({ search }: { search: string }) {
     errorGet: error,
     getMovies,
     selectedMovies,
+    setSelectedMovies,
     selectMovie
   }
 }

@@ -10,7 +10,7 @@ import { useGetMovies } from './hooks/useGetMovies'
 export default function Home () {
   const { isOpen, setIsOpen, searchTerm, setSearchTerm, errorSearch, isFirstInput } =
     useSearchMovies()
-  const { suggestedMovies, getMovies, errorGet, selectedMovies, selectMovie } =
+  const { suggestedMovies, getMovies, errorGet, selectedMovies, setSelectedMovies, selectMovie } =
     useGetMovies({ search: searchTerm })
   return (
     <div className='w-96 lg:w-[60rem] '>
@@ -26,6 +26,7 @@ export default function Home () {
           suggestedMovies={suggestedMovies}
           getMovies={getMovies}
           selectedMovies={selectedMovies}
+          setSelectedMovies={setSelectedMovies}
           selectMovie={selectMovie}
           isFirstInput={isFirstInput}
         />
