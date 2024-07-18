@@ -1,11 +1,10 @@
 'use client'
 
 import { useGetRecommendations } from '@/app/hooks/useGetRecommendations'
-import { PROMPT } from '../app/constants/prompt'
 import Recommendation from './Recommendation'
 import type { Movie } from '../app/schemas/movie'
 import { Button, Divider } from '@nextui-org/react'
-import { countFilledMovies } from '@/app/utils/utils'
+import { buildPrompt, countFilledMovies, simplifyMovies } from '@/app/utils/utils'
 
 interface Props {
   selectedMovies: Movie[]
@@ -38,7 +37,9 @@ export default function Recommendations ({ selectedMovies }: Props) {
             className='text-background text-md font-medium'
             onClick={() => {
               resetRecommendedMovies()
-              submit(PROMPT)
+              const simplifiedMovies = simplifyMovies(selectedMovies)
+              const prompt = buildPrompt(simplifiedMovies)
+              submit(prompt)
             }}
             isDisabled={isLoading || countFilledMovies(selectedMovies) < 1}
           >
