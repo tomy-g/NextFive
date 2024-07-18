@@ -3,21 +3,28 @@ import { getSuggestedMovies } from '../services/suggestedMovies'
 import { getCompleteMovie } from '../services/completeMovie'
 import { type Movie } from '../schemas/movie'
 import emptyMovies from '../constants/emptyMovies.json'
+import { type DebouncedState } from 'use-debounce'
 
-export function useGetMovies ({ search }: { search: string }) {
+interface Props {
+  searchTerm: string
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>
+  debounced: DebouncedState<(search: any) => Promise<void>>
+}
+
+export function useGetMovies ({ searchTerm, setSearchTerm, debounced }: Props) {
   const [suggestedMovies, setSuggestedMovies] = useState<Movie[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<null | string>(null)
-  const previusSearch = useRef(search)
+  const previousSearch = useRef(searchTerm)
   const [selectedMovies, setSelectedMovies] = useState<Movie[]>([...emptyMovies])
   const auxSelectedMovies = [...emptyMovies]
 
   const getMovies = async ({ search }: { search: string }) => {
-    if (previusSearch.current === search) return
+    if (previousSearch.current === search) return
     setIsLoading(true)
     setError(null)
-    previusSearch.current = search
-    getSuggestedMovies(search)
+    previousSearch.current = search
+    getSuggestedMovies(search, selectedMovies)
       .then(data => {
         if (data === null) {
           setError('No movies found')
@@ -36,6 +43,8 @@ export function useGetMovies ({ search }: { search: string }) {
   }
 
   const selectMovie = async (movie: Movie) => {
+    setSearchTerm('')
+    void debounced('')
     const newMovie = await getCompleteMovie({ id: movie.imdbID })
     const index = selectedMovies.findIndex(movie => movie.imdbID.length === 1)
     auxSelectedMovies[index] = newMovie

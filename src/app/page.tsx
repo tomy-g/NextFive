@@ -1,17 +1,37 @@
 'use client'
 
 import SearchMovies from '@/components/SearchMovies'
-// import { Textarea } from '@nextui-org/react'
 import Recommendations from '@/components/Recommendations'
 import Header from '@/components/Header'
 import { useSearchMovies } from './hooks/useSearchMovies'
 import { useGetMovies } from './hooks/useGetMovies'
+import { useDebouncedCallback } from 'use-debounce'
 
 export default function Home () {
-  const { isOpen, setIsOpen, searchTerm, setSearchTerm, errorSearch, isFirstInput } =
-    useSearchMovies()
-  const { suggestedMovies, getMovies, errorGet, selectedMovies, setSelectedMovies, selectMovie } =
-    useGetMovies({ search: searchTerm })
+  const debounced = useDebouncedCallback(async search => {
+    try {
+      await getMovies({ search })
+    } catch (error) {
+      throw new Error((error as Error).message)
+    }
+  }, 300)
+  const {
+    isOpen,
+    setIsOpen,
+    searchTerm,
+    setSearchTerm,
+    errorSearch,
+    isFirstInput
+  } = useSearchMovies()
+  const {
+    suggestedMovies,
+    getMovies,
+    errorGet,
+    selectedMovies,
+    setSelectedMovies,
+    selectMovie
+  } = useGetMovies({ searchTerm, setSearchTerm, debounced })
+
   return (
     <div className='w-96 lg:w-[60rem] '>
       <main>
@@ -29,8 +49,9 @@ export default function Home () {
           setSelectedMovies={setSelectedMovies}
           selectMovie={selectMovie}
           isFirstInput={isFirstInput}
+          debounced={debounced}
         />
-        <Recommendations selectedMovies={selectedMovies}/>
+        <Recommendations selectedMovies={selectedMovies} />
       </main>
     </div>
   )

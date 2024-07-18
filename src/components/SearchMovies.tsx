@@ -1,6 +1,6 @@
 'use client'
 import React, { type MutableRefObject } from 'react'
-import { useDebouncedCallback } from 'use-debounce'
+import { type DebouncedState } from 'use-debounce'
 import SelectedMovie from './SelectedMovie'
 import SearchBar from './SearchBar'
 import type { Movie } from '@/app/schemas/movie'
@@ -18,6 +18,7 @@ interface Props {
   setSelectedMovies: React.Dispatch<React.SetStateAction<Movie[]>>
   selectMovie: (movie: Movie) => Promise<void>
   isFirstInput: MutableRefObject<boolean>
+  debounced: DebouncedState<(search: any) => Promise<void>>
 }
 
 const SearchMovies = ({
@@ -32,16 +33,9 @@ const SearchMovies = ({
   selectedMovies,
   setSelectedMovies,
   selectMovie,
-  isFirstInput
+  isFirstInput,
+  debounced
 }: Props) => {
-  const debounced = useDebouncedCallback(async search => {
-    try {
-      await getMovies({ search })
-    } catch (error) {
-      throw new Error((error as Error).message)
-    }
-  }, 300)
-
   function deselectMovie (movie: Movie) {
     const toDeselect = selectedMovies.find(selectedMovie => selectedMovie.imdbID === movie.imdbID)
     const toDeselectIndex = selectedMovies.findIndex(selectedMovie => selectedMovie.imdbID === movie.imdbID)

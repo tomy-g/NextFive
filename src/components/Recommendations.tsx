@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function Recommendations ({ selectedMovies }: Props) {
-  const { submit, isLoading, recommendedMovies, resetRecommendedMovies } =
+  const { submit, isLoading, recommendedMovies } =
     useGetRecommendations()
   return (
     <section id='movie-recommendations' className='w-full mt-8'>
@@ -36,8 +36,9 @@ export default function Recommendations ({ selectedMovies }: Props) {
             color='primary'
             className='text-background text-md font-medium'
             onClick={() => {
-              resetRecommendedMovies()
-              const simplifiedMovies = simplifyMovies(selectedMovies)
+              // resetRecommendedMovies()
+              const toSimplify = [...selectedMovies]
+              const simplifiedMovies = simplifyMovies(toSimplify)
               const prompt = buildPrompt(simplifiedMovies)
               submit(prompt)
             }}
