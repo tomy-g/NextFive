@@ -10,12 +10,12 @@ export function useGetRecommendations () {
     api: '/api/completion',
     schema: moviesSchema
   })
-  const [finalMovies, setFinalMovies] = useState<Movie[]>([...emptyMovies])
+  const [recommendedMovies, setRecommendedMovies] = useState<Movie[]>([...emptyMovies])
   const auxFinalMovies: Movie[] = [...emptyMovies]
   const [isReady, setIsReady] = useState(true)
 
-  function resetFinalMovies () {
-    setFinalMovies([...emptyMovies])
+  function resetRecommendedMovies () {
+    setRecommendedMovies([...emptyMovies])
   }
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export function useGetRecommendations () {
           year: movie.Year
         })
         auxFinalMovies[index] = completeMovie
-        setFinalMovies(prevMovies => {
+        setRecommendedMovies(prevMovies => {
           const updatedMovies = [...prevMovies]
           updatedMovies[index] = completeMovie
           return updatedMovies
@@ -64,8 +64,8 @@ export function useGetRecommendations () {
   return {
     submit,
     isLoading,
-    finalMovies,
+    recommendedMovies,
     stop,
-    resetFinalMovies
+    resetRecommendedMovies
   }
 }

@@ -12,7 +12,7 @@ export default function Recommendation ({ movie }: Props) {
   return (
     <Skeleton
       isLoaded={movie.Poster !== undefined && movie.Poster.length > 0}
-      className='rounded-md flex-1 '
+      className='rounded-md ' role='listitem'
     >
       <Card className='rounded-md'>
         <Image

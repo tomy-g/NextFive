@@ -5,46 +5,56 @@ import { PROMPT } from '../app/constants/prompt'
 import Recommendation from './Recommendation'
 import type { Movie } from '../app/schemas/movie'
 import { Button, Divider } from '@nextui-org/react'
+import { countFilledMovies } from '@/app/utils/utils'
 
-export default function Recommendations () {
-  const { submit, isLoading, finalMovies, stop, resetFinalMovies } =
+interface Props {
+  selectedMovies: Movie[]
+}
+
+export default function Recommendations ({ selectedMovies }: Props) {
+  const { submit, isLoading, recommendedMovies, resetRecommendedMovies } =
     useGetRecommendations()
   return (
     <section id='movie-recommendations' className='w-full mt-8'>
       <div className='w-full flex items-center justify-evenly'>
         <Divider className='w-1/3' />
-        <Button
-          radius='full'
-          color='primary'
-          className='text-background text-md font-medium'
-          onClick={() => {
-            resetFinalMovies()
-            submit(PROMPT)
-          }}
-          disabled={isLoading}
-        >
-          Generate movies
-        </Button>
-        <Divider className='w-1/3' />
-      </div>
-      {isLoading && (
-        <div>
-          <div>Loading...</div>
+        {isLoading
+          ? (
           <Button
-            type='button'
+            radius='full'
+            color='danger'
+            className='text-background text-md font-medium'
             onClick={() => {
               stop()
             }}
           >
-            Stop
+            Cancel
           </Button>
-        </div>
-      )}
-      <div className='flex gap-2 items-stretch mt-8'>
-        {finalMovies.map((movie: Movie, index: number) => (
-          <Recommendation movie={movie} key={index} />
-        ))}
+            )
+          : (
+          <Button
+            radius='full'
+            color='primary'
+            className='text-background text-md font-medium'
+            onClick={() => {
+              resetRecommendedMovies()
+              submit(PROMPT)
+            }}
+            isDisabled={isLoading || countFilledMovies(selectedMovies) < 1}
+          >
+            Recommend Movies
+          </Button>
+            )
+          }
+        <Divider className='w-1/3' />
       </div>
+      {countFilledMovies(recommendedMovies) > 0 && (
+        <ul className='flex gap-2 items-stretch mt-8 list-none'>
+          {recommendedMovies.map((movie: Movie, index: number) => (
+            <Recommendation movie={movie} key={index} />
+          ))}
+        </ul>
+      )}
     </section>
   )
 }

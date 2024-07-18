@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react'
-import { getSuggesteMovies } from '../services/suggestedMovies'
+import { getSuggestedMovies } from '../services/suggestedMovies'
 import { getCompleteMovie } from '../services/completeMovie'
 import { type Movie } from '../schemas/movie'
 import emptyMovies from '../constants/emptyMovies.json'
 
 export function useGetMovies ({ search }: { search: string }) {
-  const [movies, setMovies] = useState<Movie[]>([])
+  const [suggestedMovies, setSuggestedMovies] = useState<Movie[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<null | string>(null)
   const previusSearch = useRef(search)
@@ -17,20 +17,20 @@ export function useGetMovies ({ search }: { search: string }) {
     setIsLoading(true)
     setError(null)
     previusSearch.current = search
-    getSuggesteMovies(search)
+    getSuggestedMovies(search)
       .then(data => {
         if (data === null) {
           setError('No movies found')
-          setMovies([])
+          setSuggestedMovies([])
           setIsLoading(false)
         } else {
-          setMovies(data)
+          setSuggestedMovies(data)
           setIsLoading(false)
         }
       })
       .catch(error => {
         setError(error.message)
-        setMovies([])
+        setSuggestedMovies([])
         setIsLoading(false)
       })
   }
@@ -44,12 +44,10 @@ export function useGetMovies ({ search }: { search: string }) {
       updatedMovies[index] = newMovie
       return updatedMovies
     })
-    console.log('selectedMovies', auxSelectedMovies)
-    console.log('emptyMovies', emptyMovies)
   }
 
   return {
-    movies,
+    suggestedMovies,
     isLoading,
     errorGet: error,
     getMovies,

@@ -1,16 +1,34 @@
 'use client'
 import React from 'react'
-import { useSearchMovies } from '@/app/hooks/useSearchMovies'
-import { useGetMovies } from '@/app/hooks/useGetMovies'
 import { useDebouncedCallback } from 'use-debounce'
 import SelectedMovie from './SelectedMovie'
 import SearchBar from './SearchBar'
+import type { Movie } from '@/app/schemas/movie'
+interface Props {
+  isOpen: boolean
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  searchTerm: string
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>
+  errorSearch: string | null
+  errorGet: string | null
+  movies: Movie[]
+  getMovies: ({ search }: { search: string }) => Promise<void>
+  selectedMovies: Movie[]
+  selectMovie: (movie: Movie) => Promise<void>
+}
 
-const SearchMovies = () => {
-  const { isOpen, setIsOpen, searchTerm, setSearchTerm, errorSearch } =
-    useSearchMovies()
-  const { movies, getMovies, errorGet, selectedMovies, selectMovie } =
-    useGetMovies({ search: searchTerm })
+const SearchMovies = ({
+  isOpen,
+  setIsOpen,
+  searchTerm,
+  setSearchTerm,
+  errorSearch,
+  errorGet,
+  movies,
+  getMovies,
+  selectedMovies,
+  selectMovie
+}: Props) => {
   const debounced = useDebouncedCallback(async search => {
     try {
       await getMovies({ search })
@@ -20,7 +38,7 @@ const SearchMovies = () => {
   }, 300)
 
   return (
-    <section id='search-movies' className='mt-20'>
+    <section id='search-movies' className='mt-16'>
       <SearchBar
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}

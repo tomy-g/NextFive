@@ -1,6 +1,6 @@
 import { type Movie } from '../schemas/movie'
 
-export async function getSuggesteMovies (search: string) {
+export async function getSuggestedMovies (search: string) {
   if (search === '') return null
   try {
     const response = await fetch('/api/search?s=' + search)
