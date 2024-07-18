@@ -1,6 +1,6 @@
 import { type Movie } from '@/app/schemas/movie'
 import React from 'react'
-import type { Key } from 'react'
+import type { Key, MutableRefObject } from 'react'
 import { Input, Listbox, ListboxItem } from '@nextui-org/react'
 import { ListboxWrapper } from './ListboxWrapper'
 import { Search } from 'lucide-react'
@@ -14,8 +14,9 @@ interface Props {
   selectMovie: (movie: Movie) => Promise<void>
   errorSearch: string | null
   errorGet: string | null
-  movies: Movie[]
+  suggestedMovies: Movie[]
   debounced: DebouncedState<(search: any) => Promise<void>>
+  isFirstInput: MutableRefObject<boolean>
 }
 
 export default function SearchBar ({
@@ -26,8 +27,9 @@ export default function SearchBar ({
   selectMovie,
   errorSearch,
   errorGet,
-  movies,
+  suggestedMovies,
   debounced,
+  isFirstInput
 }: Props) {
   function handleChange (event: React.ChangeEvent<HTMLInputElement>) {
     const newSearch = event.target.value
@@ -36,7 +38,7 @@ export default function SearchBar ({
   }
 
   function handleClick (key: Key) {
-    const movie = movies.find(movie => movie.imdbID === key)
+    const movie = suggestedMovies.find(movie => movie.imdbID === key)
     if (movie !== undefined) {
       void selectMovie(movie)
     }
@@ -47,6 +49,7 @@ export default function SearchBar ({
       <div id='input-movies' className='relative w-full'>
         <Input
           value={searchTerm}
+          isClearable
           label='Search for a movie:'
           labelPlacement='outside-left'
           onChange={handleChange}
@@ -55,6 +58,11 @@ export default function SearchBar ({
           }}
           onBlur={() => {
             setIsOpen(false)
+          }}
+          onClear={() => {
+            isFirstInput.current = true
+            setSearchTerm('')
+            void debounced('')
           }}
           placeholder='The Godfather, Pulp Fiction, Se7en...'
           startContent={
@@ -78,7 +86,7 @@ export default function SearchBar ({
         <ListboxWrapper isOpen={isOpen}>
           <Listbox
             emptyContent={errorSearch ?? errorGet}
-            items={movies}
+            items={suggestedMovies}
             aria-label='Suggested movies'
             onAction={handleClick}
           >

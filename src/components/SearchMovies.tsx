@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { type MutableRefObject } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import SelectedMovie from './SelectedMovie'
 import SearchBar from './SearchBar'
@@ -11,10 +11,11 @@ interface Props {
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>
   errorSearch: string | null
   errorGet: string | null
-  movies: Movie[]
+  suggestedMovies: Movie[]
   getMovies: ({ search }: { search: string }) => Promise<void>
   selectedMovies: Movie[]
   selectMovie: (movie: Movie) => Promise<void>
+  isFirstInput: MutableRefObject<boolean>
 }
 
 const SearchMovies = ({
@@ -24,10 +25,11 @@ const SearchMovies = ({
   setSearchTerm,
   errorSearch,
   errorGet,
-  movies,
+  suggestedMovies,
   getMovies,
   selectedMovies,
-  selectMovie
+  selectMovie,
+  isFirstInput
 }: Props) => {
   const debounced = useDebouncedCallback(async search => {
     try {
@@ -47,8 +49,9 @@ const SearchMovies = ({
         selectMovie={selectMovie}
         errorSearch={errorSearch}
         errorGet={errorGet}
-        movies={movies}
+        suggestedMovies={suggestedMovies}
         debounced={debounced}
+        isFirstInput={isFirstInput}
       />
       <ul className='flex gap-2 mt-5 list-none'>
         {selectedMovies.map(movie => (

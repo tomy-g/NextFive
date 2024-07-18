@@ -35,6 +35,7 @@ export function useSearchMovies () {
     isLoading,
     setIsLoading,
     isOpen,
-    setIsOpen
+    setIsOpen,
+    isFirstInput
   }
 }

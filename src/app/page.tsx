@@ -8,7 +8,7 @@ import { useSearchMovies } from './hooks/useSearchMovies'
 import { useGetMovies } from './hooks/useGetMovies'
 
 export default function Home () {
-  const { isOpen, setIsOpen, searchTerm, setSearchTerm, errorSearch } =
+  const { isOpen, setIsOpen, searchTerm, setSearchTerm, errorSearch, isFirstInput } =
     useSearchMovies()
   const { suggestedMovies, getMovies, errorGet, selectedMovies, selectMovie } =
     useGetMovies({ search: searchTerm })
@@ -23,10 +23,11 @@ export default function Home () {
           setSearchTerm={setSearchTerm}
           errorSearch={errorSearch}
           errorGet={errorGet}
-          movies={suggestedMovies}
+          suggestedMovies={suggestedMovies}
           getMovies={getMovies}
           selectedMovies={selectedMovies}
           selectMovie={selectMovie}
+          isFirstInput={isFirstInput}
         />
         <Recommendations selectedMovies={selectedMovies}/>
       </main>
