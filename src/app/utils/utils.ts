@@ -14,7 +14,7 @@ export function isFilled (movie: Movie) {
 }
 
 export function simplifyMovies (movies: Movie[]): Movie[] {
-  const parametersToDelete = ['Poster', 'DVD', 'Website', 'Response']
+  const parametersToDelete = ['DVD', 'Website', 'Response']
   const SimplifiedMovies = movies.map(movie => {
     const simplifiedMovie = movie
     parametersToDelete.forEach(parameter => {

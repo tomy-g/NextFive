@@ -24,14 +24,14 @@ export function useGetMovies ({ searchTerm, setSearchTerm, debounced }: Props) {
     setIsLoading(true)
     setError(null)
     previousSearch.current = search
-    getSuggestedMovies(search, selectedMovies)
+    getSuggestedMovies(search, [...selectedMovies])
       .then(data => {
         if (data === null) {
           setError('No movies found')
           setSuggestedMovies([])
           setIsLoading(false)
         } else {
-          setSuggestedMovies(data)
+          setSuggestedMovies([...data])
           setIsLoading(false)
         }
       })
@@ -45,8 +45,15 @@ export function useGetMovies ({ searchTerm, setSearchTerm, debounced }: Props) {
   const selectMovie = async (movie: Movie) => {
     setSearchTerm('')
     void debounced('')
-    const newMovie = await getCompleteMovie({ id: movie.imdbID })
     const index = selectedMovies.findIndex(movie => movie.imdbID.length === 1)
+    if (index === -1) return
+    auxSelectedMovies[index].Title = '...loading...'
+    setSelectedMovies(prevMovies => {
+      const updatedMovies = [...prevMovies]
+      updatedMovies[index].Title = '...loading...'
+      return updatedMovies
+    })
+    const newMovie = await getCompleteMovie({ id: movie.imdbID })
     auxSelectedMovies[index] = newMovie
     setSelectedMovies(prevMovies => {
       const updatedMovies = [...prevMovies]

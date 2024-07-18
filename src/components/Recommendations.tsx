@@ -42,7 +42,7 @@ export default function Recommendations ({ selectedMovies }: Props) {
               const prompt = buildPrompt(simplifiedMovies)
               submit(prompt)
             }}
-            isDisabled={isLoading || countFilledMovies(selectedMovies) < 1}
+            isDisabled={isLoading || countFilledMovies([...selectedMovies]) < 1}
           >
             Recommend Movies
           </Button>
@@ -50,7 +50,7 @@ export default function Recommendations ({ selectedMovies }: Props) {
           }
         <Divider className='w-1/3' />
       </div>
-      {countFilledMovies(recommendedMovies) > 0 && (
+      {countFilledMovies([...recommendedMovies]) > 0 && (
         <ul className='flex gap-2 items-stretch mt-8 list-none'>
           {recommendedMovies.map((movie: Movie, index: number) => (
             <Recommendation movie={movie} key={index} />

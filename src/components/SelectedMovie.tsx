@@ -15,7 +15,7 @@ interface Props {
 function SelectedMovie ({ movie, deselectMovie }: Props) {
   return (
     <li className='list-none flex-1' key={movie.imdbID}>
-      <Skeleton isLoaded={placeholder.src.length > 0}>
+      <Skeleton isLoaded={movie.Title !== '...loading...'}>
         <Card className='rounded-md'>
           <Image
             as={NextImage}
