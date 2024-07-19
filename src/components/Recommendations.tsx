@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function Recommendations ({ selectedMovies }: Props) {
-  const { submit, isLoading, recommendedMovies } =
+  const { submit, isLoading, recommendedMovies, resetRecommendedMovies, resetAuxFinalMovies } =
     useGetRecommendations()
   return (
     <section id='movie-recommendations' className='w-full mt-8'>
@@ -23,7 +23,7 @@ export default function Recommendations ({ selectedMovies }: Props) {
             radius='full'
             color='danger'
             className='text-background text-md font-medium'
-            onClick={() => {
+            onPress={() => {
               stop()
             }}
           >
@@ -35,8 +35,9 @@ export default function Recommendations ({ selectedMovies }: Props) {
             radius='full'
             color='primary'
             className='text-background text-md font-medium'
-            onClick={() => {
-              // resetRecommendedMovies()
+            onPress={() => {
+              resetRecommendedMovies()
+              resetAuxFinalMovies()
               const toSimplify = [...selectedMovies]
               const simplifiedMovies = simplifyMovies(toSimplify)
               const prompt = buildPrompt(simplifiedMovies)
@@ -53,7 +54,7 @@ export default function Recommendations ({ selectedMovies }: Props) {
       {countFilledMovies([...recommendedMovies]) > 0 && (
         <ul className='flex gap-2 items-stretch mt-8 list-none'>
           {recommendedMovies.map((movie: Movie, index: number) => (
-            <Recommendation movie={movie} key={index} />
+            <Recommendation movie={movie} key={index}/>
           ))}
         </ul>
       )}

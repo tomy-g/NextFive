@@ -2,21 +2,22 @@ import { type Movie } from '../schemas/movie'
 import { PROMPT } from '@/app/constants/prompt'
 
 export function countFilledMovies (movies: Movie[]): number {
-  return movies.filter(movie => movie.imdbID.length > 1).length
+  return movies.filter(movie => movie?.imdbID?.length > 1).length
 }
 
 export function getFilledMovies (movies: Movie[]): Movie[] {
-  return movies.filter(movie => movie.imdbID.length > 1)
+  return movies.filter(movie => movie?.imdbID?.length > 1)
 }
 
 export function isFilled (movie: Movie) {
-  return movie.imdbID.length > 1
+  return movie.imdbID?.length > 1
 }
 
 export function simplifyMovies (movies: Movie[]): Movie[] {
-  const parametersToDelete = ['DVD', 'Website', 'Response']
-  const SimplifiedMovies = movies.map(movie => {
-    const simplifiedMovie = movie
+  const parametersToDelete = ['Poster', 'DVD', 'Website', 'Response']
+  const moviesCopy = [...movies]
+  const SimplifiedMovies = moviesCopy.map(movie => {
+    const simplifiedMovie = { ...movie }
     parametersToDelete.forEach(parameter => {
       delete (simplifiedMovie as Record<string, any>)[parameter]
     })

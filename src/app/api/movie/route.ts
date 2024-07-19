@@ -31,7 +31,11 @@ export async function GET (req: Request) {
     }
 
     const data = await response.json()
-    movieSchema.parse(data)
+    try {
+      movieSchema.parse(data)
+    } catch (error) {
+      throw new Error('Error parsing movie data')
+    }
 
     return NextResponse.json(data, { status: 200 })
   } catch (error) {

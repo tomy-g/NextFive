@@ -45,7 +45,7 @@ export function useGetMovies ({ searchTerm, setSearchTerm, debounced }: Props) {
   const selectMovie = async (movie: Movie) => {
     setSearchTerm('')
     void debounced('')
-    const index = selectedMovies.findIndex(movie => movie.imdbID.length === 1)
+    const index = selectedMovies.findIndex(movie => movie.imdbID?.length === 1)
     if (index === -1) return
     auxSelectedMovies[index].Title = '...loading...'
     setSelectedMovies(prevMovies => {

@@ -27,9 +27,14 @@ export async function getCompleteMovie ({
       response = await fetch('/api/movie?i=' + id)
     }
     const json = await response.json()
-    if (json.Response === 'False') throw new Error(json.Error)
+    if (json.Response === 'False') {
+      throw new Error(json.Error)
+    }
+    if (json.error?.length > 0) {
+      throw new Error(json.error)
+    }
     return json
   } catch (error) {
-    throw new Error((error as Error).message)
+    return { error: true, message: (error as Error).message }
   }
 }
