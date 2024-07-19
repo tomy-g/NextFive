@@ -55,7 +55,7 @@ const config: Config = {
               700: '#274141',
               800: '#274141',
               900: '#274141',
-              DEFAULT: '#8fbcbc',
+              DEFAULT: '#274141',
               foreground: '#ffffff'
             },
             focus: '#06DA41',
