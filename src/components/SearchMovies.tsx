@@ -56,7 +56,7 @@ const SearchMovies = ({
   }
 
   return (
-    <section id='search-movies' className='mt-12'>
+    <section id='search-movies' className='mt-8'>
       <SearchBar
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}

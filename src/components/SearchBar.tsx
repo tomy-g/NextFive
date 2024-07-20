@@ -78,7 +78,7 @@ export default function SearchBar ({
             inputWrapper: 'h-[3rem]',
             mainWrapper: 'w-full',
             base: 'justify-between items-center',
-            label: 'w-[20%] text-foreground text-md '
+            label: 'w-[20%] text-foreground text-md lg:block hidden',
           }}
           radius='full'
           variant='bordered'

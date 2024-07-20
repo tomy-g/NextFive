@@ -2,7 +2,6 @@
 
 import SearchMovies from '@/components/SearchMovies'
 import Recommendations from '@/components/Recommendations'
-import Header from '@/components/Header'
 import { useSearchMovies } from './hooks/useSearchMovies'
 import { useGetMovies } from './hooks/useGetMovies'
 import { useDebouncedCallback } from 'use-debounce'
@@ -33,26 +32,23 @@ export default function Home () {
   } = useGetMovies({ searchTerm, setSearchTerm, debounced })
 
   return (
-    <div className='w-96 lg:w-[60rem] '>
-      <main>
-        <Header />
-        <SearchMovies
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          errorSearch={errorSearch}
-          errorGet={errorGet}
-          suggestedMovies={suggestedMovies}
-          getMovies={getMovies}
-          selectedMovies={selectedMovies}
-          setSelectedMovies={setSelectedMovies}
-          selectMovie={selectMovie}
-          isFirstInput={isFirstInput}
-          debounced={debounced}
-        />
-        <Recommendations selectedMovies={selectedMovies} />
-      </main>
-    </div>
+    <main >
+      <SearchMovies
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        errorSearch={errorSearch}
+        errorGet={errorGet}
+        suggestedMovies={suggestedMovies}
+        getMovies={getMovies}
+        selectedMovies={selectedMovies}
+        setSelectedMovies={setSelectedMovies}
+        selectMovie={selectMovie}
+        isFirstInput={isFirstInput}
+        debounced={debounced}
+      />
+      <Recommendations selectedMovies={selectedMovies} />
+    </main>
   )
 }
