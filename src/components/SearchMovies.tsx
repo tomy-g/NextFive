@@ -56,7 +56,7 @@ const SearchMovies = ({
   }
 
   return (
-    <section id='search-movies' className='mt-16'>
+    <section id='search-movies' className='mt-12'>
       <SearchBar
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -69,7 +69,7 @@ const SearchMovies = ({
         debounced={debounced}
         isFirstInput={isFirstInput}
       />
-      <ul className='flex gap-2 mt-5 list-none'>
+      <ul className='flex gap-2 mt-9 list-none'>
         {selectedMovies.map(movie => (
           <SelectedMovie movie={movie} key={movie.imdbID} deselectMovie={deselectMovie} />
         ))}

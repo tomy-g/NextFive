@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getSuggestedMovies } from '../services/suggestedMovies'
 import { getCompleteMovie } from '../services/completeMovie'
 import { type Movie } from '../schemas/movie'
 import emptyMovies from '../constants/emptyMovies.json'
 import { type DebouncedState } from 'use-debounce'
+import { useLocalStorage } from './useLocalStorage'
 
 interface Props {
   searchTerm: string
@@ -16,8 +17,19 @@ export function useGetMovies ({ searchTerm, setSearchTerm, debounced }: Props) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<null | string>(null)
   const previousSearch = useRef(searchTerm)
-  const [selectedMovies, setSelectedMovies] = useState<Movie[]>([...emptyMovies])
   const auxSelectedMovies = [...emptyMovies]
+  const [selectedMoviesDB, setSelectedMoviesDB] = useLocalStorage('selectedMovies', [...emptyMovies])
+  const [selectedMovies, setSelectedMovies] = useState<Movie[]>([...emptyMovies])
+
+  // Initialize selectedMovies with the movies stored in the local storage
+  useEffect(() => {
+    setSelectedMovies(selectedMoviesDB)
+  }, [])
+
+  // Update selectedMoviesDB when selectedMovies changes
+  useEffect(() => {
+    setSelectedMoviesDB(selectedMovies)
+  }, [selectedMovies])
 
   const getMovies = async ({ search }: { search: string }) => {
     if (previousSearch.current === search) return

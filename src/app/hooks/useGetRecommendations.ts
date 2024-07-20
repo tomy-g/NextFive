@@ -4,6 +4,7 @@ import { type Movie } from '../schemas/movie'
 import emptyMovies from '../constants/emptyMovies.json'
 import { useEffect, useRef, useState } from 'react'
 import { getCompleteMovie } from '../services/completeMovie'
+import { useLocalStorage } from './useLocalStorage'
 
 export function useGetRecommendations () {
   const { object, submit, isLoading, stop } = useObject({
@@ -13,7 +14,10 @@ export function useGetRecommendations () {
   const [recommendedMovies, setRecommendedMovies] = useState<Movie[]>([
     ...emptyMovies
   ])
+  const [recommendedMoviesDB, setRecommendedMoviesDB] = useLocalStorage('recommendedMovies', [...emptyMovies])
+
   const auxFinalMovies = useRef([...emptyMovies])
+
   // const [isReady, setIsReady] = useState(true)
 
   function resetRecommendedMovies () {
@@ -23,6 +27,15 @@ export function useGetRecommendations () {
   function resetAuxFinalMovies () {
     auxFinalMovies.current = [...emptyMovies]
   }
+
+  useEffect(() => {
+    setRecommendedMovies(recommendedMoviesDB)
+    auxFinalMovies.current = [...recommendedMoviesDB]
+  }, [])
+
+  useEffect(() => {
+    setRecommendedMoviesDB(recommendedMovies)
+  }, [recommendedMovies])
 
   useEffect(() => {
     // if (!isReady) return

@@ -21,7 +21,7 @@ export default function Recommendation ({ movie }: Props) {
       role='listitem'
     >
       <Card className='rounded-md'>
-        <Link href={'/movie'}>
+        <Link href={`/movie/${movie.imdbID}`}>
           <Tooltip
             showArrow={true}
             content={
