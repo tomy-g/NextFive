@@ -63,7 +63,7 @@ function SelectedMovie ({ movie, deselectMovie }: Props) {
                       : placeholder.src
                 }
               ></Image>
-              <CardFooter className='absolute z-10 bottom-0 text-small'>
+              <CardFooter className='absolute z-10 bottom-0 text-small pb-0 sm:pb-3'>
                 {movie.Poster === 'N/A' ? <span>{movie.Title}</span> : null}
                 {isFilled(movie)
                   ? (

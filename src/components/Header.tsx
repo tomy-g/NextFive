@@ -27,6 +27,7 @@ export default function Header () {
             src={nextFive.src}
             as={NextImage}
             className='w-32 aspect-[568/174] '
+            priority
             radius='none'
             width={568}
             height={174}

@@ -16,7 +16,7 @@ export default function Recommendations ({ selectedMovies }: Props) {
   return (
     <section id='movie-recommendations' className='w-full mt-8'>
       <div className='w-full flex items-center justify-evenly'>
-        <Divider className='w-1/3' />
+        <Divider className='w-1/3 hidden sm:block' />
         {isLoading
           ? (
           <Button
@@ -34,7 +34,7 @@ export default function Recommendations ({ selectedMovies }: Props) {
           <Button
             radius='full'
             color='primary'
-            className='text-background text-md font-medium'
+            className='text-background sm:text-medium font-medium'
             onPress={() => {
               resetRecommendedMovies()
               resetAuxFinalMovies()
@@ -45,11 +45,11 @@ export default function Recommendations ({ selectedMovies }: Props) {
             }}
             isDisabled={isLoading || countFilledMovies([...selectedMovies]) < 1}
           >
-            Recommend Movies
+            Recommend
           </Button>
             )
           }
-        <Divider className='w-1/3' />
+        <Divider className='w-1/3 hidden sm:block' />
       </div>
       {countFilledMovies([...recommendedMovies]) > 0 && (
         <ul className='flex gap-2 items-stretch mt-8 list-none'>
