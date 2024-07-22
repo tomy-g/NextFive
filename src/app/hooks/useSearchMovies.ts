@@ -19,10 +19,10 @@ export function useSearchMovies () {
       return
     }
 
-    if (searchTerm.length < 3) {
-      setError('Search term must be at least 3 characters long')
-      return
-    }
+    // if (searchTerm.length < 3) {
+    //   setError('Search term must be at least 3 characters long')
+    //   return
+    // }
 
     setIsLoading(true)
     setError(null)

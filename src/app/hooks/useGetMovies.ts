@@ -18,14 +18,12 @@ export function useGetMovies ({ searchTerm, setSearchTerm, debounced }: Props) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<null | string>(null)
   const previousSearch = useRef(searchTerm)
-  // let auxSelectedMovies: Movie[] = [...emptyMovies]
   const [selectedMoviesDB, setSelectedMoviesDB] = useLocalStorage('selectedMovies', [...emptyMovies])
   const [selectedMovies, setSelectedMovies] = useState<Movie[]>([...emptyMovies])
 
   // Initialize selectedMovies with the movies stored in the local storage
   useEffect(() => {
     setSelectedMovies([...selectedMoviesDB])
-    // auxSelectedMovies = [...selectedMoviesDB]
   }, [])
 
   // Update selectedMoviesDB when selectedMovies changes
@@ -49,7 +47,6 @@ export function useGetMovies ({ searchTerm, setSearchTerm, debounced }: Props) {
       newSelected.push(newMovie)
       cleanIndexes(newSelected)
       setSelectedMovies(newSelected)
-      // auxSelectedMovies[toDeselectIndex] = { ...newMovie }
     }
   }
 
@@ -81,17 +78,13 @@ export function useGetMovies ({ searchTerm, setSearchTerm, debounced }: Props) {
     void debounced('')
     const index = [...selectedMovies].findIndex(movie => movie.imdbID?.length === 1)
     if (index === -1) return
-    // auxSelectedMovies[index].Title = '...loading...'
-    // auxSelectedMovies[index].imdbID = movie.imdbID + 'loading'
     setSelectedMovies(prevMovies => {
       const updatedMovies = [...prevMovies]
       updatedMovies[index].Title = '...loading...'
       updatedMovies[index].imdbID = movie.imdbID + 'loading'
-      // auxSelectedMovies[index].imdbID = movie.imdbID + 'loading'
       return updatedMovies
     })
     const newMovie = await getCompleteMovie({ id: movie.imdbID })
-    // auxSelectedMovies[index] = { ...newMovie }
     setSelectedMovies(prevMovies => {
       const updatedMovies = [...prevMovies]
       updatedMovies[index] = { ...newMovie }

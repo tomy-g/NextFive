@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function Recommendations ({ selectedMovies }: Props) {
-  const { submit, isLoading, recommendedMovies, resetRecommendedMovies, resetAuxFinalMovies } =
+  const { submit, isLoading, recommendedMovies, resetRecommendedMovies, resetAuxFinalMovies, stop } =
     useGetRecommendations()
   return (
     <section id='movie-recommendations' className='w-full mt-8'>
