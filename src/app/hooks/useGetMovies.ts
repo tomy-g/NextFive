@@ -5,6 +5,7 @@ import { type Movie } from '../schemas/movie'
 import emptyMovies from '../constants/emptyMovies.json'
 import { type DebouncedState } from 'use-debounce'
 import { useLocalStorage } from './useLocalStorage'
+import { cleanIndexes } from '../utils/utils'
 
 interface Props {
   searchTerm: string
@@ -17,19 +18,40 @@ export function useGetMovies ({ searchTerm, setSearchTerm, debounced }: Props) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<null | string>(null)
   const previousSearch = useRef(searchTerm)
-  const auxSelectedMovies = [...emptyMovies]
+  // let auxSelectedMovies: Movie[] = [...emptyMovies]
   const [selectedMoviesDB, setSelectedMoviesDB] = useLocalStorage('selectedMovies', [...emptyMovies])
   const [selectedMovies, setSelectedMovies] = useState<Movie[]>([...emptyMovies])
 
   // Initialize selectedMovies with the movies stored in the local storage
   useEffect(() => {
-    setSelectedMovies(selectedMoviesDB)
+    setSelectedMovies([...selectedMoviesDB])
+    // auxSelectedMovies = [...selectedMoviesDB]
   }, [])
 
   // Update selectedMoviesDB when selectedMovies changes
   useEffect(() => {
-    setSelectedMoviesDB(selectedMovies)
+    setSelectedMoviesDB([...selectedMovies])
   }, [selectedMovies])
+
+  function deselectMovie (movie: Movie) {
+    const toDeselect = [...selectedMovies].find(selectedMovie => selectedMovie.imdbID === movie.imdbID)
+    const toDeselectIndex = selectedMovies.findIndex(selectedMovie => selectedMovie.imdbID === movie.imdbID)
+    if ((toDeselect !== undefined) && toDeselectIndex > -1) {
+      const newMovie: Movie = {
+        Title: '',
+        Year: '',
+        imdbID: toDeselectIndex.toString(),
+        Director: '',
+        Poster: '',
+      }
+      const newSelected = [...selectedMovies]
+      newSelected.splice(toDeselectIndex, 1)
+      newSelected.push(newMovie)
+      cleanIndexes(newSelected)
+      setSelectedMovies(newSelected)
+      // auxSelectedMovies[toDeselectIndex] = { ...newMovie }
+    }
+  }
 
   const getMovies = async ({ search }: { search: string }) => {
     if (previousSearch.current === search) return
@@ -57,19 +79,22 @@ export function useGetMovies ({ searchTerm, setSearchTerm, debounced }: Props) {
   const selectMovie = async (movie: Movie) => {
     setSearchTerm('')
     void debounced('')
-    const index = selectedMovies.findIndex(movie => movie.imdbID?.length === 1)
+    const index = [...selectedMovies].findIndex(movie => movie.imdbID?.length === 1)
     if (index === -1) return
-    auxSelectedMovies[index].Title = '...loading...'
+    // auxSelectedMovies[index].Title = '...loading...'
+    // auxSelectedMovies[index].imdbID = movie.imdbID + 'loading'
     setSelectedMovies(prevMovies => {
       const updatedMovies = [...prevMovies]
       updatedMovies[index].Title = '...loading...'
+      updatedMovies[index].imdbID = movie.imdbID + 'loading'
+      // auxSelectedMovies[index].imdbID = movie.imdbID + 'loading'
       return updatedMovies
     })
     const newMovie = await getCompleteMovie({ id: movie.imdbID })
-    auxSelectedMovies[index] = newMovie
+    // auxSelectedMovies[index] = { ...newMovie }
     setSelectedMovies(prevMovies => {
       const updatedMovies = [...prevMovies]
-      updatedMovies[index] = newMovie
+      updatedMovies[index] = { ...newMovie }
       return updatedMovies
     })
   }
@@ -81,6 +106,7 @@ export function useGetMovies ({ searchTerm, setSearchTerm, debounced }: Props) {
     getMovies,
     selectedMovies,
     setSelectedMovies,
-    selectMovie
+    selectMovie,
+    deselectMovie
   }
 }

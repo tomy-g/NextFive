@@ -38,9 +38,9 @@ export default function SearchBar ({
   }
 
   function handleClick (key: Key) {
-    const movie = suggestedMovies.find(movie => movie.imdbID === key)
+    const movie = [...suggestedMovies].find(movie => movie.imdbID === key)
     if (movie !== undefined) {
-      void selectMovie(movie)
+      void selectMovie({ ...movie })
     }
   }
 

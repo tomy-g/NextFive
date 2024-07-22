@@ -28,7 +28,8 @@ export default function Home () {
     errorGet,
     selectedMovies,
     setSelectedMovies,
-    selectMovie
+    selectMovie,
+    deselectMovie
   } = useGetMovies({ searchTerm, setSearchTerm, debounced })
 
   return (
@@ -47,6 +48,7 @@ export default function Home () {
         selectMovie={selectMovie}
         isFirstInput={isFirstInput}
         debounced={debounced}
+        deselectMovie={deselectMovie}
       />
       <Recommendations selectedMovies={selectedMovies} />
     </main>
