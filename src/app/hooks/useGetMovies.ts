@@ -85,6 +85,15 @@ export function useGetMovies ({ searchTerm, setSearchTerm, debounced }: Props) {
       return updatedMovies
     })
     const newMovie = await getCompleteMovie({ id: movie.imdbID })
+    if (newMovie.error === true) {
+      setSelectedMovies(prevMovies => {
+        const updatedMovies = [...prevMovies]
+        updatedMovies[index].Title = ''
+        updatedMovies[index].imdbID = index.toString()
+        return updatedMovies
+      })
+      return
+    }
     setSelectedMovies(prevMovies => {
       const updatedMovies = [...prevMovies]
       updatedMovies[index] = { ...newMovie }

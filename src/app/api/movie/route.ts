@@ -29,8 +29,10 @@ export async function GET (req: Request) {
     if (!response.ok) {
       throw new Error('Error obtaining movie data')
     }
-
     const data = await response.json()
+    if (data.Response === 'False') {
+      throw new Error(data.Error)
+    }
     try {
       movieSchema.parse(data)
     } catch (error) {
@@ -40,7 +42,7 @@ export async function GET (req: Request) {
     return NextResponse.json(data, { status: 200 })
   } catch (error) {
     return NextResponse.json(
-      { error: (error as Error).message },
+      { error: true, message: (error as Error).message },
       { status: 500 }
     )
   }

@@ -6,6 +6,9 @@ const movieSchema = z.object({
   Year: z.string(),
   Director: z.string(),
   Poster: z.string().optional(),
+  State: z.string().refine(value => value === 'error' || value === 'ok' || value === 'waiting', {
+    message: "State must be 'error', 'ok', or 'waiting'"
+  }).optional(),
   Rated: z.string().optional(),
   Released: z.string().optional(),
   Runtime: z.string().optional(),

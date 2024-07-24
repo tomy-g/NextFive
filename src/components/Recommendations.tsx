@@ -3,26 +3,36 @@
 import { useGetRecommendations } from '@/app/hooks/useGetRecommendations'
 import Recommendation from './Recommendation'
 import type { Movie } from '../app/schemas/movie'
-import { Button, Divider } from '@nextui-org/react'
-import { buildPrompt, countFilledMovies, simplifyMovies } from '@/app/utils/utils'
+import { Button, Chip, Divider } from '@nextui-org/react'
+import {
+  buildPrompt,
+  countFilledMovies,
+  simplifyMovies
+} from '@/app/utils/utils'
 
 interface Props {
   selectedMovies: Movie[]
 }
 
 export default function Recommendations ({ selectedMovies }: Props) {
-  const { submit, isLoading, recommendedMovies, resetRecommendedMovies, resetAuxFinalMovies, stop } =
-    useGetRecommendations()
+  const {
+    submit,
+    isLoading,
+    recommendedMovies,
+    resetRecommendedMovies,
+    resetAuxFinalMovies,
+    stop
+  } = useGetRecommendations()
   return (
     <section id='movie-recommendations' className='w-full mt-8'>
       <div className='w-full flex items-center justify-evenly'>
-        <Divider className='w-1/3 hidden sm:block' />
+        {/* <Divider className='w-1/3 hidden sm:block' /> */}
         {isLoading
           ? (
           <Button
             radius='full'
             color='danger'
-            className='text-background text-md font-medium'
+            className='text-background sm:text-medium font-medium'
             onPress={() => {
               stop()
             }}
@@ -47,16 +57,29 @@ export default function Recommendations ({ selectedMovies }: Props) {
           >
             Recommend
           </Button>
-            )
-          }
-        <Divider className='w-1/3 hidden sm:block' />
+            )}
+        {/* <Divider className='w-1/3 hidden sm:block' /> */}
       </div>
       {countFilledMovies([...recommendedMovies]) > 0 && (
-        <ul className='flex gap-2 items-stretch mt-8 list-none'>
-          {recommendedMovies.map((movie: Movie, index: number) => (
-            <Recommendation movie={movie} key={index}/>
-          ))}
-        </ul>
+        <div>
+          <span className='flex items-center gap-4 mt-1'>
+            <h2 className='text-lg text-secondary-500'>MOVIES YOU WILL LIKE</h2>
+            <Chip
+              onClose={() => {}}
+              variant='bordered'
+              size='sm'
+              className='pb-0 text-secondary-700'
+            >
+              Clear all
+            </Chip>
+          </span>
+          <Divider className='bg-secondary-500 mt-1 mb-2' />
+          <ul className='flex gap-2 items-stretch list-none'>
+            {recommendedMovies.map((movie: Movie, index: number) => (
+              <Recommendation movie={movie} key={index} />
+            ))}
+          </ul>
+        </div>
       )}
     </section>
   )

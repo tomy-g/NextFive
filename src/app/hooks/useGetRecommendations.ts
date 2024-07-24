@@ -18,8 +18,6 @@ export function useGetRecommendations () {
 
   const auxFinalMovies = useRef([...emptyMovies])
 
-  // const [isReady, setIsReady] = useState(true)
-
   function resetRecommendedMovies () {
     setRecommendedMovies([...emptyMovies])
   }
@@ -38,9 +36,6 @@ export function useGetRecommendations () {
   }, [recommendedMovies])
 
   useEffect(() => {
-    // if (!isReady) return
-    // setIsReady(false)
-
     const pushLastModified = async (movie: any, index: number) => {
       if (index !== -1) {
         auxFinalMovies.current[index] = { ...movie }
@@ -55,8 +50,7 @@ export function useGetRecommendations () {
             year: movie.Year
           })
           if (completeMovie.error === true) {
-            const errorData = await completeMovie.json()
-            throw new Error(errorData.error)
+            throw new Error(completeMovie.message)
           }
           auxFinalMovies.current[index] = completeMovie
           setRecommendedMovies(prevMovies => {
@@ -85,6 +79,7 @@ export function useGetRecommendations () {
             ![...auxFinalMovies.current].some(
               finalMovie =>
                 finalMovie.imdbID === newMovie?.imdbID ||
+                finalMovie.imdbID === newMovie?.imdbID + 'error' ||
                 finalMovie.Title === newMovie?.Title
             )
         )
@@ -92,19 +87,11 @@ export function useGetRecommendations () {
           const index = [...auxFinalMovies.current].findIndex(
             finalMovie => finalMovie.imdbID.length === 1
           )
-          await pushLastModified(movie, index).catch(error => {
-            console.error(error)
-          })
+          await pushLastModified(movie, index)
         }
       }
-      // setIsReady(() => {
-      //   console.log('se cambia a true', object?.movies)
-      //   return true
-      // })
     }
-    trackChanges().catch(error => {
-      console.error(error)
-    })
+    void trackChanges()
   }, [object])
 
   return {
