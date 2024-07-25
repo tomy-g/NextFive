@@ -24,15 +24,15 @@ export default function RecommendationCard ({ movie }: Props) {
             color='secondary'
             isDisabled={
               movie.Title.length < 1 ||
-              movie.Title === '...loading...' ||
-              movie.Title === '...error...'
+              movie.State === 'loading' ||
+              movie.State === 'error'
             }
           >
             <Image
               as={NextImage}
               alt='NextUI hero Image'
               objectFit='cover'
-              src={movie.Title !== '...error...' ? movie.Poster : error.src}
+              src={movie.State !== 'error' ? movie.Poster : error.src}
               className='rounded-md aspect-[0.675/1]'
               width={300}
               height={448}

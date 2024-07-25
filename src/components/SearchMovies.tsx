@@ -5,6 +5,8 @@ import SelectedMovie from './SelectedMovie'
 import SearchBar from './SearchBar'
 import type { Movie } from '@/app/schemas/movie'
 import { Chip, Divider } from '@nextui-org/react'
+import emptyMoviesObject from '@/app/constants/emptyMovies.json'
+import { countFilledMovies } from '@/app/utils/utils'
 interface Props {
   isOpen: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -38,6 +40,7 @@ const SearchMovies = ({
   debounced,
   deselectMovie
 }: Props) => {
+  const emptyMovies: Movie[] = [...emptyMoviesObject]
   return (
     <section id='search-movies' className='mt-8'>
       <SearchBar
@@ -54,17 +57,29 @@ const SearchMovies = ({
       />
       <span className='flex items-center gap-4 mt-4'>
         <h2 className='text-lg text-secondary-500'>MOVIES YOU LIKE</h2>
-        <Chip onClose={() => {}} variant='bordered' isDisabled size='sm' className='pb-0 text-secondary-700'>Clear all</Chip>
+        {countFilledMovies(selectedMovies) > 0 && (
+          <Chip
+            onClose={() => {
+              setSelectedMovies([...emptyMovies])
+            }}
+            variant='bordered'
+            size='sm'
+            className='pb-0 text-secondary-700'
+          >
+            Clear all
+          </Chip>
+        )}
       </span>
-      <Divider className='mt-1 bg-secondary-500 mb-2'/>
+      <Divider className='mt-1 bg-secondary-500 mb-2' />
       <ul className='flex gap-2 list-none'>
-        {selectedMovies.length > 0 && selectedMovies?.map(movie => (
-          <SelectedMovie
-            movie={movie}
-            key={movie.imdbID}
-            deselectMovie={deselectMovie}
-          />
-        ))}
+        {selectedMovies.length > 0 &&
+          selectedMovies?.map(movie => (
+            <SelectedMovie
+              movie={movie}
+              key={movie.imdbID}
+              deselectMovie={deselectMovie}
+            />
+          ))}
       </ul>
     </section>
   )

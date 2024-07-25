@@ -17,7 +17,7 @@ function SelectedMovie ({ movie, deselectMovie }: Props) {
     <li className='list-none flex-1' key={movie.imdbID}>
       <Skeleton
         className='rounded-md'
-        isLoaded={movie.Title !== '...loading...'}
+        isLoaded={movie.State !== 'loading'}
       >
         <Tooltip
           showArrow={true}
@@ -29,8 +29,8 @@ function SelectedMovie ({ movie, deselectMovie }: Props) {
           }
           isDisabled={
             movie.Title.length < 1 ||
-            movie.Title === '...loading...' ||
-            movie.Title === '...error...'
+            movie.State === 'loading' ||
+            movie.State === 'error'
           }
           placement='top'
           className=''

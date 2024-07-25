@@ -14,12 +14,12 @@ export default function Recommendation ({ movie }: Props) {
     <Skeleton
       isLoaded={
         (movie.Poster !== undefined && movie.Poster.length > 0) ||
-        movie.Title === '...error...'
+        movie.State === 'error'
       }
       className='rounded-md '
       role='listitem'
     >
-      {movie.Title === '...error...'
+      {movie.State === 'error'
         ? (
         <RecommendationCard movie={movie} />
           )

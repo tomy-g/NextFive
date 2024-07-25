@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import { getSuggestedMovies } from '../services/suggestedMovies'
 import { getCompleteMovie } from '../services/completeMovie'
 import { type Movie } from '../schemas/movie'
-import emptyMovies from '../constants/emptyMovies.json'
+import emptyMoviesObject from '../constants/emptyMovies.json'
 import { type DebouncedState } from 'use-debounce'
 import { useLocalStorage } from './useLocalStorage'
-import { cleanIndexes } from '../utils/utils'
+import { cleanIndexes, countFilledMovies } from '../utils/utils'
 
+const emptyMovies: Movie[] = [...emptyMoviesObject]
 interface Props {
   searchTerm: string
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>
@@ -28,11 +29,13 @@ export function useGetMovies ({ searchTerm, setSearchTerm, debounced }: Props) {
 
   // Update selectedMoviesDB when selectedMovies changes
   useEffect(() => {
-    setSelectedMoviesDB([...selectedMovies])
+    if (selectedMovies !== emptyMovies) {
+      setSelectedMoviesDB([...selectedMovies])
+    }
   }, [selectedMovies])
 
   function deselectMovie (movie: Movie) {
-    const toDeselect = [...selectedMovies].find(selectedMovie => selectedMovie.imdbID === movie.imdbID)
+    const toDeselect = { ...selectedMovies.find(selectedMovie => selectedMovie.imdbID === movie.imdbID) }
     const toDeselectIndex = selectedMovies.findIndex(selectedMovie => selectedMovie.imdbID === movie.imdbID)
     if ((toDeselect !== undefined) && toDeselectIndex > -1) {
       const newMovie: Movie = {
@@ -47,6 +50,9 @@ export function useGetMovies ({ searchTerm, setSearchTerm, debounced }: Props) {
       newSelected.push(newMovie)
       cleanIndexes(newSelected)
       setSelectedMovies(newSelected)
+    }
+    if (countFilledMovies(selectedMovies) === 0) {
+      setSelectedMovies([...emptyMovies])
     }
   }
 
@@ -76,20 +82,26 @@ export function useGetMovies ({ searchTerm, setSearchTerm, debounced }: Props) {
   const selectMovie = async (movie: Movie) => {
     setSearchTerm('')
     void debounced('')
-    const index = [...selectedMovies].findIndex(movie => movie.imdbID?.length === 1)
+    const index = [...selectedMovies].findIndex(movie => movie.imdbID?.length === 1 && movie.State !== 'loading')
     if (index === -1) return
     setSelectedMovies(prevMovies => {
       const updatedMovies = [...prevMovies]
-      updatedMovies[index].Title = '...loading...'
-      updatedMovies[index].imdbID = movie.imdbID + 'loading'
+      const toUpdate = { ...updatedMovies[index] }
+      toUpdate.State = 'loading'
+      toUpdate.Title = movie.Title
+      toUpdate.imdbID = movie.imdbID
+      updatedMovies[index] = toUpdate
       return updatedMovies
     })
     const newMovie = await getCompleteMovie({ id: movie.imdbID })
     if (newMovie.error === true) {
       setSelectedMovies(prevMovies => {
         const updatedMovies = [...prevMovies]
-        updatedMovies[index].Title = ''
-        updatedMovies[index].imdbID = index.toString()
+        const toUpdate = { ...updatedMovies[index] }
+        toUpdate.Title = ''
+        toUpdate.imdbID = index.toString()
+        toUpdate.State = undefined
+        updatedMovies[index] = toUpdate
         return updatedMovies
       })
       return
@@ -97,6 +109,7 @@ export function useGetMovies ({ searchTerm, setSearchTerm, debounced }: Props) {
     setSelectedMovies(prevMovies => {
       const updatedMovies = [...prevMovies]
       updatedMovies[index] = { ...newMovie }
+      updatedMovies[index].State = 'ok'
       return updatedMovies
     })
   }

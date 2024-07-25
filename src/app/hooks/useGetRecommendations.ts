@@ -1,10 +1,12 @@
 import { experimental_useObject as useObject } from 'ai/react'
 import { moviesSchema, recommendedMoviesSchema } from '../schemas/movie'
 import { type Movie } from '../schemas/movie'
-import emptyMovies from '../constants/emptyMovies.json'
+import emptyMoviesObject from '../constants/emptyMovies.json'
 import { useEffect, useRef, useState } from 'react'
 import { getCompleteMovie } from '../services/completeMovie'
 import { useLocalStorage } from './useLocalStorage'
+
+const emptyMovies: Movie[] = [...emptyMoviesObject]
 
 export function useGetRecommendations () {
   const { object, submit, isLoading, stop } = useObject({
@@ -14,31 +16,50 @@ export function useGetRecommendations () {
   const [recommendedMovies, setRecommendedMovies] = useState<Movie[]>([
     ...emptyMovies
   ])
-  const [recommendedMoviesDB, setRecommendedMoviesDB] = useLocalStorage('recommendedMovies', [...emptyMovies])
+  const [recommendedMoviesDB, setRecommendedMoviesDB] = useLocalStorage(
+    'recommendedMovies',
+    [...emptyMovies]
+  )
 
-  const auxFinalMovies = useRef([...emptyMovies])
+  const auxRecommendedMovies = useRef([...emptyMovies])
+
+  const [prevRecommendedMovies, setPrevRecommendedMovies] = useState<Movie[]>(
+    []
+  )
+
+  const [prevRecommendedMoviesDB, setPrevRecommendedMoviesDB] = useLocalStorage(
+    'prevRecommendedMovies',
+    []
+  )
 
   function resetRecommendedMovies () {
     setRecommendedMovies([...emptyMovies])
   }
 
   function resetAuxFinalMovies () {
-    auxFinalMovies.current = [...emptyMovies]
+    auxRecommendedMovies.current = [...emptyMovies]
   }
 
   useEffect(() => {
     setRecommendedMovies(recommendedMoviesDB)
-    auxFinalMovies.current = [...recommendedMoviesDB]
+    auxRecommendedMovies.current = [...recommendedMoviesDB]
+    setPrevRecommendedMovies([...prevRecommendedMoviesDB])
   }, [])
 
   useEffect(() => {
-    setRecommendedMoviesDB(recommendedMovies)
+    if (recommendedMovies !== emptyMovies) {
+      setRecommendedMoviesDB([...recommendedMovies])
+    }
   }, [recommendedMovies])
+
+  useEffect(() => {
+    setPrevRecommendedMoviesDB([...prevRecommendedMovies])
+  }, [prevRecommendedMovies])
 
   useEffect(() => {
     const pushLastModified = async (movie: any, index: number) => {
       if (index !== -1) {
-        auxFinalMovies.current[index] = { ...movie }
+        auxRecommendedMovies.current[index] = { ...movie }
         setRecommendedMovies(prevMovies => {
           const updatedMovies = [...prevMovies]
           updatedMovies[index] = movie
@@ -52,17 +73,22 @@ export function useGetRecommendations () {
           if (completeMovie.error === true) {
             throw new Error(completeMovie.message)
           }
-          auxFinalMovies.current[index] = completeMovie
+          auxRecommendedMovies.current[index] = completeMovie
           setRecommendedMovies(prevMovies => {
             const updatedMovies = [...prevMovies]
             updatedMovies[index] = completeMovie
             return updatedMovies
           })
+          if (prevRecommendedMovies.find(({ imdbID }) => imdbID === completeMovie.imdbID) === undefined) {
+            setPrevRecommendedMovies(prevPrevMovies => {
+              const newPrevMovies = [...prevPrevMovies, completeMovie]
+              return newPrevMovies
+            })
+          }
         } catch (error) {
           const errorMovie = { ...movie }
-          errorMovie.imdbID += 'error'
-          errorMovie.Title = '...error...'
-          auxFinalMovies.current[index] = errorMovie
+          errorMovie.State = 'error'
+          auxRecommendedMovies.current[index] = errorMovie
           setRecommendedMovies(prevMovies => {
             const updatedMovies = [...prevMovies]
             updatedMovies[index] = errorMovie
@@ -76,15 +102,14 @@ export function useGetRecommendations () {
       if (recommendedMoviesSchema.safeParse(object).success) {
         const allNew = object?.movies?.filter(
           newMovie =>
-            ![...auxFinalMovies.current].some(
+            ![...auxRecommendedMovies.current].some(
               finalMovie =>
                 finalMovie.imdbID === newMovie?.imdbID ||
-                finalMovie.imdbID === newMovie?.imdbID + 'error' ||
                 finalMovie.Title === newMovie?.Title
             )
         )
         for (const movie of allNew ?? []) {
-          const index = [...auxFinalMovies.current].findIndex(
+          const index = [...auxRecommendedMovies.current].findIndex(
             finalMovie => finalMovie.imdbID.length === 1
           )
           await pushLastModified(movie, index)

@@ -65,7 +65,10 @@ export default function Recommendations ({ selectedMovies }: Props) {
           <span className='flex items-center gap-4 mt-1'>
             <h2 className='text-lg text-secondary-500'>MOVIES YOU WILL LIKE</h2>
             <Chip
-              onClose={() => {}}
+              onClose={() => {
+                resetRecommendedMovies()
+                resetAuxFinalMovies()
+              }}
               variant='bordered'
               size='sm'
               className='pb-0 text-secondary-700'
