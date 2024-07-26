@@ -63,7 +63,7 @@ export default function Recommendations ({ selectedMovies }: Props) {
       {countFilledMovies([...recommendedMovies]) > 0 && (
         <div>
           <span className='flex items-center gap-4 mt-1'>
-            <h2 className='text-lg text-secondary-500'>MOVIES YOU WILL LIKE</h2>
+            <h2 className='text-lg text-secondary-500'>MOVIES YOU <b>WILL </b>LIKE</h2>
             <Chip
               onClose={() => {
                 resetRecommendedMovies()

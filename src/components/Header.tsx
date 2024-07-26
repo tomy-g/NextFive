@@ -23,7 +23,7 @@ export default function Header () {
       </LinkNext>
       <NavbarContent className='hidden sm:flex gap-4' justify='center'>
         <NavbarItem>
-          <Link color='foreground' href='recommendations'>
+          <Link color='foreground' href='/recommendations'>
             Recommendations
           </Link>
         </NavbarItem>

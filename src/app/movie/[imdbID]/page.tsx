@@ -36,7 +36,7 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
   }, [movie])
 
   return (
-    <main className='flex mt-16 items-start'>
+    <main className='flex mt-8 mb-8 items-start'>
       <aside className='flex flex-col items-center gap-5 w-[25%]'>
         <Skeleton isLoaded={!isLoading} className='rounded-md w-[100%]'>
           <Image
@@ -67,7 +67,7 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
               {movie.Title}
             </h1>
             <div className='flex'>
-              <span className='pb-4 text-md sm:text-2xl text-white'>{`(${movie.Year.split(
+              <span className='pb-4 text-md sm:text-2xl text-white'>{`(${movie.Year?.split(
                 '–'
               )[0].trim()})`}</span>
               {movie.Type === 'movie' && (
