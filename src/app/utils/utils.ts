@@ -26,11 +26,17 @@ export function simplifyMovies (movies: Movie[]): Movie[] {
   return SimplifiedMovies
 }
 
-export function buildPrompt (selectedMovies: Movie[]): string {
+export function buildPrompt (selectedMovies: Movie[], type: string): string {
   const promptPart1 = PROMPT[0]
   const promptPart2 = PROMPT[1]
+  const promptPart3 = PROMPT[2]
   const filledMovies = getFilledMovies(selectedMovies)
-  const prompt = `${promptPart1} ${JSON.stringify(filledMovies)} ${promptPart2}`
+  let prompt = `${promptPart1} ${JSON.stringify(filledMovies)} ${promptPart2}`
+  if (type === 'tv') {
+    prompt = prompt + ' ' + promptPart3 + ' TV Shows.'
+  } else if (type === 'movies') {
+    prompt = prompt + ' ' + promptPart3 + ' Movies.'
+  }
   return prompt
 }
 

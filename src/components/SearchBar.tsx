@@ -1,7 +1,13 @@
 import { type Movie } from '@/app/schemas/movie'
-import React from 'react'
+import React, { useState } from 'react'
 import type { Key, MutableRefObject } from 'react'
-import { Input, Listbox, ListboxItem } from '@nextui-org/react'
+import {
+  Input,
+  Listbox,
+  ListboxItem,
+  Select,
+  SelectItem
+} from '@nextui-org/react'
 import { ListboxWrapper } from './ListboxWrapper'
 import { Search } from 'lucide-react'
 import { type DebouncedState } from 'use-debounce'
@@ -17,6 +23,7 @@ interface Props {
   suggestedMovies: Movie[]
   debounced: DebouncedState<(search: any) => Promise<void>>
   isFirstInput: MutableRefObject<boolean>
+  changeType: (newType: string) => void
 }
 
 export default function SearchBar ({
@@ -29,8 +36,11 @@ export default function SearchBar ({
   errorGet,
   suggestedMovies,
   debounced,
-  isFirstInput
+  isFirstInput,
+  changeType
 }: Props) {
+  const [type, setType] = useState('both')
+
   function handleChange (event: React.ChangeEvent<HTMLInputElement>) {
     const newSearch = event.target.value
     setSearchTerm(newSearch)
@@ -44,8 +54,14 @@ export default function SearchBar ({
     }
   }
 
+  const options = [
+    { key: 'both', label: 'Movies & TV' },
+    { key: 'movies', label: 'Movies' },
+    { key: 'tv', label: 'TV Shows' }
+  ]
+
   return (
-    <search>
+    <search className='flex items-center gap-4'>
       <div id='input-movies' className='relative w-full'>
         <Input
           value={searchTerm}
@@ -78,7 +94,8 @@ export default function SearchBar ({
             inputWrapper: 'h-[3rem]',
             mainWrapper: 'w-full',
             base: 'justify-between items-center',
-            label: 'w-[20%] text-foreground text-md lg:block hidden',
+            label:
+              'w-[20%] text-foreground text-md lg:block hidden sm:text-nowrap',
           }}
           radius='full'
           variant='bordered'
@@ -101,6 +118,36 @@ export default function SearchBar ({
           </Listbox>
         </ListboxWrapper>
       </div>
+      <Select
+        selectedKeys={[type]}
+        onSelectionChange={(keys: 'all' | Set<Key>) => {
+          if (keys === 'all') {
+            setType('both')
+          } else {
+            const selectedKey = Array.from(keys).join(', ')
+            setType(selectedKey)
+            changeType(selectedKey)
+          }
+        }}
+        className='w-52'
+        variant='bordered'
+        label='I want to watch'
+        classNames={{
+          // value: 'text-[0.75rem] sm:text-[1rem]',
+          label: 'sm:block hidden',
+          innerWrapper: [
+            'group-data-[has-label=true]:pt-0',
+            'group-data-[has-label=true]:sm:pt-4'
+          ],
+          popoverContent: 'bg-background',
+        }}
+      >
+        {options.map(option => (
+          <SelectItem key={option.key} value={option.key}>
+            {option.label}
+          </SelectItem>
+        ))}
+      </Select>
     </search>
   )
 }

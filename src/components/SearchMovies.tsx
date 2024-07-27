@@ -22,6 +22,7 @@ interface Props {
   isFirstInput: MutableRefObject<boolean>
   debounced: DebouncedState<(search: any) => Promise<void>>
   deselectMovie: (movie: Movie) => void
+  changeType: (newType: string) => void
 }
 
 const SearchMovies = ({
@@ -38,7 +39,8 @@ const SearchMovies = ({
   selectMovie,
   isFirstInput,
   debounced,
-  deselectMovie
+  deselectMovie,
+  changeType
 }: Props) => {
   const emptyMovies: Movie[] = [...emptyMoviesObject]
   return (
@@ -54,6 +56,7 @@ const SearchMovies = ({
         suggestedMovies={suggestedMovies}
         debounced={debounced}
         isFirstInput={isFirstInput}
+        changeType={changeType}
       />
       <span className='flex items-center gap-4 mt-4'>
         <h2 className='text-lg text-secondary-500'>MOVIES YOU LIKE</h2>

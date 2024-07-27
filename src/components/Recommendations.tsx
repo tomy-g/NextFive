@@ -12,21 +12,21 @@ import {
 
 interface Props {
   selectedMovies: Movie[]
+  type: string
 }
 
-export default function Recommendations ({ selectedMovies }: Props) {
+export default function Recommendations ({ selectedMovies, type }: Props) {
   const {
     submit,
     isLoading,
     recommendedMovies,
     resetRecommendedMovies,
     resetAuxFinalMovies,
-    stop
+    stop,
   } = useGetRecommendations()
   return (
     <section id='movie-recommendations' className='w-full mt-8'>
       <div className='w-full flex items-center justify-evenly'>
-        {/* <Divider className='w-1/3 hidden sm:block' /> */}
         {isLoading
           ? (
           <Button
@@ -50,7 +50,7 @@ export default function Recommendations ({ selectedMovies }: Props) {
               resetAuxFinalMovies()
               const toSimplify = [...selectedMovies]
               const simplifiedMovies = simplifyMovies(toSimplify)
-              const prompt = buildPrompt(simplifiedMovies)
+              const prompt = buildPrompt(simplifiedMovies, type)
               submit(prompt)
             }}
             isDisabled={isLoading || countFilledMovies([...selectedMovies]) < 1}
@@ -58,7 +58,6 @@ export default function Recommendations ({ selectedMovies }: Props) {
             Recommend
           </Button>
             )}
-        {/* <Divider className='w-1/3 hidden sm:block' /> */}
       </div>
       {countFilledMovies([...recommendedMovies]) > 0 && (
         <div>

@@ -23,5 +23,7 @@ export const PROMPT: string[] = [
 - The imdbID should be the unique identifier for the movie or TV show in the OMDB API (matching the ID in the IMDB database).
 
 6. Recommend EXACTLY 5 movies or TV shows. If you recommend more or less than 5, your submission will be rejected.
-`
+`,
+
+  'Also, the user has chosen to receive only recommendations for '
 ]

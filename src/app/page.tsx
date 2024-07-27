@@ -5,6 +5,7 @@ import Recommendations from '@/components/Recommendations'
 import { useSearchMovies } from './hooks/useSearchMovies'
 import { useGetMovies } from './hooks/useGetMovies'
 import { useDebouncedCallback } from 'use-debounce'
+import { useState } from 'react'
 
 export default function Home () {
   const debounced = useDebouncedCallback(async search => {
@@ -32,6 +33,12 @@ export default function Home () {
     deselectMovie
   } = useGetMovies({ searchTerm, setSearchTerm, debounced })
 
+  const [type, setType] = useState('both')
+
+  function changeType (newType: string) {
+    setType(newType)
+  }
+
   return (
     <main >
       <SearchMovies
@@ -49,8 +56,9 @@ export default function Home () {
         isFirstInput={isFirstInput}
         debounced={debounced}
         deselectMovie={deselectMovie}
+        changeType={changeType}
       />
-      <Recommendations selectedMovies={selectedMovies} />
+      <Recommendations selectedMovies={selectedMovies} type={type}/>
     </main>
   )
 }
