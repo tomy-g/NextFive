@@ -81,7 +81,11 @@ export function useGetRecommendations () {
             updatedMovies[index].State = 'ok'
             return updatedMovies
           })
-          if (prevRecommendedMovies.find(({ imdbID }) => imdbID === completeMovie.imdbID) === undefined) {
+          if (
+            prevRecommendedMovies.find(
+              ({ imdbID }) => imdbID === completeMovie.imdbID
+            ) === undefined
+          ) {
             setPrevRecommendedMovies(prevPrevMovies => {
               const newPrevMovies = [...prevPrevMovies, completeMovie]
               return newPrevMovies
