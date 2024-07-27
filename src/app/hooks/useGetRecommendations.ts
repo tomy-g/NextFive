@@ -102,10 +102,11 @@ export function useGetRecommendations () {
       if (recommendedMoviesSchema.safeParse(object).success) {
         const allNew = object?.movies?.filter(
           newMovie =>
-            ![...auxRecommendedMovies.current].some(
+            !auxRecommendedMovies.current.some(
               finalMovie =>
-                finalMovie.imdbID === newMovie?.imdbID ||
-                finalMovie.Title === newMovie?.Title
+                // finalMovie.imdbID === newMovie?.imdbID &&
+                finalMovie.Title === newMovie?.Title &&
+                finalMovie.Year === newMovie?.Year
             )
         )
         for (const movie of allNew ?? []) {
