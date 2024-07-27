@@ -61,7 +61,7 @@ export default function SearchBar ({
   ]
 
   return (
-    <search className='flex items-center gap-4'>
+    <search className='flex flex-col sm:flex-row items-center gap-4'>
       <div id='input-movies' className='relative w-full'>
         <Input
           value={searchTerm}
@@ -134,10 +134,10 @@ export default function SearchBar ({
         label='I want to watch'
         classNames={{
           // value: 'text-[0.75rem] sm:text-[1rem]',
-          label: 'sm:block hidden',
+          // label: 'sm:block hidden',
           innerWrapper: [
-            'group-data-[has-label=true]:pt-0',
-            'group-data-[has-label=true]:sm:pt-4'
+            // 'group-data-[has-label=true]:pt-0',
+            // 'group-data-[has-label=true]:sm:pt-4'
           ],
           popoverContent: 'bg-background',
         }}

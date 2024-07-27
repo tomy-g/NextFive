@@ -62,11 +62,11 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
       </aside>
       <div id='details' className='w-[75%] ml-[5%]'>
         <Skeleton className='rounded-full' isLoaded={!isLoading}>
-          <div id='title' className='flex flex-col'>
-            <h1 className='sm:pb-4 text-3xl sm:text-5xl font-bold text-grad bg-gradient-to-r from-primary to-focus bg-clip-text text-transparent'>
+          <div id='title' className='flex gap-4 break-words items-end'>
+            <h1 className='inline-block w-max sm:pb-4 text-3xl sm:text-5xl font-bold text-grad bg-gradient-to-r from-primary to-focus bg-clip-text text-transparent'>
               {movie.Title}
             </h1>
-            <div className='flex'>
+            <div className='flex mr-auto'>
               <span className='pb-4 text-md sm:text-2xl text-white'>{`(${movie.Year?.split(
                 '–'
               )[0].trim()})`}</span>

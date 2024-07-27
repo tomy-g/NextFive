@@ -18,7 +18,7 @@ export default function Header () {
       classNames={{
         wrapper: 'px-0',
         item: [
-          'data-[active=true]:text-primary',
+          'data-[active=true]:!text-primary',
         ]
 
       }}
@@ -30,12 +30,12 @@ export default function Header () {
       </LinkNext>
       <NavbarContent className='hidden sm:flex gap-4' justify='center'>
         <NavbarItem isActive={path === '/recommendations'}>
-          <Link color='foreground' href='/recommendations'>
+          <Link className='text-inherit' href='/recommendations'>
             Recommendations
           </Link>
         </NavbarItem>
         <NavbarItem isActive={path === '/about'}>
-          <Link color='foreground' href='/about'>
+          <Link className='text-inherit' href='/about'>
             About
           </Link>
         </NavbarItem>
