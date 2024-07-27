@@ -108,8 +108,10 @@ export function useGetMovies ({ searchTerm, setSearchTerm, debounced }: Props) {
     }
     setSelectedMovies(prevMovies => {
       const updatedMovies = [...prevMovies]
-      updatedMovies[index] = { ...newMovie }
-      updatedMovies[index].State = 'ok'
+      const toModifyIndex = updatedMovies.findIndex(selectedMovie => selectedMovie.imdbID === movie.imdbID)
+      if (toModifyIndex === -1) return updatedMovies
+      updatedMovies[toModifyIndex] = { ...newMovie }
+      updatedMovies[toModifyIndex].State = 'ok'
       return updatedMovies
     })
   }
