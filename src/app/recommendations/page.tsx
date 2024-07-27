@@ -14,6 +14,7 @@ import { useLocalStorage } from '../hooks/useLocalStorage'
 import { type Movie } from '../schemas/movie'
 import { Trash, CircleAlert } from 'lucide-react'
 import NextImage from 'next/image'
+import placeholder from '@/app/assets/placeholder-min.png'
 
 export default function Recommendations () {
   const [prevRecommendedMovies, setPrevRecommendedMovies] = useState<Movie[]>(
@@ -126,7 +127,7 @@ export default function Recommendations () {
                               radius='sm'
                               className='rounded-md aspect-[0.675/1]'
                               objectFit='cover'
-                              src={movie.Poster}
+                              src={movie.Poster !== 'N/A' ? movie.Poster : placeholder.src}
                               alt={movie.Title}
                               as={NextImage}
                               width={100}
