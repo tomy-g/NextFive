@@ -37,10 +37,11 @@ export default function Recommendations () {
     <main className='mt-8'>
       <section id='prev-recommendations'>
         <div className='flex justify-between items-end gap-4 mt-1'>
-          <h1 className='text-lg text-secondary-500'>
+          <h1 className='text-sm sm:text-lg text-secondary-500'>
             PREVIOUS RECOMMENDATIONS
           </h1>
           <Button
+            className='hidden sm:flex'
             startContent={<Trash width={20} />}
             color='danger'
             size='sm'
@@ -55,10 +56,26 @@ export default function Recommendations () {
           >
             Remove all
           </Button>
+          <Button
+            className='flex sm:hidden'
+            startContent={<Trash width={16} />}
+            isIconOnly
+            color='danger'
+            size='sm'
+            onPress={() => {
+              setPrevRecommendedMovies([])
+            }}
+            isDisabled={
+              prevRecommendedMovies === null ||
+              prevRecommendedMovies === undefined ||
+              prevRecommendedMovies.length === 0
+            }
+          >
+          </Button>
         </div>
         <Divider className='bg-secondary-500 mt-1 mb-2' />
         {loading && (
-          <div className='grid grid-cols-10 gap-2 list-none'>
+          <div className='grid grid-cols-5 sm:grid-cols-10 gap-2 list-none'>
           {[...Array(10)].map((_, index) => (
                   <Skeleton className='rounded-md' key={index}>
                       <Image
@@ -81,8 +98,8 @@ export default function Recommendations () {
           prevRecommendedMovies.length > 0
             ? (
             <div>
-              <ul className='grid grid-cols-10 gap-2 list-none'>
-                {prevRecommendedMovies
+              <ul className='grid grid-cols-5 sm:grid-cols-10 gap-2 list-none'>
+                {prevRecommendedMovies.reverse()
                   .slice((page - 1) * 50, page * 50)
                   .map((movie: Movie, index: number) => (
                     <li key={movie.imdbID}>
