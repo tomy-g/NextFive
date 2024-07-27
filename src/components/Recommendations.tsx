@@ -35,6 +35,8 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
             className='text-background sm:text-medium font-medium'
             onPress={() => {
               stop()
+              resetAuxFinalMovies()
+              resetRecommendedMovies()
             }}
           >
             Cancel
