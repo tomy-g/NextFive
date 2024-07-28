@@ -9,9 +9,12 @@ import { useLocalStorage } from './useLocalStorage'
 const emptyMovies: Movie[] = [...emptyMoviesObject]
 
 export function useGetRecommendations () {
-  const { object, submit, isLoading, stop } = useObject({
+  const { object, submit, isLoading, stop, error } = useObject({
     api: '/api/completion',
-    schema: moviesSchema
+    schema: moviesSchema,
+    onError: () => {
+      stop()
+    }
   })
   const [recommendedMovies, setRecommendedMovies] = useState<Movie[]>([
     ...emptyMovies
@@ -132,6 +135,7 @@ export function useGetRecommendations () {
     recommendedMovies,
     stop,
     resetRecommendedMovies,
-    resetAuxFinalMovies
+    resetAuxFinalMovies,
+    error
   }
 }

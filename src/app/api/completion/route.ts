@@ -8,21 +8,25 @@ import { type NextRequest } from 'next/server'
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30
 
+let ratelimit: Ratelimit | null = null
+
+if (process.env.LIMIT_ACTIVE === 'true') {
 // Create Rate limit
-const ratelimit = new Ratelimit({
-  redis: kv,
-  limiter: Ratelimit.fixedWindow(5, '30s'),
-})
+  ratelimit = new Ratelimit({
+    redis: kv,
+    limiter: Ratelimit.fixedWindow(5, '12 h'),
+  })
+}
 
 export async function POST (req: NextRequest) {
-  // call ratelimit with request ip
-  const ip = req.ip ?? 'ip'
-  const { success } = await ratelimit.limit(ip)
-  // block the request if unsuccessfull
-  if (!success) {
-    return new Response('Ratelimited!', { status: 429 })
+  if (ratelimit !== null) {
+    // call ratelimit with request ip
+    const { success } = await ratelimit.limit('ip-address')
+    // block the request if unsuccessfull
+    if (!success) {
+      return new Response('Ratelimited!', { status: 429 })
+    }
   }
-
   const context = await req.json()
   const result = await streamObject({
     model: openai('gpt-4o-mini'),
@@ -31,6 +35,10 @@ export async function POST (req: NextRequest) {
     prompt: context,
     temperature: 0
   })
+
+  // if (typeof result.object === 'undefined') {
+  //   return new Response('Error', { status: 500 })
+  // }
 
   return result.toTextStreamResponse()
 }

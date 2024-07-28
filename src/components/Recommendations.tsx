@@ -3,7 +3,7 @@
 import { useGetRecommendations } from '@/app/hooks/useGetRecommendations'
 import Recommendation from './Recommendation'
 import type { Movie } from '../app/schemas/movie'
-import { Button, Chip, Divider } from '@nextui-org/react'
+import { Button, Chip, Divider, Link } from '@nextui-org/react'
 import {
   buildPrompt,
   countFilledMovies,
@@ -23,7 +23,10 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
     resetRecommendedMovies,
     resetAuxFinalMovies,
     stop,
+    error
   } = useGetRecommendations()
+
+  console.log((error as Error)?.message ?? 'No error')
   return (
     <section id='movie-recommendations' className='w-full mt-8'>
       <div className='w-full flex items-center justify-evenly'>
@@ -61,10 +64,30 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
           </Button>
             )}
       </div>
+      {error !== null && error !== undefined && (error as Error)?.message === 'Ratelimited!' && (
+        <div className='w-full mt-4'>
+          <p className='text-danger-500 text-center'>
+            You have reached the limit of free recommendations for today. Set your own API key to have unlimited access {' '}
+            <Link href='/about' color='success' underline='always'>Learn how</Link>
+          </p>
+        </div>
+      )}
+
+      {error !== null && error !== undefined && (error as Error)?.message === '' && (
+        <div className='w-full mt-4'>
+          <p className='text-danger-500 text-center'>
+            An error occurred, make sure you have set your API key correctly. {' '}
+            <Link href='/about' color='success' underline='always'>Learn how</Link>
+          </p>
+        </div>
+      )}
+
       {countFilledMovies([...recommendedMovies]) > 0 && (
         <div>
           <span className='flex items-center gap-4 mt-1'>
-            <h2 className='text-lg text-secondary-500'>MOVIES YOU <b>WILL </b>LIKE</h2>
+            <h2 className='text-lg text-secondary-500'>
+              MOVIES YOU <b>WILL </b>LIKE
+            </h2>
             <Chip
               onClose={() => {
                 resetRecommendedMovies()
