@@ -68,7 +68,7 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
         <div className='w-full mt-4'>
           <p className='text-danger-500 text-center'>
             You have reached the limit of free recommendations for today. Set your own API key to have unlimited access {' '}
-            <Link href='/about' color='success' underline='always'>Learn how</Link>
+            <Link href='/about#error-limit' color='success' underline='always'>Learn how</Link>
           </p>
         </div>
       )}
