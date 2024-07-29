@@ -26,7 +26,6 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
     error
   } = useGetRecommendations()
 
-  console.log((error as Error)?.message ?? 'No error')
   return (
     <section id='movie-recommendations' className='w-full mt-8'>
       <div className='w-full flex items-center justify-evenly'>
@@ -77,7 +76,7 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
         <div className='w-full mt-4'>
           <p className='text-danger-500 text-center'>
             An error occurred, make sure you have set your API key correctly. {' '}
-            <Link href='/about' color='success' underline='always'>Learn how</Link>
+            <Link href='/about#error-api' color='success' underline='always'>Learn how</Link>
           </p>
         </div>
       )}

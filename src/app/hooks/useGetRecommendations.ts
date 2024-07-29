@@ -2,15 +2,28 @@ import { experimental_useObject as useObject } from 'ai/react'
 import { moviesSchema, recommendedMoviesSchema } from '../schemas/movie'
 import { type Movie } from '../schemas/movie'
 import emptyMoviesObject from '../constants/emptyMovies.json'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useContext } from 'react'
 import { getCompleteMovie } from '../services/completeMovie'
 import { useLocalStorage } from './useLocalStorage'
+import { ApiKeyContext } from '../../components/ApiKeyContext'
 
 const emptyMovies: Movie[] = [...emptyMoviesObject]
 
 export function useGetRecommendations () {
+  const [apiKey, setApiKey] = useState('')
+
+  const apiKeyContext = useContext(ApiKeyContext)
+
+  useEffect(() => {
+    setApiKey(apiKeyContext)
+  }, [apiKeyContext])
+
+  useEffect(() => {
+    setApiKey(apiKeyContext)
+  }, [])
+
   const { object, submit, isLoading, stop, error } = useObject({
-    api: '/api/completion',
+    api: `/api/completion${apiKey !== '' ? `?api_key=${apiKey}` : ''}`,
     schema: moviesSchema,
     onError: () => {
       stop()

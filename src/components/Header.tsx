@@ -24,31 +24,40 @@ import { usePathname } from 'next/navigation'
 import { Settings } from 'lucide-react'
 import { useLocalStorage } from '@/app/hooks/useLocalStorage'
 
-export default function Header () {
+interface Props {
+  setUserApiKey: (apiKey: string) => void
+}
+
+export default function Header ({ setUserApiKey }: Props) {
   const path = usePathname()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const [apiKey, setApiKey] = useState('')
   const [inputValue, setInputValue] = useState('')
   const [apiKeyDB, setApiKeyDB] = useLocalStorage('apiKey', '')
   const [customApiKey, setCustomApiKey] = useState(false)
+  const [swichValue, setSwichValue] = useState(false)
 
   function saveApiKey (onClose: () => void) {
-    if (inputValue !== '' && customApiKey) {
+    if (inputValue !== '' && swichValue) {
       setApiKey(inputValue)
       onClose()
-    } else if (!customApiKey) {
+    } else if (!swichValue) {
       setApiKey('')
+      setInputValue('')
       onClose()
     }
   }
 
   useEffect(() => {
     setApiKey(apiKeyDB)
-    if (apiKeyDB !== '') setCustomApiKey(true)
+    setCustomApiKey(apiKeyDB !== '')
+    setSwichValue(apiKeyDB !== '')
   }, [])
 
   useEffect(() => {
     setApiKeyDB(apiKey)
+    setUserApiKey(apiKey)
+    setCustomApiKey(swichValue)
   }, [apiKey])
 
   return (
@@ -75,14 +84,23 @@ export default function Header () {
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Button onPress={() => { onOpen(); setInputValue(apiKey) }} startContent={<Settings size={18} />}>
+          <Button
+            onPress={() => {
+              setSwichValue(customApiKey)
+              onOpen()
+              setInputValue(apiKey)
+            }}
+            startContent={<Settings size={18} />}
+          >
             Settings
           </Button>
         </NavbarItem>
       </NavbarContent>
       <Modal
         isOpen={isOpen}
-        onOpenChange={() => { onOpenChange() }}
+        onOpenChange={() => {
+          onOpenChange()
+        }}
         className='bg-background-100'
       >
         <ModalContent>
@@ -93,11 +111,19 @@ export default function Header () {
               </ModalHeader>
               <ModalBody>
                 <p className='mt-4'>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
+                  If you enable this option, you can use your own OPENAI API key to have
+                  unlimited access to NextFive.
                 </p>
-                <Switch className='mt-4' isSelected={customApiKey} onValueChange={setCustomApiKey}>Custom API key</Switch>
+                <p>
+                  Your api key is <b><em>only stored in your browser and is not shared with anyone.</em></b>
+                </p>
+                <Switch
+                  className='mt-4'
+                  isSelected={swichValue}
+                  onValueChange={setSwichValue}
+                >
+                  Custom API key
+                </Switch>
                 <Input
                   className='mt-4'
                   label='Api Key'
@@ -105,7 +131,7 @@ export default function Header () {
                   onValueChange={setInputValue}
                   placeholder='Enter your API key'
                   variant='bordered'
-                  isDisabled={!customApiKey}
+                  isDisabled={!swichValue}
                 />
               </ModalBody>
               <ModalFooter>
@@ -115,8 +141,10 @@ export default function Header () {
                 <Button
                   color='primary'
                   className='text-background'
-                  onPress={() => { saveApiKey(onClose) }}
-                  isDisabled={inputValue === '' && customApiKey}
+                  onPress={() => {
+                    saveApiKey(onClose)
+                  }}
+                  isDisabled={inputValue === '' && swichValue}
                 >
                   Save
                 </Button>
