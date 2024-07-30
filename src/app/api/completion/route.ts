@@ -12,6 +12,7 @@ export async function POST (req: NextRequest) {
   let ratelimit: Ratelimit | null = null
   const { searchParams } = new URL(req.url)
   const apiKey = searchParams.get('api_key')
+  const model = searchParams.get('model')
   const openai = createOpenAI({ apiKey: apiKey !== '' ? apiKey ?? undefined : process.env.OPENAI_API_KEY })
   if (process.env.LIMIT_ACTIVE === 'true' && process.env.USER_API_KEY !== '') {
     // Create Rate limit
@@ -30,7 +31,7 @@ export async function POST (req: NextRequest) {
   }
   const context = await req.json()
   const result = await streamObject({
-    model: openai('gpt-4o-mini'),
+    model: openai(model ?? 'gpt-4o-mini'),
     schema: moviesSchema,
     system: 'You are a movie recommendation system. You are an expert on movies and TV series.',
     prompt: context,

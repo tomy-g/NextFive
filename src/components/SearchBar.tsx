@@ -121,7 +121,7 @@ export default function SearchBar ({
       <Select
         selectedKeys={[type]}
         onSelectionChange={(keys: 'all' | Set<Key>) => {
-          if (keys === 'all') {
+          if (keys === 'all' || keys.size === 0) {
             setType('both')
           } else {
             const selectedKey = Array.from(keys).join(', ')
@@ -129,6 +129,7 @@ export default function SearchBar ({
             changeType(selectedKey)
           }
         }}
+        selectionMode='single'
         className='w-52'
         variant='bordered'
         label='I want to watch'

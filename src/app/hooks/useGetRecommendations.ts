@@ -6,24 +6,32 @@ import { useEffect, useRef, useState, useContext } from 'react'
 import { getCompleteMovie } from '../services/completeMovie'
 import { useLocalStorage } from './useLocalStorage'
 import { ApiKeyContext } from '../../components/ApiKeyContext'
+import { ModelContext } from '../../components/ModelContext'
 
 const emptyMovies: Movie[] = [...emptyMoviesObject]
 
 export function useGetRecommendations () {
   const [apiKey, setApiKey] = useState('')
+  const [model, setModel] = useState('')
 
   const apiKeyContext = useContext(ApiKeyContext)
+  const modelContext = useContext(ModelContext)
 
   useEffect(() => {
     setApiKey(apiKeyContext)
   }, [apiKeyContext])
 
   useEffect(() => {
+    setModel(modelContext)
+  }, [modelContext])
+
+  useEffect(() => {
     setApiKey(apiKeyContext)
+    setModel(modelContext)
   }, [])
 
   const { object, submit, isLoading, stop, error } = useObject({
-    api: `/api/completion${apiKey !== '' ? `?api_key=${apiKey}` : ''}`,
+    api: `/api/completion${model !== '' ? `?model=${model}` : ''}${apiKey !== '' ? `&api_key=${apiKey}` : ''}`,
     schema: moviesSchema,
     onError: () => {
       stop()

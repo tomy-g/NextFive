@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { type Key, useEffect, useState } from 'react'
 import {
   Button,
   Input,
@@ -9,6 +9,8 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Select,
+  SelectItem,
   Switch,
   useDisclosure
 } from '@nextui-org/react'
@@ -26,9 +28,10 @@ import { useLocalStorage } from '@/app/hooks/useLocalStorage'
 
 interface Props {
   setUserApiKey: (apiKey: string) => void
+  setModelGlobal: (apiKey: string) => void
 }
 
-export default function Header ({ setUserApiKey }: Props) {
+export default function Header ({ setUserApiKey, setModelGlobal }: Props) {
   const path = usePathname()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const [apiKey, setApiKey] = useState('')
@@ -36,8 +39,14 @@ export default function Header ({ setUserApiKey }: Props) {
   const [apiKeyDB, setApiKeyDB] = useLocalStorage('apiKey', '')
   const [customApiKey, setCustomApiKey] = useState(false)
   const [swichValue, setSwichValue] = useState(false)
+  const [select, setSelect] = useState('gpt-4o-mini')
+  const [model, setModel] = useState('gpt-4o-mini')
+  const [modelDB, setModelDB] = useLocalStorage('model', 'gpt-4o-mini')
 
-  function saveApiKey (onClose: () => void) {
+  function saveSettings (onClose: () => void) {
+    setModel(select)
+    setModelDB(select)
+    setModelGlobal(select)
     if (inputValue !== '' && swichValue) {
       setApiKey(inputValue)
       onClose()
@@ -52,6 +61,8 @@ export default function Header ({ setUserApiKey }: Props) {
     setApiKey(apiKeyDB)
     setCustomApiKey(apiKeyDB !== '')
     setSwichValue(apiKeyDB !== '')
+    setModel(modelDB)
+    setModelGlobal(modelDB)
   }, [])
 
   useEffect(() => {
@@ -59,6 +70,11 @@ export default function Header ({ setUserApiKey }: Props) {
     setUserApiKey(apiKey)
     setCustomApiKey(swichValue)
   }, [apiKey])
+
+  const options = [
+    { key: 'gpt-4o-mini', label: 'GPT 4o Mini' },
+    { key: 'gpt-4o', label: 'GPT 4o (recomended)' }
+  ]
 
   return (
     <Navbar
@@ -89,6 +105,7 @@ export default function Header ({ setUserApiKey }: Props) {
               setSwichValue(customApiKey)
               onOpen()
               setInputValue(apiKey)
+              setSelect(model)
             }}
             startContent={<Settings size={18} />}
           >
@@ -111,11 +128,16 @@ export default function Header ({ setUserApiKey }: Props) {
               </ModalHeader>
               <ModalBody>
                 <p className='mt-4'>
-                  If you enable this option, you can use your own OPENAI API key to have
-                  unlimited access to NextFive.
+                  If you enable this option, you can use your own OPENAI API key
+                  to have unlimited access to NextFive.
                 </p>
                 <p>
-                  Your api key is <b><em>only stored in your browser and is not shared with anyone.</em></b>
+                  Your api key is{' '}
+                  <b>
+                    <em>
+                      only stored in your browser and is not shared with anyone.
+                    </em>
+                  </b>
                 </p>
                 <Switch
                   className='mt-4'
@@ -133,6 +155,27 @@ export default function Header ({ setUserApiKey }: Props) {
                   variant='bordered'
                   isDisabled={!swichValue}
                 />
+                <Select
+                  selectedKeys={[select]}
+                  selectionMode='single'
+                  className='mt-4'
+                  label='Select an AI Model'
+                  variant='bordered'
+                  onSelectionChange={(keys: 'all' | Set<Key>) => {
+                    if (keys === 'all' || keys.size === 0) {
+                      setSelect('gpt-4o-mini')
+                    } else {
+                      const selectedKey = Array.from(keys).join(', ')
+                      setSelect(selectedKey)
+                    }
+                  }}
+                >
+                  {options.map(option => (
+                    <SelectItem key={option.key} value={option.key}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </Select>
               </ModalBody>
               <ModalFooter>
                 <Button color='danger' variant='light' onPress={onClose}>
@@ -142,9 +185,9 @@ export default function Header ({ setUserApiKey }: Props) {
                   color='primary'
                   className='text-background'
                   onPress={() => {
-                    saveApiKey(onClose)
+                    saveSettings(onClose)
                   }}
-                  isDisabled={inputValue === '' && swichValue}
+                  isDisabled={(inputValue === '' && swichValue) || select === ''}
                 >
                   Save
                 </Button>

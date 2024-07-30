@@ -66,7 +66,7 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
       {error !== null && error !== undefined && (error as Error)?.message === 'Ratelimited!' && (
         <div className='w-full mt-4'>
           <p className='text-danger-500 text-center'>
-            You have reached the limit of free recommendations for today. Set your own API key to have unlimited access {' '}
+            You have reached the limit of free recommendations for today. Set your own API key in <br>Settings</br> to have unlimited access {' '}
             <Link href='/about#error-limit' color='success' underline='always'>Learn how</Link>
           </p>
         </div>
