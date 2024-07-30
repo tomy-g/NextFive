@@ -31,7 +31,8 @@ const movieSchema = z.object({
   BoxOffice: z.string().optional(),
   Production: z.string().optional(),
   Website: z.string().optional(),
-  Response: z.string().optional()
+  Response: z.string().optional(),
+  OriginalID: z.string().optional(),
 })
 
 const moviesSchema = z.object({

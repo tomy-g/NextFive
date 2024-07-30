@@ -102,10 +102,12 @@ export function useGetRecommendations () {
             throw new Error(completeMovie.message)
           }
           auxRecommendedMovies.current[index] = completeMovie
+          auxRecommendedMovies.current[index].OriginalID = movie.OriginalID
           setRecommendedMovies(prevMovies => {
             const updatedMovies = [...prevMovies]
             updatedMovies[index] = completeMovie
             updatedMovies[index].State = 'ok'
+            updatedMovies[index].OriginalID = movie.OriginalID
             return updatedMovies
           })
           if (
@@ -128,10 +130,12 @@ export function useGetRecommendations () {
               throw new Error(firstMovie.message)
             }
             auxRecommendedMovies.current[index] = firstMovie
+            auxRecommendedMovies.current[index].OriginalID = movie.OriginalID
             setRecommendedMovies(prevMovies => {
               const updatedMovies = [...prevMovies]
               updatedMovies[index] = firstMovie
               updatedMovies[index].State = 'ok'
+              updatedMovies[index].OriginalID = movie.OriginalID
               return updatedMovies
             })
             if (
@@ -151,6 +155,7 @@ export function useGetRecommendations () {
             setRecommendedMovies(prevMovies => {
               const updatedMovies = [...prevMovies]
               updatedMovies[index] = errorMovie
+              updatedMovies[index].OriginalID = movie.OriginalID
               return updatedMovies
             })
           }
@@ -165,16 +170,20 @@ export function useGetRecommendations () {
             !auxRecommendedMovies.current.some(
               finalMovie =>
                 // finalMovie.imdbID === newMovie?.imdbID &&
-                finalMovie.Title === newMovie?.Title
+                finalMovie.OriginalID === newMovie?.imdbID
               // &&
               // finalMovie.Year === newMovie?.Year
             )
         )
         for (const movie of allNew ?? []) {
+          const current = { ...movie }
+          if (current !== undefined) {
+            current.OriginalID = current.imdbID
+          }
           const index = [...auxRecommendedMovies.current].findIndex(
             finalMovie => finalMovie.imdbID.length === 1
           )
-          await pushLastModified(movie, index)
+          await pushLastModified(current, index)
         }
       }
     }
