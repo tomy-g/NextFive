@@ -8,6 +8,8 @@ import imdb from '@/app/assets/IMDB.svg'
 import metacritic from '@/app/assets/Metacritic.svg'
 import rottentomatoes from '@/app/assets/Rotten_Tomatoes.svg'
 import { Clapperboard, Tv } from 'lucide-react'
+import nophoto from '@/app/assets/no-photo-min.png'
+
 export default function MoviePage ({ params }: { params: { imdbID: string } }) {
   const [movie, setMovie] = useState<Movie>({
     imdbID: '',
@@ -41,7 +43,7 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
         <Skeleton isLoaded={!isLoading} className='rounded-md w-[100%]'>
           <Image
             as={NextImage}
-            src={movie.Poster}
+            src={movie.Poster !== 'N/A' ? movie.Poster : nophoto.src}
             width={300}
             className='rounded-md aspect-[0.675/1]'
             height={448}
@@ -51,7 +53,7 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
           <Link
             isExternal
             showAnchorIcon
-            href={`https://www.imdb.com/title/${movie.imdbID}`}
+            href={`https://www.imdb.com/title/${movie?.imdbID ?? ''}`}
             className='!color-focus text-xs sm:text-lg z-50'
             underline='hover'
             color='success'
@@ -67,13 +69,13 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
               {movie.Title}
             </h1>
             <div className='flex mr-auto'>
-              <span className='pb-4 text-md sm:text-2xl text-white'>{`(${movie.Year?.split(
+              <span className='sm:pb-4 text-md sm:text-2xl text-white'>{`(${movie?.Year?.split(
                 '–'
               )[0].trim()})`}</span>
               {movie.Type === 'movie' && (
                 <Tooltip content='Film' showArrow color='secondary'>
                   <Clapperboard
-                    className='ml-4 self-center text-secondary-700 mb-4'
+                    className='ml-4 self-center text-secondary-700 sm:mb-4'
                     size={18}
                   />
                 </Tooltip>
@@ -81,7 +83,7 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
               {movie.Type === 'series' && (
                 <Tooltip content='TV Show' showArrow color='secondary'>
                   <Tv
-                    className='ml-4 self-center text-secondary-700 mb-4'
+                    className='ml-4 self-center text-secondary-700 sm:mb-4'
                     size={18}
                   />
                 </Tooltip>

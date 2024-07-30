@@ -47,3 +47,16 @@ export function cleanIndexes (movies: Movie[]): void {
     }
   })
 }
+
+export function halfString (string: string): string {
+  let middle = Math.floor(string.length / 2)
+  const before = string.lastIndexOf(' ', middle)
+  const after = string.indexOf(' ', middle + 1)
+  if (middle - before < after - middle) {
+    middle = before
+  } else {
+    middle = after
+  }
+  const s1 = string.substr(0, middle)
+  return s1
+}

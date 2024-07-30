@@ -74,11 +74,11 @@ const config: Config = {
             }
           }
         },
-        'five-light': {
-          extend: 'light',
-          layout: {},
-          colors: {}
-        }
+        // 'five-light': {
+        //   extend: 'light',
+        //   layout: {},
+        //   colors: {}
+        // }
       }
     })
   ]

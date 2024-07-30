@@ -7,6 +7,7 @@ import { getCompleteMovie } from '../services/completeMovie'
 import { useLocalStorage } from './useLocalStorage'
 import { ApiKeyContext } from '../../components/ApiKeyContext'
 import { ModelContext } from '../../components/ModelContext'
+import { halfString } from '../utils/utils'
 
 const emptyMovies: Movie[] = [...emptyMoviesObject]
 
@@ -31,7 +32,9 @@ export function useGetRecommendations () {
   }, [])
 
   const { object, submit, isLoading, stop, error } = useObject({
-    api: `/api/completion${model !== '' ? `?model=${model}` : ''}${apiKey !== '' ? `&api_key=${apiKey}` : ''}`,
+    api: `/api/completion${model !== '' ? `?model=${model}` : ''}${
+      apiKey !== '' ? `&api_key=${apiKey}` : ''
+    }`,
     schema: moviesSchema,
     onError: () => {
       stop()
@@ -116,14 +119,41 @@ export function useGetRecommendations () {
             })
           }
         } catch (error) {
-          const errorMovie = { ...movie }
-          errorMovie.State = 'error'
-          auxRecommendedMovies.current[index] = errorMovie
-          setRecommendedMovies(prevMovies => {
-            const updatedMovies = [...prevMovies]
-            updatedMovies[index] = errorMovie
-            return updatedMovies
-          })
+          try {
+            const firstMovie: any = await getCompleteMovie({
+              title: halfString(movie.Title),
+              year: movie.Year
+            })
+            if (firstMovie.error === true) {
+              throw new Error(firstMovie.message)
+            }
+            auxRecommendedMovies.current[index] = firstMovie
+            setRecommendedMovies(prevMovies => {
+              const updatedMovies = [...prevMovies]
+              updatedMovies[index] = firstMovie
+              updatedMovies[index].State = 'ok'
+              return updatedMovies
+            })
+            if (
+              prevRecommendedMovies.find(
+                ({ imdbID }) => imdbID === firstMovie.imdbID
+              ) === undefined
+            ) {
+              setPrevRecommendedMovies(prevPrevMovies => {
+                const newPrevMovies = [...prevPrevMovies, firstMovie]
+                return newPrevMovies
+              })
+            }
+          } catch (e) {
+            const errorMovie = { ...movie }
+            errorMovie.State = 'error'
+            auxRecommendedMovies.current[index] = errorMovie
+            setRecommendedMovies(prevMovies => {
+              const updatedMovies = [...prevMovies]
+              updatedMovies[index] = errorMovie
+              return updatedMovies
+            })
+          }
         }
       }
     }
@@ -135,8 +165,9 @@ export function useGetRecommendations () {
             !auxRecommendedMovies.current.some(
               finalMovie =>
                 // finalMovie.imdbID === newMovie?.imdbID &&
-                finalMovie.Title === newMovie?.Title &&
-                finalMovie.Year === newMovie?.Year
+                finalMovie.Title === newMovie?.Title
+              // &&
+              // finalMovie.Year === newMovie?.Year
             )
         )
         for (const movie of allNew ?? []) {
