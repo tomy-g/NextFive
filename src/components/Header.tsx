@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { Button, Link, useDisclosure } from '@nextui-org/react'
+import { Button, Link, NavbarMenu, NavbarMenuItem, NavbarMenuToggle, useDisclosure } from '@nextui-org/react'
 import LinkNext from 'next/link'
 import {
   Navbar,
@@ -28,9 +28,10 @@ export default function Header ({ setUserApiKey, setModelGlobal }: Props) {
   const [apiKeyDB, setApiKeyDB] = useLocalStorage('apiKey', '')
   const [customApiKey, setCustomApiKey] = useState(false)
   const [switchValue, setSwitchValue] = useState(false)
-  const [select, setSelect] = useState('gpt-4o-mini')
-  const [model, setModel] = useState('gpt-4o-mini')
-  const [modelDB, setModelDB] = useLocalStorage('model', 'gpt-4o-mini')
+  const [select, setSelect] = useState('gpt-4o')
+  const [model, setModel] = useState('gpt-4o')
+  const [modelDB, setModelDB] = useLocalStorage('model', 'gpt-4o')
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
   useEffect(() => {
     setApiKey(apiKeyDB)
@@ -47,7 +48,7 @@ export default function Header ({ setUserApiKey, setModelGlobal }: Props) {
   }, [apiKey])
 
   return (
-    <Navbar
+    <Navbar onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}
       classNames={{
         wrapper: 'px-0',
         item: ['data-[active=true]:!text-primary']
@@ -83,6 +84,36 @@ export default function Header ({ setUserApiKey, setModelGlobal }: Props) {
           </Button>
         </NavbarItem>
       </NavbarContent>
+      <NavbarMenuToggle
+          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+          className="sm:hidden"
+        />
+      <NavbarMenu className='items-end gap-8'>
+        <NavbarMenuItem isActive={path === '/recommendations'}>
+          <Link onPress={() => { setIsMenuOpen(false) }} className='text-inherit' href='/recommendations'>
+            Recommendations
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem isActive={path === '/about'}>
+          <Link onPress={() => { setIsMenuOpen(false) }} className='text-inherit' href='/about'>
+            About
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Button
+            onPress={() => {
+              setIsMenuOpen(false)
+              setSwitchValue(customApiKey)
+              onOpen()
+              setInputValue(apiKey)
+              setSelect(model)
+            }}
+            startContent={<Settings size={18} />}
+          >
+            Settings
+          </Button>
+        </NavbarMenuItem>
+      </NavbarMenu>
       <SettingsPanel
         isOpen={isOpen}
         onOpenChange={onOpenChange}

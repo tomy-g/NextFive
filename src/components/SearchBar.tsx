@@ -66,7 +66,7 @@ export default function SearchBar ({
         <Input
           value={searchTerm}
           isClearable
-          label='Search for a movie:'
+          label='Search Movie/TV show:'
           labelPlacement='outside-left'
           onChange={handleChange}
           onFocus={() => {
@@ -80,7 +80,7 @@ export default function SearchBar ({
             setSearchTerm('')
             void debounced('')
           }}
-          placeholder='The Godfather, Pulp Fiction, Se7en...'
+          placeholder='The Godfather, Pulp Fiction, Star Wars...'
           startContent={
             <Search
               className='text-foreground-200'
@@ -95,7 +95,7 @@ export default function SearchBar ({
             mainWrapper: 'w-full',
             base: 'justify-between items-center',
             label:
-              'w-[20%] text-foreground text-md lg:block hidden sm:text-nowrap',
+              'w-[33%] text-foreground text-md lg:block hidden sm:text-nowrap',
           }}
           radius='full'
           variant='bordered'

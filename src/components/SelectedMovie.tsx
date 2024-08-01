@@ -14,7 +14,7 @@ interface Props {
 
 function SelectedMovie ({ movie, deselectMovie }: Props) {
   return (
-    <li className='list-none flex-1' key={movie.imdbID}>
+    <li className='list-none max-sm:w-[30%]' key={movie.imdbID}>
       <Skeleton
         className='rounded-md'
         isLoaded={movie.State !== 'loading'}

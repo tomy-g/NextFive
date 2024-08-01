@@ -39,7 +39,7 @@ export default function SelectedMovieCard ({ movie, deselectMovie }: Props) {
             isIconOnly
             variant='light'
             radius='full'
-            className='mx-auto !bg-background text-white !hover:bg-background opacity-75  hover:opacity-100  !important hover:text-danger '
+            className='mx-auto max-sm:mb-2 !bg-background text-white !hover:bg-background opacity-75  hover:opacity-100  !important hover:text-danger '
             onPress={() => {
               deselectMovie(movie)
             }}

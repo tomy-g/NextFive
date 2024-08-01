@@ -15,7 +15,7 @@ export default function Recommendation ({ movie }: Props) {
         (movie.Poster !== undefined && movie.Poster.length > 0) ||
         movie.State === 'error'
       }
-      className='rounded-md '
+      className='rounded-md max-sm:w-[30%]'
       role='listitem'
     >
       {movie.State === 'error'

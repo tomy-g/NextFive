@@ -6,11 +6,12 @@ import { ModelContext } from '@/contexts/ModelContext'
 import { NextUIProvider } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import Footer from '@/components/Footer'
 
 export function Providers ({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const [userApiKey, setUserApiKey] = useState('')
-  const [model, setModel] = useState('gpt-4o-mini')
+  const [model, setModel] = useState('gpt-4o')
   return (
     <NextUIProvider navigate={router.push}>
       <Header setUserApiKey={setUserApiKey} setModelGlobal={setModel}/>
@@ -19,6 +20,7 @@ export function Providers ({ children }: { children: React.ReactNode }) {
           {children}
         </ModelContext.Provider>
       </ApiKeyContext.Provider>
+      <Footer/>
     </NextUIProvider>
   )
 }

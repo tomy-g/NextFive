@@ -31,7 +31,7 @@ export async function POST (req: NextRequest) {
   }
   const context = await req.json()
   const result = await streamObject({
-    model: openai(model ?? 'gpt-4o-mini'),
+    model: openai(model ?? 'gpt-4o'),
     schema: moviesSchema,
     system: 'You are a movie recommendation system. You are an expert on movies and TV series.',
     prompt: context,

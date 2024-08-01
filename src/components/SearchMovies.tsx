@@ -72,7 +72,7 @@ const SearchMovies = ({
         )}
       </span>
       <Divider className='mt-1 bg-secondary-500 mb-2' />
-      <ul className='flex gap-2 list-none'>
+      <ul className='flex flex-wrap sm:flex-nowrap gap-2 sm-items-stretch max-sm:justify-center max-sm:gap-4 list-none max-sm:[&>*:nth-child(4n)]:ml-[auto] max-sm:[&>*:nth-child(5n)]:mr-[auto]'>
         {selectedMovies.length > 0 &&
           selectedMovies?.map(movie => (
             <SelectedMovie

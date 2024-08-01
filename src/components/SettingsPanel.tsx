@@ -1,6 +1,8 @@
 import {
   Button,
+  Divider,
   Input,
+  Link,
   Modal,
   ModalBody,
   ModalContent,
@@ -10,6 +12,7 @@ import {
   SelectItem,
   Switch
 } from '@nextui-org/react'
+import { IconBrandOpenai } from '@tabler/icons-react'
 import React, { type Key } from 'react'
 
 interface Props {
@@ -66,26 +69,31 @@ export default function SettingsPanel ({
         onOpenChange()
       }}
       className='bg-background-100'
+      placement='center'
     >
       <ModalContent>
         {onClose => (
           <>
             <ModalHeader className='flex flex-col gap-1'>Settings</ModalHeader>
             <ModalBody>
-              <p className='mt-4'>
-                If you enable this option, you can use your own OPENAI API key
+              <h2 className='inline-flex mt-2 text-lg gap-2 items-center'>
+                 <IconBrandOpenai size={20} stroke={1.5}/>
+                 Open AI API Key
+              <Link href='/about#apikey' className='ml-2 text-secondary-700' size='sm' underline='hover' onPress={onClose}>Read more</Link>
+
+              </h2>
+              <p className='mt-2 text-foreground-500'>
+                If you enable this option, you can use your own OpenAI API key
                 to have unlimited access to NextFive.
               </p>
-              <p>
+              <p className='text-foreground-500'>
                 Your api key is{' '}
                 <b>
-                  <em>
-                    only stored in your browser and is not shared with anyone.
-                  </em>
+                  only stored in your browser and is not shared with anyone.
                 </b>
               </p>
               <Switch
-                className='mt-4'
+                className='mt-2'
                 isSelected={switchValue}
                 onValueChange={setSwitchValue}
               >
@@ -96,19 +104,25 @@ export default function SettingsPanel ({
                 label='Api Key'
                 value={inputValue}
                 onValueChange={setInputValue}
-                placeholder='Enter your API key'
+                placeholder='Enter your OpenAI API key'
                 variant='bordered'
                 isDisabled={!switchValue}
               />
+              <Divider className='my-4'/>
+              <h2 className='inline-flex mt-2 text-lg gap-2 items-center'>
+                 <IconBrandOpenai size={20} stroke={1.5}/>
+                 GPT Model
+              <Link href='/about#models' size='sm' className='ml-2 text-secondary-700' underline='hover' onPress={onClose}>Read more</Link>
+              </h2>
               <Select
                 selectedKeys={[select]}
                 selectionMode='single'
-                className='mt-4'
+                className='mt-2'
                 label='Select an AI Model'
                 variant='bordered'
                 onSelectionChange={(keys: 'all' | Set<Key>) => {
                   if (keys === 'all' || keys.size === 0) {
-                    setSelect('gpt-4o-mini')
+                    setSelect('gpt-4o')
                   } else {
                     const selectedKey = Array.from(keys).join(', ')
                     setSelect(selectedKey)
