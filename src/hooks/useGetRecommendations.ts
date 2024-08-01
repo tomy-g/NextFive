@@ -1,13 +1,13 @@
 import { experimental_useObject as useObject } from 'ai/react'
-import { moviesSchema, recommendedMoviesSchema } from '../schemas/movie'
-import { type Movie } from '../schemas/movie'
-import emptyMoviesObject from '../constants/emptyMovies.json'
+import { moviesSchema, recommendedMoviesSchema } from '@/schemas/movie'
+import { type Movie } from '@/schemas/movie'
+import emptyMoviesObject from '@/constants/emptyMovies.json'
 import { useEffect, useRef, useState, useContext } from 'react'
-import { getCompleteMovie } from '../services/completeMovie'
+import { getCompleteMovie } from '@/services/completeMovie'
 import { useLocalStorage } from './useLocalStorage'
-import { ApiKeyContext } from '../../components/ApiKeyContext'
-import { ModelContext } from '../../components/ModelContext'
-import { halfString } from '../utils/utils'
+import { ApiKeyContext } from '@/contexts/ApiKeyContext'
+import { ModelContext } from '@/contexts/ModelContext'
+import { halfString } from '@/utils/utils'
 
 const emptyMovies: Movie[] = [...emptyMoviesObject]
 
@@ -122,29 +122,29 @@ export function useGetRecommendations () {
           }
         } catch (error) {
           try {
-            const firstMovie: any = await getCompleteMovie({
+            const completeMovie: any = await getCompleteMovie({
               title: halfString(movie.Title),
               year: movie.Year
             })
-            if (firstMovie.error === true) {
-              throw new Error(firstMovie.message)
+            if (completeMovie.error === true) {
+              throw new Error(completeMovie.message)
             }
-            auxRecommendedMovies.current[index] = firstMovie
+            auxRecommendedMovies.current[index] = completeMovie
             auxRecommendedMovies.current[index].OriginalID = movie.OriginalID
             setRecommendedMovies(prevMovies => {
               const updatedMovies = [...prevMovies]
-              updatedMovies[index] = firstMovie
+              updatedMovies[index] = completeMovie
               updatedMovies[index].State = 'ok'
               updatedMovies[index].OriginalID = movie.OriginalID
               return updatedMovies
             })
             if (
               prevRecommendedMovies.find(
-                ({ imdbID }) => imdbID === firstMovie.imdbID
+                ({ imdbID }) => imdbID === completeMovie.imdbID
               ) === undefined
             ) {
               setPrevRecommendedMovies(prevPrevMovies => {
-                const newPrevMovies = [...prevPrevMovies, firstMovie]
+                const newPrevMovies = [...prevPrevMovies, completeMovie]
                 return newPrevMovies
               })
             }
@@ -169,10 +169,7 @@ export function useGetRecommendations () {
           newMovie =>
             !auxRecommendedMovies.current.some(
               finalMovie =>
-                // finalMovie.imdbID === newMovie?.imdbID &&
                 finalMovie.OriginalID === newMovie?.imdbID
-              // &&
-              // finalMovie.Year === newMovie?.Year
             )
         )
         for (const movie of allNew ?? []) {

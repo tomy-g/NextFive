@@ -3,10 +3,10 @@ import React, { type MutableRefObject } from 'react'
 import { type DebouncedState } from 'use-debounce'
 import SelectedMovie from './SelectedMovie'
 import SearchBar from './SearchBar'
-import type { Movie } from '@/app/schemas/movie'
+import type { Movie } from '@/schemas/movie'
 import { Chip, Divider } from '@nextui-org/react'
-import emptyMoviesObject from '@/app/constants/emptyMovies.json'
-import { countFilledMovies } from '@/app/utils/utils'
+import emptyMoviesObject from '@/constants/emptyMovies.json'
+import { countFilledMovies } from '@/utils/utils'
 interface Props {
   isOpen: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -15,7 +15,6 @@ interface Props {
   errorSearch: string | null
   errorGet: string | null
   suggestedMovies: Movie[]
-  getMovies: ({ search }: { search: string }) => Promise<void>
   selectedMovies: Movie[]
   setSelectedMovies: React.Dispatch<React.SetStateAction<Movie[]>>
   selectMovie: (movie: Movie) => Promise<void>
@@ -33,7 +32,6 @@ const SearchMovies = ({
   errorSearch,
   errorGet,
   suggestedMovies,
-  getMovies,
   selectedMovies,
   setSelectedMovies,
   selectMovie,

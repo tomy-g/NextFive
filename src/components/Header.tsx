@@ -1,19 +1,7 @@
 'use client'
-import React, { type Key, useEffect, useState } from 'react'
-import {
-  Button,
-  Input,
-  Link,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  Select,
-  SelectItem,
-  Switch,
-  useDisclosure
-} from '@nextui-org/react'
+
+import React, { useEffect, useState } from 'react'
+import { Button, Link, useDisclosure } from '@nextui-org/react'
 import LinkNext from 'next/link'
 import {
   Navbar,
@@ -24,7 +12,8 @@ import {
 import NextFiveSVG from './NextFiveSVG'
 import { usePathname } from 'next/navigation'
 import { Settings } from 'lucide-react'
-import { useLocalStorage } from '@/app/hooks/useLocalStorage'
+import SettingsPanel from './SettingsPanel'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 interface Props {
   setUserApiKey: (apiKey: string) => void
@@ -38,29 +27,15 @@ export default function Header ({ setUserApiKey, setModelGlobal }: Props) {
   const [inputValue, setInputValue] = useState('')
   const [apiKeyDB, setApiKeyDB] = useLocalStorage('apiKey', '')
   const [customApiKey, setCustomApiKey] = useState(false)
-  const [swichValue, setSwichValue] = useState(false)
+  const [switchValue, setSwitchValue] = useState(false)
   const [select, setSelect] = useState('gpt-4o-mini')
   const [model, setModel] = useState('gpt-4o-mini')
   const [modelDB, setModelDB] = useLocalStorage('model', 'gpt-4o-mini')
 
-  function saveSettings (onClose: () => void) {
-    setModel(select)
-    setModelDB(select)
-    setModelGlobal(select)
-    if (inputValue !== '' && swichValue) {
-      setApiKey(inputValue)
-      onClose()
-    } else if (!swichValue) {
-      setApiKey('')
-      setInputValue('')
-      onClose()
-    }
-  }
-
   useEffect(() => {
     setApiKey(apiKeyDB)
     setCustomApiKey(apiKeyDB !== '')
-    setSwichValue(apiKeyDB !== '')
+    setSwitchValue(apiKeyDB !== '')
     setModel(modelDB)
     setModelGlobal(modelDB)
   }, [])
@@ -68,13 +43,8 @@ export default function Header ({ setUserApiKey, setModelGlobal }: Props) {
   useEffect(() => {
     setApiKeyDB(apiKey)
     setUserApiKey(apiKey)
-    setCustomApiKey(swichValue)
+    setCustomApiKey(switchValue)
   }, [apiKey])
-
-  const options = [
-    { key: 'gpt-4o-mini', label: 'GPT 4o Mini' },
-    { key: 'gpt-4o', label: 'GPT 4o (recomended)' }
-  ]
 
   return (
     <Navbar
@@ -102,7 +72,7 @@ export default function Header ({ setUserApiKey, setModelGlobal }: Props) {
         <NavbarItem>
           <Button
             onPress={() => {
-              setSwichValue(customApiKey)
+              setSwitchValue(customApiKey)
               onOpen()
               setInputValue(apiKey)
               setSelect(model)
@@ -113,89 +83,20 @@ export default function Header ({ setUserApiKey, setModelGlobal }: Props) {
           </Button>
         </NavbarItem>
       </NavbarContent>
-      <Modal
+      <SettingsPanel
         isOpen={isOpen}
-        onOpenChange={() => {
-          onOpenChange()
-        }}
-        className='bg-background-100'
-      >
-        <ModalContent>
-          {onClose => (
-            <>
-              <ModalHeader className='flex flex-col gap-1'>
-                Settings
-              </ModalHeader>
-              <ModalBody>
-                <p className='mt-4'>
-                  If you enable this option, you can use your own OPENAI API key
-                  to have unlimited access to NextFive.
-                </p>
-                <p>
-                  Your api key is{' '}
-                  <b>
-                    <em>
-                      only stored in your browser and is not shared with anyone.
-                    </em>
-                  </b>
-                </p>
-                <Switch
-                  className='mt-4'
-                  isSelected={swichValue}
-                  onValueChange={setSwichValue}
-                >
-                  Custom API key
-                </Switch>
-                <Input
-                  className='mt-4'
-                  label='Api Key'
-                  value={inputValue}
-                  onValueChange={setInputValue}
-                  placeholder='Enter your API key'
-                  variant='bordered'
-                  isDisabled={!swichValue}
-                />
-                <Select
-                  selectedKeys={[select]}
-                  selectionMode='single'
-                  className='mt-4'
-                  label='Select an AI Model'
-                  variant='bordered'
-                  onSelectionChange={(keys: 'all' | Set<Key>) => {
-                    if (keys === 'all' || keys.size === 0) {
-                      setSelect('gpt-4o-mini')
-                    } else {
-                      const selectedKey = Array.from(keys).join(', ')
-                      setSelect(selectedKey)
-                    }
-                  }}
-                >
-                  {options.map(option => (
-                    <SelectItem key={option.key} value={option.key}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </Select>
-              </ModalBody>
-              <ModalFooter>
-                <Button color='danger' variant='light' onPress={onClose}>
-                  Cancel
-                </Button>
-                <Button
-                  color='primary'
-                  className='text-background'
-                  onPress={() => {
-                    saveSettings(onClose)
-                  }}
-                  isDisabled={(inputValue === '' && swichValue) || select === ''}
-                >
-                  Save
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+        onOpenChange={onOpenChange}
+        setApiKey={setApiKey}
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        select={select}
+        setSelect={setSelect}
+        setModel={setModel}
+        setModelDB={setModelDB}
+        setModelGlobal={setModelGlobal}
+        switchValue={switchValue}
+        setSwitchValue={setSwitchValue}
+      />
     </Navbar>
   )
 }

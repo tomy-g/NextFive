@@ -1,4 +1,4 @@
-import { type Movie } from '@/app/schemas/movie'
+import { type Movie } from '@/schemas/movie'
 import React, { useState } from 'react'
 import type { Key, MutableRefObject } from 'react'
 import {

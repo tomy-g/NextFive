@@ -1,5 +1,6 @@
 'use client'
-import { Divider, Link } from '@nextui-org/react'
+import Heading from '@/components/Heading'
+import { Link } from '@nextui-org/react'
 import React from 'react'
 
 export default function About () {
@@ -35,8 +36,7 @@ export default function About () {
       <article>
         <section>
           <h2 className='text-4xl text-primary'>About</h2>
-          <h3 className='text-lg text-secondary-500 mt-8'>WHAT?</h3>
-          <Divider className='bg-secondary-500 mt-1 mb-2' />
+          <Heading title='WHAT?' />
           <p className='mt-4 text-lg text-foreground'>
             NextFive is a web application that uses{' '}
             <Link
@@ -59,8 +59,7 @@ export default function About () {
             APIs to recommend you 5 movies or TV shows based on another 5 of
             your preference.
           </p>
-          <h3 className='text-lg text-secondary-500 mt-8'>WHY?</h3>
-          <Divider className='bg-secondary-500 mt-1 mb-2' />
+          <Heading title='WHY?' />
           <p className='mt-4 text-lg text-foreground'>
             In an era where we are overwhelmed with a great number of options,
             it is common to expend more time choosing what to watch than
@@ -70,8 +69,7 @@ export default function About () {
             The idea behind NextFive is to help you find movies or TV shows that
             you will like based on your preferences.
           </p>
-          <h3 className='text-lg text-secondary-500 mt-8'>HOW?</h3>
-          <Divider className='bg-secondary-500 mt-1 mb-2' />
+          <Heading title='HOW?' />
           <p className='mt-4 text-lg text-foreground'>
             NextFive uses the power of AI to understand your taste and recommend
             you the best options.
@@ -86,8 +84,7 @@ export default function About () {
         </section>
         <section id='usage'>
           <h2 className='text-4xl text-primary mt-12'>Usage</h2>
-          <h3 className='text-lg text-secondary-500 mt-8'>HOW TO USE?</h3>
-          <Divider className='bg-secondary-500 mt-1 mb-2' />
+          <Heading title='HOW TO USE?' />
           <p className='mt-4 text-lg text-foreground'>
             To use NextFive, you just need to search the movies/shows you
             already like, you need to select at least 1. Also you can filter the
@@ -97,18 +94,12 @@ export default function About () {
             Then you can click on the &quot;Recommend&quot; button and the AI
             will give you 5 recommendations based on your preferences.
           </p>
-          <h3 className='text-lg text-secondary-500 mt-8'>
-            CHECK MOVIE DETAILS
-          </h3>
-          <Divider className='bg-secondary-500 mt-1 mb-2' />
+          <Heading title='MOVIE DETAILS' />
           <p className='mt-4 text-lg text-foreground'>
             You can check the details of the movies by clicking on the movie
             card, this will redirect you to the movie page.
           </p>
-          <h3 className='text-lg text-secondary-500 mt-8'>
-            ACCESS PREVIOUS RECOMMENDATIONS
-          </h3>
-          <Divider className='bg-secondary-500 mt-1 mb-2' />
+          <Heading title='PREVIOUS RECOMMENDATIONS' />
           <p className='mt-4 text-lg text-foreground'>
             All the recommendations you have received will be stored in your
             browser memory, so you can access them later.
@@ -127,10 +118,7 @@ export default function About () {
         </section>
         <section id='settings'>
           <h2 className='text-4xl text-primary mt-12'>Settings</h2>
-          <h3 className='text-lg text-secondary-500 mt-8' id='apikey'>
-            API KEY
-          </h3>
-          <Divider className='bg-secondary-500 mt-1 mb-2' />
+          <Heading title='API KEY' />
           <p className='mt-4 text-lg text-foreground'>
             NextFive uses the Open AI API to generate the recommendations. The
             app by default uses a shared API key, which has a limit of 5
@@ -163,8 +151,7 @@ export default function About () {
             will be stored only in your browser memory and <b><em>will not be shared with
             anyone.</em></b>
           </p>
-          <h3 className='text-lg text-secondary-500 mt-8'>AI MODEL</h3>
-          <Divider className='bg-secondary-500 mt-1 mb-2' />
+          <Heading title='AI MODEL' />
           <p className='mt-4 text-lg text-foreground'>
             NextFive uses the GPT-4o model by default to generate the
             recommendations. Currently this is the most powerful model available
@@ -190,10 +177,7 @@ export default function About () {
         </section>
         <section>
           <h2 className='text-4xl text-primary mt-12'>Troubleshoot</h2>
-          <h3 className='text-lg text-secondary-500 mt-8' id='error-limit'>
-            LIMIT REACHED
-          </h3>
-          <Divider className='bg-secondary-500 mt-1 mb-2' />
+          <Heading title='LIMIT REACHED' />
           <p className='mt-4 text-lg text-foreground'>
             If you see the message &quot;You have reached the limit of free
             recommendations for today. Set your own API key to have unlimited
@@ -208,10 +192,7 @@ export default function About () {
             </Link>
             .
           </p>
-          <h3 className='text-lg text-secondary-500 mt-8' id='error-api'>
-            RECOMMENDATION FAILED
-          </h3>
-          <Divider className='bg-secondary-500 mt-1 mb-2' />
+          <Heading title='RECOMMENDATION FAILED' />
           <p className='mt-4 text-lg text-foreground'>
             If you see the message &quot;An error occurred, make sure you have
             set your API key correctly.&quot; it means that the recommendation
@@ -226,10 +207,7 @@ export default function About () {
             </Link>
             .
           </p>
-          <h3 className='text-lg text-secondary-500 mt-8'>
-            MOVIE NOT LOADED CORRECTLY
-          </h3>
-          <Divider className='bg-secondary-500 mt-1 mb-2' />
+          <Heading title='MOVIE NOT LOADED CORRECTLY' />
           <p className='mt-4 text-lg text-foreground'>
             If in one of the recommendation posters you see the message
             &quot;Movie not loaded correctly&quot; It means that the movie

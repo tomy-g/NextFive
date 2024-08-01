@@ -2,7 +2,7 @@ import { streamObject } from 'ai'
 import { createOpenAI } from '@ai-sdk/openai'
 import { kv } from '@vercel/kv'
 import { Ratelimit } from '@upstash/ratelimit'
-import { moviesSchema } from '@/app/schemas/movie'
+import { moviesSchema } from '@/schemas/movie'
 import { type NextRequest } from 'next/server'
 
 // Allow streaming responses up to 30 seconds

@@ -1,5 +1,5 @@
-import { type Movie } from '../schemas/movie'
-import { PROMPT } from '@/app/constants/prompt'
+import { type Movie } from '@/schemas/movie'
+import { PROMPT } from '@/constants/prompt'
 
 export function countFilledMovies (movies: Movie[]): number {
   return movies.filter(movie => movie?.imdbID?.length > 1).length

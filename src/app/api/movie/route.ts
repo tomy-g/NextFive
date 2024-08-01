@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { movieSchema } from '@/app/schemas/movie'
+import { movieSchema } from '@/schemas/movie'
 export async function GET (req: Request) {
   const { searchParams } = new URL(req.url)
   const apiUrl = process.env.MOVIE_API_URL

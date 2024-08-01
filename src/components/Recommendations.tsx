@@ -1,14 +1,14 @@
 'use client'
 
-import { useGetRecommendations } from '@/app/hooks/useGetRecommendations'
+import { useGetRecommendations } from '@/hooks/useGetRecommendations'
 import Recommendation from './Recommendation'
-import type { Movie } from '../app/schemas/movie'
+import type { Movie } from '@/schemas/movie'
 import { Button, Chip, Divider, Link } from '@nextui-org/react'
 import {
   buildPrompt,
   countFilledMovies,
   simplifyMovies
-} from '@/app/utils/utils'
+} from '@/utils/utils'
 
 interface Props {
   selectedMovies: Movie[]

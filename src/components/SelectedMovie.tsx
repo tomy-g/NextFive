@@ -1,5 +1,5 @@
 import React from 'react'
-import { type Movie } from '@/app/schemas/movie'
+import { type Movie } from '@/schemas/movie'
 import {
   Skeleton,
   Tooltip

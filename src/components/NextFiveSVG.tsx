@@ -23,8 +23,8 @@ export default function NextFiveSVG () {
           y2='48'
           gradientUnits='userSpaceOnUse'
         >
-          <stop stopColor='#72CF24' />
-          <stop offset='1' stopColor='#06DA41' />
+          <stop stopColor='var(--c-primary, #72CF24)' />
+          <stop offset='1' stopColor='var(--c-accent, #06da41)' />
         </linearGradient>
       </defs>
     </svg>

@@ -1,6 +1,5 @@
-import { type Movie } from '@/app/schemas/movie'
+import { type Movie } from '@/schemas/movie'
 import { Skeleton } from '@nextui-org/react'
-// import NextImage from 'next/image'
 import React from 'react'
 import RecommendationCard from './RecommendationCard'
 import Link from 'next/link'

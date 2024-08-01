@@ -1,4 +1,4 @@
-import { type Movie } from '../schemas/movie'
+import { type Movie } from '@/schemas/movie'
 
 export async function getSuggestedMovies (search: string, selectedMovies: Movie[]) {
   if (search === '') return null

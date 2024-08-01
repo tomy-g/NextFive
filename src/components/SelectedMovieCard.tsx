@@ -1,9 +1,9 @@
-import { type Movie } from '@/app/schemas/movie'
-import placeholder from '@/app/assets/placeholder-min.png'
-import nopicture from '@/app/assets/no-photo-min.png'
+import { type Movie } from '@/schemas/movie'
+import placeholder from '@/assets/placeholder-min.png'
+import nopicture from '@/assets/no-photo-min.png'
 import NextImage from 'next/image'
 import { Card, Image, CardFooter, Button } from '@nextui-org/react'
-import { isFilled } from '@/app/utils/utils'
+import { isFilled } from '@/utils/utils'
 import { X } from 'lucide-react'
 
 interface Props {
@@ -17,6 +17,7 @@ export default function SelectedMovieCard ({ movie, deselectMovie }: Props) {
       <Image
         as={NextImage}
         priority
+        alt={`${movie.Title} poster`}
         objectFit='cover'
         className='rounded-md aspect-[0.675/1]'
         width={300}

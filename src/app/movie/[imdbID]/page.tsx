@@ -1,14 +1,15 @@
 'use client'
 import { useEffect, useState } from 'react'
-import type { Movie } from '@/app/schemas/movie'
-import { getCompleteMovie } from '@/app/services/completeMovie'
+import type { Movie } from '@/schemas/movie'
+import { getCompleteMovie } from '@/services/completeMovie'
 import { Image, Skeleton, Link, Tooltip } from '@nextui-org/react'
 import NextImage from 'next/image'
-import imdb from '@/app/assets/IMDB.svg'
-import metacritic from '@/app/assets/Metacritic.svg'
-import rottentomatoes from '@/app/assets/Rotten_Tomatoes.svg'
+import imdb from '@/assets/IMDB.svg'
+import metacritic from '@/assets/Metacritic.svg'
+import rottentomatoes from '@/assets/Rotten_Tomatoes.svg'
 import { Clapperboard, Tv } from 'lucide-react'
-import nophoto from '@/app/assets/no-photo-min.png'
+import nophoto from '@/assets/no-photo-min.png'
+import { notFound } from 'next/navigation'
 
 export default function MoviePage ({ params }: { params: { imdbID: string } }) {
   const [movie, setMovie] = useState<Movie>({
@@ -17,12 +18,17 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
     Year: '',
     Director: ''
   })
+  const [error, setError] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     async function loadMovie () {
       try {
         const newMovie = await getCompleteMovie({ id: params.imdbID })
+        if (newMovie.error === true) {
+          setError(true)
+          throw new Error(newMovie.message)
+        }
         setMovie(newMovie)
       } catch (error) {
         console.error(error)
@@ -30,6 +36,10 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
     }
     void loadMovie()
   }, [])
+
+  if (error) {
+    notFound()
+  }
 
   useEffect(() => {
     if (movie.imdbID !== '') {

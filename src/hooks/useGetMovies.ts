@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import { getSuggestedMovies } from '../services/suggestedMovies'
-import { getCompleteMovie } from '../services/completeMovie'
-import { type Movie } from '../schemas/movie'
-import emptyMoviesObject from '../constants/emptyMovies.json'
+import { getSuggestedMovies } from '@/services/suggestedMovies'
+import { getCompleteMovie } from '@/services/completeMovie'
+import { type Movie } from '@/schemas/movie'
+import emptyMoviesObject from '@/constants/emptyMovies.json'
 import { type DebouncedState } from 'use-debounce'
 import { useLocalStorage } from './useLocalStorage'
-import { cleanIndexes, countFilledMovies } from '../utils/utils'
+import { cleanIndexes, countFilledMovies } from '@/utils/utils'
 
 const emptyMovies: Movie[] = [...emptyMoviesObject]
 interface Props {

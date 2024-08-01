@@ -2,8 +2,8 @@
 
 import SearchMovies from '@/components/SearchMovies'
 import Recommendations from '@/components/Recommendations'
-import { useSearchMovies } from './hooks/useSearchMovies'
-import { useGetMovies } from './hooks/useGetMovies'
+import { useSearchMovies } from '@/hooks/useSearchMovies'
+import { useGetMovies } from '@/hooks/useGetMovies'
 import { useDebouncedCallback } from 'use-debounce'
 import { useState } from 'react'
 
@@ -49,7 +49,6 @@ export default function Home () {
         errorSearch={errorSearch}
         errorGet={errorGet}
         suggestedMovies={suggestedMovies}
-        getMovies={getMovies}
         selectedMovies={selectedMovies}
         setSelectedMovies={setSelectedMovies}
         selectMovie={selectMovie}

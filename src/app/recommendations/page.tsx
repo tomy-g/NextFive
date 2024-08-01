@@ -10,11 +10,11 @@ import {
   Tooltip
 } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
-import { useLocalStorage } from '../hooks/useLocalStorage'
-import { type Movie } from '../schemas/movie'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
+import { type Movie } from '@/schemas/movie'
 import { Trash, CircleAlert } from 'lucide-react'
 import NextImage from 'next/image'
-import placeholder from '@/app/assets/placeholder-min.png'
+import placeholder from '@/assets/placeholder-min.png'
 
 export default function Recommendations () {
   const [prevRecommendedMovies, setPrevRecommendedMovies] = useState<Movie[]>(

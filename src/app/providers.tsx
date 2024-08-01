@@ -1,8 +1,8 @@
 'use client'
 
-import { ApiKeyContext } from '@/components/ApiKeyContext'
+import { ApiKeyContext } from '@/contexts/ApiKeyContext'
 import Header from '@/components/Header'
-import { ModelContext } from '@/components/ModelContext'
+import { ModelContext } from '@/contexts/ModelContext'
 import { NextUIProvider } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -16,7 +16,7 @@ export function Providers ({ children }: { children: React.ReactNode }) {
       <Header setUserApiKey={setUserApiKey} setModelGlobal={setModel}/>
       <ApiKeyContext.Provider value={userApiKey}>
         <ModelContext.Provider value={model}>
-        {children}
+          {children}
         </ModelContext.Provider>
       </ApiKeyContext.Provider>
     </NextUIProvider>

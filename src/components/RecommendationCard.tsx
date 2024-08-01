@@ -1,9 +1,9 @@
-import { type Movie } from '@/app/schemas/movie'
+import { type Movie } from '@/schemas/movie'
 import { Card, Image, Tooltip } from '@nextui-org/react'
 import React from 'react'
 import NextImage from 'next/image'
-import error from '@/app/assets/error-min.png'
-import nophoto from '@/app/assets/no-photo-min.png'
+import error from '@/assets/error-min.png'
+import nophoto from '@/assets/no-photo-min.png'
 
 interface Props {
   movie: Movie
@@ -21,7 +21,6 @@ export default function RecommendationCard ({ movie }: Props) {
           </p>
         }
         placement='bottom'
-        className=''
         color='secondary'
         isDisabled={
           movie?.Title?.length < 1 ||
@@ -31,7 +30,7 @@ export default function RecommendationCard ({ movie }: Props) {
       >
         <Image
           as={NextImage}
-          alt='NextUI hero Image'
+          alt={`${movie.Title} (${movie.Year}) {' '} poster`}
           objectFit='cover'
           src={movie.State !== 'error' ? (movie.Poster !== 'N/A' ? movie.Poster : nophoto.src) : error.src}
           className='rounded-md aspect-[0.675/1]'
