@@ -43,9 +43,9 @@ export default function Recommendations () {
           </h1>
           <Button
             className='hidden sm:flex'
-            startContent={<Trash width={20} />}
+            startContent={<Trash width={18} />}
             color='danger'
-            size='sm'
+            size='md'
             onPress={() => {
               setPrevRecommendedMovies([])
             }}
@@ -71,35 +71,28 @@ export default function Recommendations () {
               prevRecommendedMovies === undefined ||
               prevRecommendedMovies.length === 0
             }
-          >
-          </Button>
+          ></Button>
         </div>
         <Divider className='bg-secondary-500 mt-1 mb-2' />
         {loading && (
           <div className='grid grid-cols-5 sm:grid-cols-10 gap-2 list-none'>
-          {[...Array(10)].map((_, index) => (
-                  <Skeleton className='rounded-md' key={index}>
-                      <Image
-                        radius='sm'
-                        className='rounded-md aspect-[0.675/1] object-cover'
-                        as={NextImage}
-                        src=''
-                        alt='loading'
-                        width={100}
-                        height={150}
-                      />
-                  </Skeleton>
-          ))}
-        </div>)}
+            {[...Array(10)].map((_, index) => (
+              <Skeleton className='rounded-md' key={index}>
+                <div className='rounded-md aspect-[0.675/1]' />
+              </Skeleton>
+            ))}
+          </div>
+        )}
 
-        {!loading && (
-          prevRecommendedMovies !== null &&
+        {!loading &&
+          (prevRecommendedMovies !== null &&
           prevRecommendedMovies !== undefined &&
           prevRecommendedMovies.length > 0
             ? (
             <div>
               <ul className='grid grid-cols-5 sm:grid-cols-10 gap-2 list-none'>
-                {prevRecommendedMovies.reverse()
+                {prevRecommendedMovies
+                  .reverse()
                   .slice((page - 1) * 50, page * 50)
                   .map((movie: Movie, index: number) => (
                     <li key={movie.imdbID}>
@@ -125,7 +118,11 @@ export default function Recommendations () {
                             <Image
                               radius='sm'
                               className='rounded-md aspect-[0.675/1] object-cover'
-                              src={movie.Poster !== 'N/A' ? movie.Poster : placeholder.src}
+                              src={
+                                movie.Poster !== 'N/A'
+                                  ? movie.Poster
+                                  : placeholder.src
+                              }
                               alt={movie.Title}
                               as={NextImage}
                               width={100}

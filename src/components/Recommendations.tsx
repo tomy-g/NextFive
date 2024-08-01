@@ -25,7 +25,7 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
 
   const router = useRouter()
   return (
-    <section id='movie-recommendations' className='w-full mt-8'>
+    <section id='movie-recommendations' className='w-full mt-8 min-h-96'>
       <div className='w-full flex items-center justify-evenly'>
         {isLoading
           ? (
@@ -54,9 +54,12 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
               const simplifiedMovies = simplifyMovies(toSimplify)
               const prompt = buildPrompt(simplifiedMovies, type)
               submit(prompt)
-              setTimeout(() => {
-                router.push('#movie-recommendations')
-              }, 2000)
+              const w = window.innerWidth
+              if (w < 640) {
+                setTimeout(() => {
+                  router.push('#movie-recommendations')
+                }, 2000)
+              }
             }}
             isDisabled={isLoading || countFilledMovies([...selectedMovies]) < 1}
           >
@@ -67,8 +70,8 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
       {error !== null &&
         error !== undefined &&
         (error as Error)?.message === 'Ratelimited!' && (
-          <div className='w-full mt-4'>
-            <p className='text-danger-500 text-center'>
+          <div className='w-full mt-4 flex'>
+            <p className='inline mx-auto text-danger-600 text-center bg-danger-50 p-2 px-4 rounded-md'>
               You have reached the limit of free recommendations for today. Set
               your own API key in <b>Settings</b> to have unlimited access{' '}
               <Link
@@ -85,8 +88,8 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
       {error !== null &&
         error !== undefined &&
         (error as Error)?.message === '' && (
-          <div className='w-full mt-4'>
-            <p className='text-danger-500 text-center'>
+          <div className='w-full mt-4 flex'>
+            <p className='inline mx-auto text-danger-600 text-center bg-danger-50 p-2 px-4 rounded-md'>
               An error occurred, make sure you have set your API key correctly.{' '}
               <Link href='/about#error-api' color='success' underline='always'>
                 Learn how

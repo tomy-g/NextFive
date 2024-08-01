@@ -8,6 +8,7 @@ import { useLocalStorage } from './useLocalStorage'
 import { ApiKeyContext } from '@/contexts/ApiKeyContext'
 import { ModelContext } from '@/contexts/ModelContext'
 import { halfString } from '@/utils/utils'
+import stringSimilarity from 'string-similarity-js'
 
 const emptyMovies: Movie[] = [...emptyMoviesObject]
 
@@ -169,7 +170,9 @@ export function useGetRecommendations () {
           newMovie =>
             !auxRecommendedMovies.current.some(
               finalMovie =>
-                finalMovie.OriginalID === newMovie?.imdbID
+                finalMovie.OriginalID === newMovie?.imdbID &&
+                ((newMovie?.Title) != null) &&
+                stringSimilarity(finalMovie.Title, newMovie.Title) > 0.8
             )
         )
         for (const movie of allNew ?? []) {

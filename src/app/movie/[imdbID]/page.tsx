@@ -54,6 +54,7 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
           <Image
             as={NextImage}
             src={movie.Poster !== 'N/A' ? movie.Poster : nophoto.src}
+            isLoading={isLoading}
             alt={`${movie.Title} poster`}
             width={300}
             className='rounded-md aspect-[0.675/1]'
