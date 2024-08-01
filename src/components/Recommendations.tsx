@@ -32,7 +32,7 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
           <Button
             radius='full'
             color='danger'
-            className='text-background sm:text-medium font-medium'
+            className='text-background sm:text-medium font-medium mb-8 sm:mb-4'
             onPress={() => {
               stop()
               resetAuxFinalMovies()
