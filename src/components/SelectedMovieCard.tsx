@@ -18,8 +18,7 @@ export default function SelectedMovieCard ({ movie, deselectMovie }: Props) {
         as={NextImage}
         priority
         alt={`${movie.Title} poster`}
-        objectFit='cover'
-        className='rounded-md aspect-[0.675/1]'
+        className='rounded-md aspect-[0.675/1] object-cover'
         width={300}
         height={448}
         src={

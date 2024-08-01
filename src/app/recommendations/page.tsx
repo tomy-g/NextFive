@@ -81,8 +81,7 @@ export default function Recommendations () {
                   <Skeleton className='rounded-md' key={index}>
                       <Image
                         radius='sm'
-                        className='rounded-md aspect-[0.675/1]'
-                        objectFit='cover'
+                        className='rounded-md aspect-[0.675/1] object-cover'
                         as={NextImage}
                         src=''
                         alt='loading'
@@ -125,8 +124,7 @@ export default function Recommendations () {
                           <Link href={`/movie/${movie.imdbID}`}>
                             <Image
                               radius='sm'
-                              className='rounded-md aspect-[0.675/1]'
-                              objectFit='cover'
+                              className='rounded-md aspect-[0.675/1] object-cover'
                               src={movie.Poster !== 'N/A' ? movie.Poster : placeholder.src}
                               alt={movie.Title}
                               as={NextImage}

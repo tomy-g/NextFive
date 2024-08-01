@@ -33,7 +33,6 @@ function SelectedMovie ({ movie, deselectMovie }: Props) {
             movie.State === 'error'
           }
           placement='top'
-          className=''
           color='secondary'
         >
           {movie.imdbID.length < 2

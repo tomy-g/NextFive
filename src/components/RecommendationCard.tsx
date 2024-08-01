@@ -31,9 +31,8 @@ export default function RecommendationCard ({ movie }: Props) {
         <Image
           as={NextImage}
           alt={`${movie.Title} (${movie.Year}) {' '} poster`}
-          objectFit='cover'
           src={movie.State !== 'error' ? (movie.Poster !== 'N/A' ? movie.Poster : nophoto.src) : error.src}
-          className='rounded-md aspect-[0.675/1]'
+          className='rounded-md aspect-[0.675/1] object-cover'
           width={300}
           height={448}
         />
