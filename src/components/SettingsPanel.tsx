@@ -122,7 +122,7 @@ export default function SettingsPanel ({
                 variant='bordered'
                 onSelectionChange={(keys: 'all' | Set<Key>) => {
                   if (keys === 'all' || keys.size === 0) {
-                    setSelect('gpt-4o-mini')
+                    setSelect('gpt-4o')
                   } else {
                     const selectedKey = Array.from(keys).join(', ')
                     setSelect(selectedKey)

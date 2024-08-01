@@ -11,7 +11,7 @@ import Footer from '@/components/Footer'
 export function Providers ({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const [userApiKey, setUserApiKey] = useState('')
-  const [model, setModel] = useState('gpt-4o-mini')
+  const [model, setModel] = useState('gpt-4o')
   return (
     <NextUIProvider navigate={router.push}>
       <Header setUserApiKey={setUserApiKey} setModelGlobal={setModel}/>

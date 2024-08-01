@@ -28,9 +28,9 @@ export default function Header ({ setUserApiKey, setModelGlobal }: Props) {
   const [apiKeyDB, setApiKeyDB] = useLocalStorage('apiKey', '')
   const [customApiKey, setCustomApiKey] = useState(false)
   const [switchValue, setSwitchValue] = useState(false)
-  const [select, setSelect] = useState('gpt-4o-mini')
-  const [model, setModel] = useState('gpt-4o-mini')
-  const [modelDB, setModelDB] = useLocalStorage('model', 'gpt-4o-mini')
+  const [select, setSelect] = useState('gpt-4o')
+  const [model, setModel] = useState('gpt-4o')
+  const [modelDB, setModelDB] = useLocalStorage('model', 'gpt-4o')
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
   useEffect(() => {
