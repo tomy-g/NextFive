@@ -11,7 +11,7 @@ interface Props {
 
 export default function RecommendationCard ({ movie }: Props) {
   return (
-    <Card className='rounded-md'>
+    <Card className='rounded-md '>
       <Tooltip
         showArrow={true}
         content={

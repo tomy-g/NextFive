@@ -54,6 +54,7 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
           <Image
             as={NextImage}
             src={movie.Poster !== 'N/A' ? movie.Poster : nophoto.src}
+            alt={`${movie.Title} poster`}
             width={300}
             className='rounded-md aspect-[0.675/1]'
             height={448}
@@ -121,6 +122,7 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
                   className='rounded-none'
                   as={NextImage}
                   src={imdb.src}
+                  alt='IMDB'
                   width={40}
                   height={20}
                 />
@@ -139,6 +141,7 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
                   className='aspect-[19/20]'
                   src={rottentomatoes.src}
                   as={NextImage}
+                  alt='Rotten Tomatoes'
                   width={19}
                   height={20}
                 />
@@ -156,6 +159,7 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
                   className='aspect-[87/20]'
                   src={metacritic.src}
                   as={NextImage}
+                  alt='Metacritic'
                   width={87}
                   height={20}
                 />

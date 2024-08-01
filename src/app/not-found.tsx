@@ -7,6 +7,7 @@ export default function custom404 () {
       <Image
         as={NextImage}
         src='https://http.cat/images/404.jpg'
+        alt='Error 404'
         width={750}
         height={600}
       ></Image>
