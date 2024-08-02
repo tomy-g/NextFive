@@ -197,6 +197,7 @@ export function useGetRecommendations () {
     stop,
     resetRecommendedMovies,
     resetAuxFinalMovies,
-    error
+    error,
+    prevRecommendedMovies
   }
 }

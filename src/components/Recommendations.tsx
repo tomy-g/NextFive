@@ -4,7 +4,7 @@ import { useGetRecommendations } from '@/hooks/useGetRecommendations'
 import Recommendation from './Recommendation'
 import type { Movie } from '@/schemas/movie'
 import { Button, Chip, Divider, Link } from '@nextui-org/react'
-import { buildPrompt, countFilledMovies, simplifyMovies } from '@/utils/utils'
+import { countFilledMovies, createPrompt, mapImportantData } from '@/utils/utils'
 import { useRouter } from 'next/navigation'
 
 interface Props {
@@ -20,7 +20,8 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
     resetRecommendedMovies,
     resetAuxFinalMovies,
     stop,
-    error
+    error,
+    prevRecommendedMovies
   } = useGetRecommendations()
 
   const router = useRouter()
@@ -51,8 +52,8 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
               resetRecommendedMovies()
               resetAuxFinalMovies()
               const toSimplify = [...selectedMovies]
-              const simplifiedMovies = simplifyMovies(toSimplify)
-              const prompt = buildPrompt(simplifiedMovies, type)
+              const simplifiedMovies = mapImportantData(toSimplify)
+              const prompt = createPrompt(simplifiedMovies, type, prevRecommendedMovies)
               submit(prompt)
               const w = window.innerWidth
               if (w < 640) {

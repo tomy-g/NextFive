@@ -14,7 +14,7 @@ export async function POST (req: NextRequest) {
   const apiKey = searchParams.get('api_key')
   const model = searchParams.get('model')
   const openai = createOpenAI({ apiKey: apiKey !== '' ? apiKey ?? undefined : process.env.OPENAI_API_KEY })
-  if (process.env.LIMIT_ACTIVE === 'true' && process.env.USER_API_KEY !== '') {
+  if (process.env.LIMIT_ACTIVE === 'true' && (apiKey === null || apiKey === '' || apiKey === undefined)) {
     // Create Rate limit
     ratelimit = new Ratelimit({
       redis: kv,
