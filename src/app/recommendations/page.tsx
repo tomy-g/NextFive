@@ -5,9 +5,15 @@ import {
   Divider,
   Image,
   Link,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
   Pagination,
   Skeleton,
-  Tooltip
+  Tooltip,
+  useDisclosure
 } from '@nextui-org/react'
 import { useEffect, useState } from 'react'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
@@ -34,6 +40,7 @@ export default function Recommendations () {
 
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(true)
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
   return (
     <main className='mt-8'>
       <section id='prev-recommendations'>
@@ -47,7 +54,7 @@ export default function Recommendations () {
             color='danger'
             size='md'
             onPress={() => {
-              setPrevRecommendedMovies([])
+              onOpen()
             }}
             isDisabled={
               prevRecommendedMovies === null ||
@@ -64,7 +71,7 @@ export default function Recommendations () {
             color='danger'
             size='sm'
             onPress={() => {
-              setPrevRecommendedMovies([])
+              onOpen()
             }}
             isDisabled={
               prevRecommendedMovies === null ||
@@ -72,6 +79,32 @@ export default function Recommendations () {
               prevRecommendedMovies.length === 0
             }
           ></Button>
+          <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <ModalContent>
+              {onClose => (
+                <>
+                  <ModalHeader className='flex flex-col gap-1 mt-2'>
+                    Remove all previous recommendations
+                  </ModalHeader>
+                  <ModalBody>
+                    <p className='mt-2 text-foreground-500'>
+                      You are about to remove all previous recommendations. This
+                      action cannot be undone.
+                    </p>
+                    <p className='mt-2 text-foreground'> Are you sure you want to continue?</p>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color='secondary' onPress={onClose}>
+                      Close
+                    </Button>
+                    <Button color='danger' onPress={() => { setPrevRecommendedMovies([]); onClose() }}>
+                      Delete all
+                    </Button>
+                  </ModalFooter>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
         </div>
         <Divider className='bg-secondary-500 mt-1 mb-2' />
         {loading && (
