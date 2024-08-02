@@ -26,7 +26,7 @@ export function simplifyMovies (movies: Movie[]): Movie[] {
 }
 
 export function mapImportantData (movies: Movie[]): Movie[] {
-  return movies.map(movie => {
+  return [...movies].map(movie => {
     return {
       Title: movie.Title,
       Year: movie.Year,
@@ -69,13 +69,13 @@ export function createPrompt (
 
 Please recommend 5 unique ${mediaType} based on the following criteria:
 
-1. Exclude Duplicates: DO NOT include any titles from the user's favorite movies/shows.
+1. Exclude Duplicates: DO NOT include any titles from the user's liked movies/shows. This is VERY IMPORTANT!!
 2. Analyze the Provided List: With the data provided (genre, plot, etc...) and your knowledge of movies and TV shows, analyze the list to determine the user's preferences e.g. genre, theme, etc.
 3. Recommend Similar Titles: Based on your analysis, recommend exactly FIVE ${mediaType} that closely match the user's input in terms of genre and theme.
 4. Unique Titles: Ensure each recommendation is unique.
-5. Avoid Popular Titles: Suggest lesser-known movies/shows.
-6. Include Specific Data: For each recommendation, provide the "imdbID", "Title", "Year", and "Director" as per the OMDB API structure.
-7. Variate your recommendations: Each time this prompt is called it should return different recommendations. So if the user calls the prompt multiple times, he doesn't get the same recommendations.
+5. Include Specific Data: For each recommendation, provide the "imdbID", "Title", "Year", and "Director" as per the OMDB API structure.
+6. Variate your recommendations: Each time this prompt is called it should return different recommendations. So if the user calls the prompt multiple times, he doesn't get the same recommendations.
+7. Recomend exactly 5 ${mediaType}. This is a hard requirement because will throw an error otherwise. VERY IMPORTANT!!
 `
   return prompt
 }

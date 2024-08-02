@@ -79,7 +79,7 @@ export default function Recommendations () {
               prevRecommendedMovies.length === 0
             }
           ></Button>
-          <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+          <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement='center'>
             <ModalContent>
               {onClose => (
                 <>
@@ -126,7 +126,7 @@ export default function Recommendations () {
               <ul className='grid grid-cols-5 sm:grid-cols-10 gap-2 list-none'>
                 {prevRecommendedMovies
                   .reverse()
-                  .slice((page - 1) * 50, page * 50)
+                  .slice((page - 1) * 40, page * 40)
                   .map((movie: Movie, index: number) => (
                     <li key={movie.imdbID}>
                       <Tooltip
@@ -171,7 +171,7 @@ export default function Recommendations () {
                 <Pagination
                   className='mx-auto'
                   showControls
-                  total={Math.ceil(prevRecommendedMovies.length / 50)}
+                  total={Math.ceil(prevRecommendedMovies.length / 40)}
                   onChange={page => {
                     setPage(page)
                   }}

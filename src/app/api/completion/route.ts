@@ -12,7 +12,12 @@ export async function POST (req: NextRequest) {
   let ratelimit: Ratelimit | null = null
   const { searchParams } = new URL(req.url)
   const apiKey = searchParams.get('api_key')
-  const model = searchParams.get('model')
+  let model = searchParams.get('model')
+
+  if (apiKey === null || apiKey === '' || apiKey === undefined) {
+    model = 'gpt-4o-mini'
+  }
+
   const openai = createOpenAI({ apiKey: apiKey !== '' ? apiKey ?? undefined : process.env.OPENAI_API_KEY })
   if (process.env.LIMIT_ACTIVE === 'true' && (apiKey === null || apiKey === '' || apiKey === undefined)) {
     // Create Rate limit
