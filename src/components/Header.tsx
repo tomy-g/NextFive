@@ -14,6 +14,7 @@ import { usePathname } from 'next/navigation'
 import { Settings } from 'lucide-react'
 import SettingsPanel from './SettingsPanel'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
+import models from '@/constants/gptModels.json'
 
 interface Props {
   setUserApiKey: (apiKey: string) => void
@@ -21,6 +22,7 @@ interface Props {
 }
 
 export default function Header ({ setUserApiKey, setModelGlobal }: Props) {
+  const defaultModel = models.find(option => option.default)
   const path = usePathname()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const [apiKey, setApiKey] = useState('')
@@ -28,9 +30,9 @@ export default function Header ({ setUserApiKey, setModelGlobal }: Props) {
   const [apiKeyDB, setApiKeyDB] = useLocalStorage('apiKey', '')
   const [customApiKey, setCustomApiKey] = useState(false)
   const [switchValue, setSwitchValue] = useState(false)
-  const [select, setSelect] = useState('gpt-4o')
-  const [model, setModel] = useState('gpt-4o')
-  const [modelDB, setModelDB] = useLocalStorage('model', 'gpt-4o')
+  const [select, setSelect] = useState(defaultModel?.key)
+  const [model, setModel] = useState(defaultModel?.key)
+  const [modelDB, setModelDB] = useLocalStorage('model', defaultModel?.key)
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
 
   useEffect(() => {
@@ -120,7 +122,7 @@ export default function Header ({ setUserApiKey, setModelGlobal }: Props) {
         setApiKey={setApiKey}
         inputValue={inputValue}
         setInputValue={setInputValue}
-        select={select}
+        select={select ?? 'gpt-4o-mini'}
         setSelect={setSelect}
         setModel={setModel}
         setModelDB={setModelDB}

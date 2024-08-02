@@ -18,7 +18,7 @@ export async function POST (req: NextRequest) {
     // Create Rate limit
     ratelimit = new Ratelimit({
       redis: kv,
-      limiter: Ratelimit.fixedWindow(5, '12 h'),
+      limiter: Ratelimit.fixedWindow(10, '12 h'),
     })
   }
   if (ratelimit !== null) {
@@ -31,7 +31,7 @@ export async function POST (req: NextRequest) {
   }
   const context = await req.json()
   const result = await streamObject({
-    model: openai(model ?? 'gpt-4o'),
+    model: openai(model ?? 'gpt-4o-mini'),
     schema: moviesSchema,
     system: 'You are a movie recommendation system. You are an expert on movies and TV series.',
     prompt: context,

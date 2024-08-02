@@ -13,6 +13,7 @@ import {
   Switch
 } from '@nextui-org/react'
 import { IconBrandOpenai } from '@tabler/icons-react'
+import models from '@/constants/gptModels.json'
 import React, { type Key } from 'react'
 
 interface Props {
@@ -42,12 +43,10 @@ export default function SettingsPanel ({
   setModelDB,
   setModelGlobal,
   switchValue,
-  setSwitchValue
+  setSwitchValue,
 }: Props) {
-  const options = [
-    { key: 'gpt-4o-mini', label: 'GPT 4o Mini' },
-    { key: 'gpt-4o', label: 'GPT 4o (recomended)' }
-  ]
+  const options = models
+  const defaultModel = options.find(option => option.default)
 
   function saveSettings (onClose: () => void) {
     setModel(select)
@@ -56,9 +55,12 @@ export default function SettingsPanel ({
     if (inputValue !== '' && switchValue) {
       setApiKey(inputValue)
       onClose()
-    } else if (!switchValue) {
+    } else if (!switchValue && defaultModel !== undefined) {
       setApiKey('')
       setInputValue('')
+      setModel(defaultModel.key)
+      setModelDB(defaultModel.key)
+      setModelGlobal(defaultModel.key)
       onClose()
     }
   }
@@ -117,12 +119,13 @@ export default function SettingsPanel ({
               <Select
                 selectedKeys={[select]}
                 selectionMode='single'
+                isDisabled={!switchValue}
                 className='mt-2'
                 label='Select an AI Model'
                 variant='bordered'
                 onSelectionChange={(keys: 'all' | Set<Key>) => {
-                  if (keys === 'all' || keys.size === 0) {
-                    setSelect('gpt-4o')
+                  if ((keys === 'all' || keys.size === 0) && defaultModel !== undefined) {
+                    setSelect(defaultModel.key)
                   } else {
                     const selectedKey = Array.from(keys).join(', ')
                     setSelect(selectedKey)
