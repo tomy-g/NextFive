@@ -51,7 +51,7 @@ export default function About () {
           </p>
           <Heading title='WHY?' />
           <p className='mt-4 text-foreground'>
-            In an era when we are overwhelmed with a great number of options,
+            In an era where we are overwhelmed with a great number of options,
             it is common to spend more time choosing what to watch than actually
             watching it.
           </p>
@@ -165,7 +165,7 @@ export default function About () {
           <h2 className='text-4xl text-primary mt-12'>Troubleshoot</h2>
           <Heading title='LIMIT REACHED' id='error-limit' />
           <p className='mt-4 text-foreground'>If you see the message: </p>
-          <p className='m-2 text-danger-600 bg-danger-50 p-2 rounded-md'>
+          <p className='m-2 text-danger-700 bg-danger-50 p-2 rounded-md'>
             You have reached the limit of free recommendations for today. Set
             your own API key to have unlimited access!
           </p>
@@ -180,7 +180,7 @@ export default function About () {
           </p>
           <Heading title='RECOMMENDATION FAILED' id='error-api' />
           <p className='mt-4 text-foreground'>If you see the message:</p>
-          <p className='m-2 text-danger-600 bg-danger-50 p-2 rounded-md'>
+          <p className='m-2 text-danger-700 bg-danger-50 p-2 rounded-md'>
             An error occurred, make sure you have set your API key correctly
           </p>
           <p className='mt-2'>
@@ -195,7 +195,7 @@ export default function About () {
           <p className='mt-4 text-foreground'>
             If in one of the recommendation posters you see the message
           </p>
-          <p className='m-2 text-danger-600 bg-danger-50 p-2 rounded-md'>
+          <p className='m-2 text-danger-700 bg-danger-50 p-2 rounded-md'>
             Movie not loaded correctly
           </p>
           <p>
