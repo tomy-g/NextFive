@@ -4,7 +4,7 @@ import { useGetRecommendations } from '@/hooks/useGetRecommendations'
 import Recommendation from './Recommendation'
 import type { Movie } from '@/schemas/movie'
 import { Button, Chip, Divider, Link } from '@nextui-org/react'
-import { buildPrompt, countFilledMovies, simplifyMovies } from '@/utils/utils'
+import { countFilledMovies, createPrompt, mapImportantData } from '@/utils/utils'
 import { useRouter } from 'next/navigation'
 
 interface Props {
@@ -20,7 +20,8 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
     resetRecommendedMovies,
     resetAuxFinalMovies,
     stop,
-    error
+    error,
+    prevRecommendedMovies
   } = useGetRecommendations()
 
   const router = useRouter()
@@ -51,8 +52,8 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
               resetRecommendedMovies()
               resetAuxFinalMovies()
               const toSimplify = [...selectedMovies]
-              const simplifiedMovies = simplifyMovies(toSimplify)
-              const prompt = buildPrompt(simplifiedMovies, type)
+              const simplifiedMovies = mapImportantData(toSimplify)
+              const prompt = createPrompt(simplifiedMovies, type, prevRecommendedMovies)
               submit(prompt)
               const w = window.innerWidth
               if (w < 640) {
@@ -71,7 +72,7 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
         error !== undefined &&
         (error as Error)?.message === 'Ratelimited!' && (
           <div className='w-full mt-4 flex'>
-            <p className='inline mx-auto text-danger-600 text-center bg-danger-50 p-2 px-4 rounded-md'>
+            <p className='inline mx-auto text-danger-700 text-center bg-danger-50 p-2 px-4 rounded-md'>
               You have reached the limit of free recommendations for today. Set
               your own API key in <b>Settings</b> to have unlimited access{' '}
               <Link
@@ -89,7 +90,7 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
         error !== undefined &&
         (error as Error)?.message === '' && (
           <div className='w-full mt-4 flex'>
-            <p className='inline mx-auto text-danger-600 text-center bg-danger-50 p-2 px-4 rounded-md'>
+            <p className='inline mx-auto text-danger-700 text-center bg-danger-50 p-2 px-4 rounded-md'>
               An error occurred, make sure you have set your API key correctly.{' '}
               <Link href='/about#error-api' color='success' underline='always'>
                 Learn how

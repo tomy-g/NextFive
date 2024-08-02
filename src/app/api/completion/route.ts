@@ -12,13 +12,18 @@ export async function POST (req: NextRequest) {
   let ratelimit: Ratelimit | null = null
   const { searchParams } = new URL(req.url)
   const apiKey = searchParams.get('api_key')
-  const model = searchParams.get('model')
+  let model = searchParams.get('model')
+
+  if (apiKey === null || apiKey === '' || apiKey === undefined) {
+    model = 'gpt-4o-mini'
+  }
+
   const openai = createOpenAI({ apiKey: apiKey !== '' ? apiKey ?? undefined : process.env.OPENAI_API_KEY })
-  if (process.env.LIMIT_ACTIVE === 'true' && process.env.USER_API_KEY !== '') {
+  if (process.env.LIMIT_ACTIVE === 'true' && (apiKey === null || apiKey === '' || apiKey === undefined)) {
     // Create Rate limit
     ratelimit = new Ratelimit({
       redis: kv,
-      limiter: Ratelimit.fixedWindow(5, '12 h'),
+      limiter: Ratelimit.fixedWindow(10, '12 h'),
     })
   }
   if (ratelimit !== null) {
@@ -31,7 +36,7 @@ export async function POST (req: NextRequest) {
   }
   const context = await req.json()
   const result = await streamObject({
-    model: openai(model ?? 'gpt-4o'),
+    model: openai(model ?? 'gpt-4o-mini'),
     schema: moviesSchema,
     system: 'You are a movie recommendation system. You are an expert on movies and TV series.',
     prompt: context,

@@ -41,6 +41,29 @@ export function useGetRecommendations () {
       stop()
     }
   })
+  useEffect(() => {
+    if (!isLoading) {
+      setRecommendedMovies(([...oldMovies]) => oldMovies.map(({ ...movie }) => {
+        if ((movie.State === undefined || movie.State === null) && movie.Title === '') {
+          return {
+            ...movie,
+            State: 'error'
+          }
+        }
+        return movie
+      }))
+      auxRecommendedMovies.current = [...auxRecommendedMovies.current].map(({ ...movie }) => {
+        if ((movie.State === undefined || movie.State === null) && movie.Title === '') {
+          return {
+            ...movie,
+            State: 'error'
+          }
+        }
+        return movie
+      })
+    }
+  }, [isLoading])
+
   const [recommendedMovies, setRecommendedMovies] = useState<Movie[]>([
     ...emptyMovies
   ])
@@ -197,6 +220,7 @@ export function useGetRecommendations () {
     stop,
     resetRecommendedMovies,
     resetAuxFinalMovies,
-    error
+    error,
+    prevRecommendedMovies
   }
 }
