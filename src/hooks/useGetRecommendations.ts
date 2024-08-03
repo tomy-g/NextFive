@@ -110,6 +110,15 @@ export function useGetRecommendations () {
   useEffect(() => {
     const pushLastModified = async (movie: any, index: number) => {
       if (index !== -1) {
+        let isFound = false
+        auxRecommendedMovies.current.forEach((cMovie, cIndex) => {
+          if (cMovie.OriginalID === movie.imdbID && cIndex !== index) {
+            isFound = true
+          }
+        })
+        if (isFound) {
+          return
+        }
         auxRecommendedMovies.current[index] = { ...movie }
         setRecommendedMovies(prevMovies => {
           const updatedMovies = [...prevMovies]
@@ -194,7 +203,8 @@ export function useGetRecommendations () {
             !auxRecommendedMovies.current.some(
               finalMovie =>
                 finalMovie.OriginalID === newMovie?.imdbID &&
-                ((newMovie?.Title) != null) &&
+                ((newMovie?.Title) !== null) &&
+                ((newMovie?.Title) !== undefined) &&
                 stringSimilarity(finalMovie.Title, newMovie.Title) > 0.8
             )
         )

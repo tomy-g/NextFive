@@ -4,8 +4,8 @@ import {
   Card,
   Divider,
   Image,
-  Link,
   Modal,
+  Link,
   ModalBody,
   ModalContent,
   ModalFooter,
@@ -21,6 +21,7 @@ import { type Movie } from '@/schemas/movie'
 import { Trash, CircleAlert } from 'lucide-react'
 import NextImage from 'next/image'
 import placeholder from '@/assets/placeholder-min.png'
+import NextLink from 'next/link'
 
 export default function Recommendations () {
   const [prevRecommendedMovies, setPrevRecommendedMovies] = useState<Movie[]>(
@@ -146,10 +147,9 @@ export default function Recommendations () {
                           movie.State === 'error'
                         }
                       >
-                        <Card radius='sm'>
-                          <Link href={`/movie/${movie.imdbID}`}>
+                        <Card className='rounded-md border-secondary-100 border-1 hover:border-success !transition-all !duration-300'>
+                          <NextLink href={`/movie/${movie.imdbID}`}>
                             <Image
-                              radius='sm'
                               className='rounded-md aspect-[0.675/1] object-cover'
                               src={
                                 movie.Poster !== 'N/A'
@@ -161,7 +161,7 @@ export default function Recommendations () {
                               width={100}
                               height={150}
                             />
-                          </Link>
+                          </NextLink>
                         </Card>
                       </Tooltip>
                     </li>

@@ -10,6 +10,8 @@ import rottentomatoes from '@/assets/Rotten_Tomatoes.svg'
 import { Clapperboard, Tv } from 'lucide-react'
 import nophoto from '@/assets/no-photo-min.png'
 import { notFound } from 'next/navigation'
+import Zoom from 'react-medium-image-zoom'
+import '@/styles/imageModal.css'
 
 export default function MoviePage ({ params }: { params: { imdbID: string } }) {
   const [movie, setMovie] = useState<Movie>({
@@ -51,6 +53,7 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
     <main className='flex mt-8 mb-8 items-start'>
       <aside className='flex flex-col items-center gap-5 w-[25%]'>
         <Skeleton isLoaded={!isLoading} className='rounded-md w-[100%]'>
+          <Zoom >
           <Image
             as={NextImage}
             src={movie.Poster !== 'N/A' ? movie.Poster : nophoto.src}
@@ -60,6 +63,7 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
             className='rounded-md aspect-[0.675/1]'
             height={448}
           />
+          </Zoom>
         </Skeleton>
         <Skeleton isLoaded={!isLoading} className='rounded-md'>
           <Link
