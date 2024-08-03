@@ -23,7 +23,7 @@ export async function POST (req: NextRequest) {
     // Create Rate limit
     ratelimit = new Ratelimit({
       redis: kv,
-      limiter: Ratelimit.fixedWindow(10, '12 h'),
+      limiter: Ratelimit.fixedWindow(30, '12 h'),
     })
   }
   if (ratelimit !== null) {

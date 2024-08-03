@@ -32,15 +32,15 @@ export function mapImportantData (movies: Movie[]): Movie[] {
       Year: movie.Year,
       imdbID: movie.imdbID,
       Director: movie.Director,
-      Writer: movie.Writer,
-      Runtime: movie.Runtime,
-      Genre: movie.Genre,
-      Actors: movie.Actors,
-      Plot: movie.Plot,
-      Language: movie.Language,
-      Country: movie.Country,
-      Type: movie.Type,
-      BoxOffice: movie.BoxOffice
+      // Writer: movie.Writer,
+      // Runtime: movie.Runtime,
+      // Genre: movie.Genre,
+      // Actors: movie.Actors,
+      // Plot: movie.Plot,
+      // Language: movie.Language,
+      // Country: movie.Country,
+      // Type: movie.Type,
+      // BoxOffice: movie.BoxOffice
     }
   })
 }
@@ -53,31 +53,23 @@ export function createPrompt (
   let mediaType = 'movies and TV shows'
   if (type !== 'both') {
     if (type === 'movies') {
-      mediaType = 'Movies'
+      mediaType = 'movies'
     } else {
       mediaType = 'TV shows'
     }
   }
   const prompt = `
-  You are a movies and TV shows recommendation system. You are an expert in understanding the user likings and recommending the 
-  best titles based on the user's preferences.
-  The user will provide a lists of movies/shows he likes.
-  Your task is to provide 5 unique recommendations based on this data.
+  This is a list of movies/TV shows I like:
 
   User's liked Movies/Shows: ${JSON.stringify(
     selectedMovies
   )}.
 
-Please recommend 5 unique ${mediaType} based on the following criteria:
-
-1. Exclude Duplicates: DO NOT include any titles from the user's liked movies/shows. This is VERY IMPORTANT!!
-2. Analyze the Provided List: With the data provided (genre, plot, etc...) and all the extra info you have about the titles, analyze the list to determine the user's preferences e.g. genre, theme, etc.
-3. Recommend Similar Titles: Based on your analysis, recommend exactly FIVE ${mediaType} that are the closest match to the user's preferences, take in account everything you know 
-  about the user's preferences, plot, genres, atmpsphere, etc. THIS IS THE MOST IMPORTANT PART OF THE TASK. YOU SHOULD SPEND MOST OF YOUR TIME HERE.
-4. Avoid at all costs recommending very popular titles that don't even match genre with user's preferences. The user is looking for hidden gems, not the most popular titles.
-5. Unique Titles: Ensure each recommendation is unique.
-6. Include Specific Data: For each recommendation, provide the "imdbID", "Title", "Year", and "Director" as per the OMDB API structure.
-7. Recomend exactly 5 ${mediaType} different from the user's input. This is a hard requirement because will throw an error otherwise. VERY IMPORTANT!!
+Please analyze this list and give me 5 recommendations of ${mediaType} that are the most similar to the ones I like.
+Analyze it's genre, plot, atmosphere...  etc. To give the most original, accurate and personalized recommendations of ${mediaType}.
+I only want recommendations of ${mediaType}. No other type of media.
+Return only imdbID, Title, Year and Directot.
+All ${mediaType} recommendations must be different from the ones I've already liked, and different beteween them.
 `
   return prompt
 }
