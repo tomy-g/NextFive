@@ -13,7 +13,7 @@ interface Props {
 
 export default function SelectedMovieCard ({ movie, deselectMovie }: Props) {
   return (
-    <Card className='rounded-md'>
+    <Card className={`rounded-md border-secondary-100 border-1 ${movie.Title.length > 0 ? 'hover:border-success' : ''} !transition-all !duration-300`}>
       <Image
         as={NextImage}
         priority

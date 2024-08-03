@@ -11,7 +11,7 @@ interface Props {
 
 export default function RecommendationCard ({ movie }: Props) {
   return (
-    <Card className='rounded-md bg-background '>
+    <Card className='rounded-md bg-background border-secondary-100 border-1 hover:border-success !transition-all !duration-300'>
       <Tooltip
         showArrow={true}
         content={
@@ -32,7 +32,7 @@ export default function RecommendationCard ({ movie }: Props) {
           as={NextImage}
           alt={`${movie.Title} (${movie.Year}) {' '} poster`}
           src={movie.State !== 'error' ? (movie.Poster !== 'N/A' ? movie.Poster : nophoto.src) : error.src}
-          className={`rounded-md aspect-[0.675/1] object-cover 
+          className={` rounded-md aspect-[0.675/1] object-cover 
             ${(movie.State === 'error' && movie.Title !== '') ? '!opacity-70' : ''}`}
           width={300}
           height={448}
