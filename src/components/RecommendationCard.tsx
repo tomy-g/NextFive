@@ -55,7 +55,7 @@ export default function RecommendationCard ({ movie }: Props) {
         />
       </Tooltip>
       {(movie.State === 'error' && movie.Title !== '') && (
-        <CardFooter className='absolute z-10 bottom-0 text-small pb-0 sm:pb-3'>
+        <CardFooter className='absolute bottom-0 text-small pb-0 sm:pb-3 z-50'>
           <span>{`${movie.Title} (${movie.Year})`}</span>
         </CardFooter>
       )}
