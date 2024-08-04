@@ -82,6 +82,11 @@ export default function About () {
             (Movie/TV).
           </p>
           <p className='mt-4 text-foreground'>
+            To obtain the best recommendations, you should select titles with a connection between them,
+            for example, movies with the same subgenre (dark comedy, 80&rsquo;s action, etc) with the same director or actors...
+            This way GPT can understand your taste better and give you titles that you will like.
+          </p>
+          <p className='mt-4 text-foreground'>
             Then you can click on the &quot;Recommend&quot; button and the AI
             will give you 5 recommendations based on your preferences.
           </p>
