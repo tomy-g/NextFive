@@ -69,7 +69,7 @@ Please analyze this list and give me 5 recommendations of ${mediaType} that are 
 Analyze it's genre, plot, atmosphere...  etc. To give the most original, accurate and personalized recommendations of ${mediaType}.
 I only want recommendations of ${mediaType}. No other type of media.
 Return only imdbID, Title, Year and Directot.
-All ${mediaType} recommendations MUST be different from the ones I've passed you before (This is mandatory!), and different beteween them.
+All 5 ${mediaType} recommendations MUST be different from the ones I've passed you before (This is mandatory!), and different beteween them.
 `
   return prompt
 }

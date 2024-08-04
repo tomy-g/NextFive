@@ -13,9 +13,9 @@ export default function Recommendation ({ movie }: Props) {
     <Skeleton
       isLoaded={
         (movie.Poster !== undefined && movie.Poster.length > 0) ||
-        movie.State === 'error'
+        movie.State === 'error' || movie.State === 'empty'
       }
-      className='rounded-md max-sm:w-[30%]'
+      className='!rounded-md max-sm:w-[30%]'
       role='listitem'
     >
       {movie.State === 'error'

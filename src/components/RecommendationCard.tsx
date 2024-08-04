@@ -4,14 +4,29 @@ import React from 'react'
 import NextImage from 'next/image'
 import error from '@/assets/error-min.png'
 import nophoto from '@/assets/no-photo-min.png'
+import placeholder from '@/assets/placeholder-min.png'
 
 interface Props {
   movie: Movie
 }
 
 export default function RecommendationCard ({ movie }: Props) {
+  let src
+  if (movie.State !== 'error') {
+    if (movie.Poster !== 'N/A') {
+      if (movie.State !== 'empty') {
+        src = movie.Poster
+      } else {
+        src = placeholder.src
+      }
+    } else {
+      src = nophoto.src
+    }
+  } else {
+    src = error.src
+  }
   return (
-    <Card className='rounded-md bg-background border-secondary-100 border-1 hover:border-success !transition-all !duration-300'>
+    <Card className={`!rounded-md bg-background border-secondary-100 border-1 ${movie?.Poster !== '' ? 'hover:border-success' : ''}  !transition-all !duration-300`}>
       <Tooltip
         showArrow={true}
         content={
@@ -31,8 +46,9 @@ export default function RecommendationCard ({ movie }: Props) {
         <Image
           as={NextImage}
           alt={`${movie.Title} (${movie.Year}) {' '} poster`}
-          src={movie.State !== 'error' ? (movie.Poster !== 'N/A' ? movie.Poster : nophoto.src) : error.src}
-          className={` rounded-md aspect-[0.675/1] object-cover 
+          src={src}
+          radius='md'
+          className={`aspect-[0.675/1] object-cover 
             ${(movie.State === 'error' && movie.Title !== '') ? '!opacity-70' : ''}`}
           width={300}
           height={448}
