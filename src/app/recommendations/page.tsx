@@ -158,6 +158,7 @@ export default function Recommendations () {
                               }
                               alt={movie.Title}
                               as={NextImage}
+                              radius='md'
                               width={100}
                               height={150}
                             />

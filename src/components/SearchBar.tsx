@@ -9,8 +9,9 @@ import {
   SelectItem
 } from '@nextui-org/react'
 import { ListboxWrapper } from './ListboxWrapper'
-import { Search } from 'lucide-react'
+import { CircleHelp, Search } from 'lucide-react'
 import { type DebouncedState } from 'use-debounce'
+import Tutorial from './Tutorial'
 
 interface Props {
   searchTerm: string
@@ -40,6 +41,7 @@ export default function SearchBar ({
   changeType
 }: Props) {
   const [type, setType] = useState('both')
+  const [isTutorialOpen, setIsTutorialOpen] = useState(false)
 
   function handleChange (event: React.ChangeEvent<HTMLInputElement>) {
     const newSearch = event.target.value
@@ -63,6 +65,7 @@ export default function SearchBar ({
   return (
     <search className='flex flex-col sm:flex-row items-center gap-4'>
       <div id='input-movies' className='relative w-full'>
+        <div className='flex items-center gap-2' >
         <Input
           value={searchTerm}
           isClearable
@@ -100,6 +103,10 @@ export default function SearchBar ({
           radius='full'
           variant='bordered'
         ></Input>
+        <button aria-label='help button' className='rounded-full' onClick={() => { setIsTutorialOpen(true) }}>
+          <CircleHelp size={18} />
+        </button>
+          </div>
         <ListboxWrapper isOpen={isOpen}>
           <Listbox
             emptyContent={errorSearch ?? errorGet}
@@ -149,6 +156,7 @@ export default function SearchBar ({
           </SelectItem>
         ))}
       </Select>
+      <Tutorial isModalOpen={isTutorialOpen} setIsOpen={setIsTutorialOpen} />
     </search>
   )
 }

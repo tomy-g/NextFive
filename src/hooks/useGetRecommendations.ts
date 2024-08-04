@@ -47,7 +47,7 @@ export function useGetRecommendations () {
         if ((movie.State === undefined || movie.State === null) && movie.Title === '') {
           return {
             ...movie,
-            State: 'error'
+            State: 'empty'
           }
         }
         return movie
@@ -56,7 +56,7 @@ export function useGetRecommendations () {
         if ((movie.State === undefined || movie.State === null) && movie.Title === '') {
           return {
             ...movie,
-            State: 'error'
+            State: 'empty'
           }
         }
         return movie

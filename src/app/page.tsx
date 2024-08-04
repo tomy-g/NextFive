@@ -6,6 +6,8 @@ import { useSearchMovies } from '@/hooks/useSearchMovies'
 import { useGetMovies } from '@/hooks/useGetMovies'
 import { useDebouncedCallback } from 'use-debounce'
 import { useState } from 'react'
+import Tutorial from '@/components/Tutorial'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 export default function Home () {
   const debounced = useDebouncedCallback(async search => {
@@ -35,12 +37,15 @@ export default function Home () {
 
   const [type, setType] = useState('both')
 
+  const [isFirstVisit, setIsFirstVisit] = useLocalStorage('isFirstVisit', true)
+
   function changeType (newType: string) {
     setType(newType)
   }
 
   return (
     <main >
+      <Tutorial isModalOpen={isFirstVisit} setIsOpen={setIsFirstVisit} />
       <SearchMovies
         isOpen={isOpen}
         setIsOpen={setIsOpen}

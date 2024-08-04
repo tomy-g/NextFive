@@ -32,11 +32,11 @@ export function mapImportantData (movies: Movie[]): Movie[] {
       Year: movie.Year,
       imdbID: movie.imdbID,
       Director: movie.Director,
+      Genre: movie.Genre,
+      Plot: movie.Plot,
       // Writer: movie.Writer,
       // Runtime: movie.Runtime,
-      // Genre: movie.Genre,
       // Actors: movie.Actors,
-      // Plot: movie.Plot,
       // Language: movie.Language,
       // Country: movie.Country,
       // Type: movie.Type,
@@ -51,9 +51,11 @@ export function createPrompt (
   prevRecommended: Movie[]
 ): string {
   let mediaType = 'movies and TV shows'
+  let tvSpecifications = "Don't recommend me specific seasons or episodes, only whole TV shows."
   if (type !== 'both') {
     if (type === 'movies') {
       mediaType = 'movies'
+      tvSpecifications = ''
     } else {
       mediaType = 'TV shows'
     }
@@ -67,9 +69,13 @@ export function createPrompt (
 
 Please analyze this list and give me 5 recommendations of ${mediaType} that are the most similar to the ones I like.
 Analyze it's genre, plot, atmosphere...  etc. To give the most original, accurate and personalized recommendations of ${mediaType}.
+Try to find the specific niche of ${mediaType} that I like the most based on the list I've given you. 
+(Examples: Dark mistery, Marvel Cinematic Universe, 80's action movies, Romantic Comedies, etc.)
+${tvSpecifications}
 I only want recommendations of ${mediaType}. No other type of media.
-Return only imdbID, Title, Year and Directot.
-All ${mediaType} recommendations MUST be different from the ones I've passed you before (This is mandatory!), and different beteween them.
+Return only imdbID (unique for each recommendation), Title, Year and Director.
+Append a 4 digit random number to the end of each imdbID to make it unique.
+All 5 ${mediaType} recommendations MUST be different from the ones I've passed you before (This is mandatory!), and different beteween them.
 `
   return prompt
 }

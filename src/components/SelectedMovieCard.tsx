@@ -13,12 +13,17 @@ interface Props {
 
 export default function SelectedMovieCard ({ movie, deselectMovie }: Props) {
   return (
-    <Card className={`rounded-md border-secondary-100 border-1 ${movie.Title.length > 0 ? 'hover:border-success' : ''} !transition-all !duration-300`}>
+    <Card
+      className={`rounded-md z-10 border-secondary-100 border-1 ${
+        movie.Title.length > 0 ? 'hover:border-success' : ''
+      } !transition-all !duration-300`}
+    >
       <Image
         as={NextImage}
         priority
         alt={`${movie.Title} poster`}
         className='rounded-md aspect-[0.675/1] object-cover'
+        radius='md'
         width={300}
         height={448}
         src={
@@ -31,7 +36,7 @@ export default function SelectedMovieCard ({ movie, deselectMovie }: Props) {
               : placeholder.src
         }
       ></Image>
-      <CardFooter className='absolute z-10 bottom-0 text-small pb-0 sm:pb-3'>
+      <CardFooter className='absolute z-20 bottom-0 text-small pb-0 sm:pb-3'>
         {movie.Poster === 'N/A' ? <span>{movie.Title}</span> : null}
         {isFilled(movie)
           ? (
@@ -39,7 +44,11 @@ export default function SelectedMovieCard ({ movie, deselectMovie }: Props) {
             isIconOnly
             variant='light'
             radius='full'
-            className='mx-auto max-sm:mb-2 !bg-background text-white !hover:bg-background opacity-75  hover:opacity-100  !important hover:text-danger '
+            onClick={event => {
+              event.stopPropagation()
+              event.preventDefault()
+            }}
+            className='mx-auto max-sm:mb-2 max-sm:w-12 max-sm:h-12 !bg-background text-white !hover:bg-background opacity-75  hover:opacity-100  !important hover:text-danger '
             onPress={() => {
               deselectMovie(movie)
             }}
