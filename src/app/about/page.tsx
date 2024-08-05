@@ -66,7 +66,7 @@ export default function About () {
           </p>
           <p className='mt-4 text-foreground'>
             Other recommendation systems require you to select the genres and
-            other characteristics of the movies you like, leading you to generic
+            other characteristics of the movies you like, leading to generic
             results. But with NextFive, you just need to select 5 movies or TV
             shows you like and the AI will do the rest, trying to give you the
             best recommendations.
@@ -77,13 +77,13 @@ export default function About () {
           <Heading title='HOW TO USE?' />
           <p className='mt-4 text-foreground'>
             To use NextFive, you just need to search the movies/shows you
-            already like, you need to select at least 1. Also, you can filter
+            already like; you need to select at least 1. Also, you can filter
             the results by selecting the type of media you want to watch
             (Movie/TV).
           </p>
           <p className='mt-4 text-foreground'>
             To obtain the best recommendations, you should select titles with a connection between them,
-            for example, movies with the same subgenre (dark comedy, 80&rsquo;s action, etc) with the same director or actors...
+            for example, movies with the same subgenre (dark comedy, 80s action, etc) with the same director or actors...
             This way GPT can understand your taste better and give you titles that you will like.
           </p>
           <p className='mt-4 text-foreground'>
@@ -134,7 +134,7 @@ export default function About () {
             .
           </p>
           <p className='mt-4 text-foreground'>
-            Then you can set your API key in the Settings panel. The API key
+            Then you can set your API key in the Settings panel. Your API key
             will be stored only in your browser memory and{' '}
             <b>will not be shared with anyone.</b>
           </p>
