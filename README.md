@@ -12,7 +12,7 @@
  <img src="https://github.com/user-attachments/assets/dbfd3a1f-2835-42f9-b7bc-8b72a50e06be" width="400">
 </a>
 
-by [@tomy-g](https://github.com/tomy-g/)
+by [@tomy-g](https://tomyg.vercel.app/)
 # 
 
 
