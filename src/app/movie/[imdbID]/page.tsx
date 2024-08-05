@@ -80,12 +80,12 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
       </aside>
       <div id='details' className='w-[75%] ml-[5%]'>
         <Skeleton className='rounded-full' isLoaded={!isLoading}>
-          <div id='title' className='flex gap-4 break-words items-end'>
-            <h1 className='inline-block w-max sm:pb-4 text-3xl sm:text-5xl font-bold text-grad bg-gradient-to-r from-primary to-focus bg-clip-text text-transparent'>
+          <div id='title' className='flex flex-col w-full'>
+            <h1 className='w-full break-words pb-2 sm:pb-4 text-3xl sm:text-5xl font-bold text-grad bg-gradient-to-r from-primary to-focus bg-clip-text text-transparent'>
               {movie.Title}
             </h1>
-            <div className='flex mr-auto'>
-              <span className='sm:pb-4 text-md sm:text-2xl text-white'>{`(${movie?.Year?.split(
+            <div className='flex items-center'>
+              <span className='sm:pb-4 font-normal text-md sm:text-2xl text-white'>{`(${movie?.Year?.split(
                 '–'
               )[0].trim()})`}</span>
               {movie.Type === 'movie' && (
@@ -114,17 +114,17 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
             </h2>
           )}
         </Skeleton>
-        <Skeleton className='mt-4 rounded-full w-1/2' isLoaded={!isLoading}>
+        <Skeleton className='mt-4 rounded-full' isLoaded={!isLoading}>
           <div
             id='scores'
-            className='flex mt-2 mb-6 sm:items-center max-w-80 flex-col sm:flex-row sm:gap-8 gap-2'
+            className='flex mt-6 sm:mt-2 mb-6 sm:items-center max-w-80 flex-col sm:flex-row sm:gap-8 gap-3'
           >
             {movie?.Ratings?.find(
               movie => movie.Source === 'Internet Movie Database'
             ) !== undefined && (
               <div id='imdb' className='flex items-center gap-2'>
                 <Image
-                  className='rounded-none'
+                  className='rounded-none max-w-8'
                   as={NextImage}
                   src={imdb.src}
                   alt='IMDB'
@@ -143,7 +143,7 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
             ) !== undefined && (
               <div id='rotten' className='flex items-center gap-2'>
                 <Image
-                  className='aspect-[19/20]'
+                  className='aspect-[19/20] max-w-4'
                   src={rottentomatoes.src}
                   as={NextImage}
                   alt='Rotten Tomatoes'
@@ -161,7 +161,7 @@ export default function MoviePage ({ params }: { params: { imdbID: string } }) {
               undefined && (
               <div id='metacritic' className='flex items-center gap-2'>
                 <Image
-                  className='aspect-[87/20]'
+                  className='aspect-[87/20] max-w-[4.18rem]'
                   src={metacritic.src}
                   as={NextImage}
                   alt='Metacritic'

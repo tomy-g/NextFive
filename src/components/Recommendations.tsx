@@ -6,6 +6,7 @@ import type { Movie } from '@/schemas/movie'
 import { Button, Chip, Divider, Link } from '@nextui-org/react'
 import { countFilledMovies, createPrompt, mapImportantData } from '@/utils/utils'
 import { useRouter } from 'next/navigation'
+import { IconSparkles } from '@tabler/icons-react'
 
 interface Props {
   selectedMovies: Movie[]
@@ -47,6 +48,7 @@ export default function Recommendations ({ selectedMovies, type }: Props) {
           <Button
             radius='full'
             color='primary'
+            startContent={<IconSparkles size={20} stroke={1.5}/>}
             className='text-background sm:text-medium font-medium mb-8 sm:mb-4'
             onPress={() => {
               resetRecommendedMovies()
