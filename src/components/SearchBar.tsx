@@ -83,7 +83,7 @@ export default function SearchBar ({
             setSearchTerm('')
             void debounced('')
           }}
-          placeholder='The Godfather, Pulp Fiction, Star Wars...'
+          placeholder='Se7en, Zodiac, Prisoners...'
           startContent={
             <Search
               className='text-foreground-200'

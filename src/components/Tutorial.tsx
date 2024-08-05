@@ -36,18 +36,17 @@ export default function Tutorial ({ isModalOpen, setIsOpen }: Props) {
               </p>
               <ol className='list-outside ml-4'>
                 <li className='mt-4 text-foreground-500 text-sm list-disc'>
-                  Example 1: Avengers, Loki, Spider-Man: Homecoming,
-                  WandaVision, Iron Man 3 (Will give you Marvel Cinematic
-                  Universe titles)
+                Example 1: If you pick Avengers, Loki, Spider-Man: Homecoming,
+                 WandaVision, and Iron Man 3, the AI will recommend more Marvel Cinematic Universe titles.
                 </li>
                 <li className='mt-4 text-foreground-500 text-sm list-disc'>
-                  Example 2: Seven, Zodiac, Prisoners, True Detective, Memories
-                  of Murder (Will give you dark mystery movies/TV)
+                Example 2: If you choose Se7en, Zodiac, Prisoners, True Detective, and Memories of Murder,
+                you&apos;ll receive recommendations for dark mystery movies and TV shows.
                 </li>
               </ol>
               <p className='mt-6 text-foreground-600'>
                 For more information about the app visit the{' '}
-                <Link href='/about'>about</Link> section.
+                <Link href='/about'>About</Link> section.
               </p>
             </ModalBody>
             <ModalFooter>
