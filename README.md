@@ -41,3 +41,57 @@ NextFive is a web app that uses the power of AI to recommend 5 movies or TV show
   ![705shots_so](https://github.com/user-attachments/assets/3c725acb-bb16-44c9-ad66-619db31da90c)
   ![463shots_so](https://github.com/user-attachments/assets/47f0353a-1961-4ce6-acc5-73f56d7d0315)
 
+
+## Deployment
+
+The project is already deployed <a href="https://nextfive.vercel.app/" target="_blank">
+  Here.
+</a>
+However, you still can configure and deploy NextFive on your own machine.
+
+1. Clone the Repository
+
+   ```bash
+     git clone https://github.com/tomy-g/NextFive.git
+     cd NextFive
+   ```
+
+2. Install Dependencies
+
+   ```bash
+     npm install
+   ```
+3. Set Up Environment Variables
+
+   Create a .env.local file in the root directory of the project and add the following variables:
+   Without this file correctly set up, the project will not run as expected.
+
+   ```env
+     OPENAI_API_KEY=A valid Open AI API key
+     MOVIES_API_KEY=A valide OMDB API key
+     MOVIE_API_URL=https://www.omdbapi.com/
+     LIMIT_ACTIVE='false'
+   ```
+4. Run the Development Server
+
+   ```bash
+     npm run dev
+   ```
+   Open http://localhost:3000 with your browser to see the result.
+   
+5. Build for Production
+
+   ```bash
+     npm run build
+   ```
+6. Start the Production Server
+
+   ```bash
+     npm run start
+   ```
+ 
+
+
+
+ 
+ 
