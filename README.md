@@ -1,7 +1,8 @@
 <div align="center">
 
 ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
-![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel%20AI%20SDK-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
+![NextUI](https://img.shields.io/badge/next%20ui-%23000000.svg?style=for-the-badge&logo=node.js&logoColor=white)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
@@ -20,7 +21,9 @@ NextFive is a web app that uses the power of AI to recommend 5 movies or TV show
 <a href="https://nextfive.vercel.app/" target="_blank">
   Visit the website
 </a>
-
+<br/>
+<br/>
+💡 This project participates in the 2024 Vercel hackaton organized by @midudev
 </div>
 
 ## Features
@@ -42,7 +45,7 @@ NextFive is a web app that uses the power of AI to recommend 5 movies or TV show
   ![463shots_so](https://github.com/user-attachments/assets/47f0353a-1961-4ce6-acc5-73f56d7d0315)
 
 
-## Deployment
+## Run Locally
 
 The project is already deployed <a href="https://nextfive.vercel.app/" target="_blank">
   Here.
@@ -89,7 +92,6 @@ However, you still can configure and deploy NextFive on your own machine.
    ```bash
      npm run start
    ```
- 
 
 
 
