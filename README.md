@@ -101,7 +101,7 @@ However, you can still configure and deploy NextFive on your own machine.
 [react-url]: https://react.dev/
 [typescript-badge]: https://img.shields.io/badge/Typescript-007ACC?style=for-the-badge&logo=typescript&logoColor=white&color=blue
 [typescript-url]: https://www.typescriptlang.org/
-[tailwind-badge]: https://img.shields.io/badge/Tailwind-ffffff?style=for-the-badge&logo=tailwindcss&logoColor=38bdf8
+[tailwind-badge]: https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white
 [tailwind-url]: https://tailwindcss.com/
 [openai-badge]: https://img.shields.io/badge/OpenAI%20API-74aa9c?style=for-the-badge&logo=openai&logoColor=white
 [openai-url]: https://openai.com/api/
